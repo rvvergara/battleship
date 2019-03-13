@@ -7,7 +7,7 @@ const computerMixin = (() => ({
       index = Math.round(Math.random() * (arr.length - 1));
     }
     return index;
-  }
+  },
 }))();
 
 module.exports = computerMixin;
