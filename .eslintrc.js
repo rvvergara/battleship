@@ -13,6 +13,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-        'indent': 0
+        'indent': 0,
+        'eol-last': 0,
     }
 };
