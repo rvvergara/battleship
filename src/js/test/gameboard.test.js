@@ -22,28 +22,28 @@ describe('GameBoard', () => {
   });
 
   describe('set ship position', () => {
-    test('Gameboard should place attaker ship length of 1', () => {
+    test('gameBoard should position a ship with length 4 ', () => {
 
       expect(ships.attacker.position).toEqual([0]);
       expect(gameBoard.grid[0]).toBe(0);
     });
-    test('Gameboard should place submarine ship length of 2 ', () => {
+    test('gameBoard should position a ship with length 4 ', () => {
 
       expect(ships.submarine.position).toEqual([2, 3]);
     });
 
-    test('Gameboard should place carrier ship length of 4 ', () => {
+    test('gameBoard should position a ship with length 4 ', () => {
 
       expect(ships.carrier.position).toEqual([4, 14, 24, 34]);
     });
 
-    test("Gameboard should not place ship in occupied squares", () => {
+    test("gameBoard should not place ship in occupied squares", () => {
       expect(ships.frigate.position).toEqual([]);
     });
 
     // Gameboard filled up test
 
-    test('gameboard should filled up with all the placed ship position', () => {
+    test("gameBoard grid should reflect ships' positions", () => {
       const every = (arr, fn) => {
         for (let i = 0; i < arr.length; i++) {
           if (!fn(arr[i])) return false;
@@ -55,12 +55,12 @@ describe('GameBoard', () => {
   });
 
   describe('receiveAttack', () => {
-    test("it should call hit method of a ship if that ship is in the index that was passed", () => {
+    test("it should call hit method of a ship if that ship is occupying the index that was passed", () => {
       gameBoard.receiveAttack(3);
       expect(gameBoard.ships.submarine.hits).toBe(1);
     });
 
-    test('it should update gameboars grid wil * if missed', () => {
+    test("it should assign the missed index in grid as *", () => {
       gameBoard.receiveAttack(25);
       expect(gameBoard.grid[25]).toBe('*');
     });
