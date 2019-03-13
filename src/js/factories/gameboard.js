@@ -13,7 +13,7 @@ const GameBoard = (ships => ({
         ship.position.pop();
         return;
       }
-    };
+    }
   },
   receiveAttack(index) {
     // Determine if the index in grid is occupied
@@ -28,7 +28,7 @@ const GameBoard = (ships => ({
     }
   },
   allShipsSunk() {
-    return Object.keys(this.ships).every((key) => this.ships[key].isSunk());
+    return Object.keys(this.ships).every(key => this.ships[key].isSunk());
   },
 }));
 

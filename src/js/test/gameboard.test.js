@@ -2,7 +2,8 @@ const GameBoard = require('../factories/gameboard');
 const Ship = require('../factories/ship');
 
 describe('GameBoard', () => {
-  let ships, gameBoard;
+  let ships;
+  let gameBoard;
   beforeEach(() => {
     ships = {
       carrier: Ship(4),
@@ -15,7 +16,7 @@ describe('GameBoard', () => {
     gameBoard.setShipPosition(ships.submarine, 2, "horizontal");
     gameBoard.setShipPosition(ships.carrier, 4, "vertical");
     gameBoard.setShipPosition(ships.frigate, 13, "horizontal");
-  })
+  });
 
   test('GameBoard should have a grid array', () => {
     expect(gameBoard.grid).not.toBeFalsy();
@@ -23,17 +24,14 @@ describe('GameBoard', () => {
 
   describe('set ship position', () => {
     test('gameBoard should position a ship with length 4 ', () => {
-
       expect(gameBoard.ships.attacker.position).toEqual([0]);
       expect(gameBoard.grid[0]).toBe(0);
     });
     test('gameBoard should position a ship with length 4 ', () => {
-
       expect(gameBoard.ships.submarine.position).toEqual([2, 3]);
     });
 
     test('gameBoard should position a ship with length 4 ', () => {
-
       expect(gameBoard.ships.carrier.position).toEqual([4, 14, 24, 34]);
     });
 
@@ -69,7 +67,7 @@ describe('GameBoard', () => {
   describe('All ships sank', () => {
     beforeEach(() => {
       Object.keys(ships).forEach((key) => {
-        for (let i = 0; i < ships[key].length; i++) {
+        for (let i = 0; i < ships[key].length; i += 1) {
           ships[key].hit();
         }
       });
@@ -79,5 +77,4 @@ describe('GameBoard', () => {
       expect(gameBoard.allShipsSunk()).toBe(true);
     });
   });
-
 });
