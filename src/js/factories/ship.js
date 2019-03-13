@@ -1,6 +1,6 @@
 const Ship = ((length) => ({
   length,
-  position: null,
+  position: [],
   hits: 0,
   hit() {
     this.isSunk() ? undefined : this.hits += 1;
