@@ -24,17 +24,17 @@ describe('GameBoard', () => {
   describe('set ship position', () => {
     test('gameBoard should position a ship with length 4 ', () => {
 
-      expect(ships.attacker.position).toEqual([0]);
+      expect(gameBoard.ships.attacker.position).toEqual([0]);
       expect(gameBoard.grid[0]).toBe(0);
     });
     test('gameBoard should position a ship with length 4 ', () => {
 
-      expect(ships.submarine.position).toEqual([2, 3]);
+      expect(gameBoard.ships.submarine.position).toEqual([2, 3]);
     });
 
     test('gameBoard should position a ship with length 4 ', () => {
 
-      expect(ships.carrier.position).toEqual([4, 14, 24, 34]);
+      expect(gameBoard.ships.carrier.position).toEqual([4, 14, 24, 34]);
     });
 
     test("gameBoard should not place ship in occupied squares", () => {
@@ -63,6 +63,20 @@ describe('GameBoard', () => {
     test("it should assign the missed index in grid as *", () => {
       gameBoard.receiveAttack(25);
       expect(gameBoard.grid[25]).toBe('*');
+    });
+  });
+
+  describe('All ships sank', () => {
+    beforeEach(() => {
+      Object.keys(ships).forEach((key) => {
+        for (let i = 0; i < ships[key].length; i++) {
+          ships[key].hit();
+        }
+      });
+    });
+
+    test('allShipsSunk() should return true', () => {
+      expect(gameBoard.allShipsSunk()).toBe(true);
     });
   });
 
