@@ -4,6 +4,7 @@ const GameBoard = ((ships) => ({
   setShipPosition(ship, index) {
     for (let i = index; i < index + ship.length; i++) {
       ship.position.push(i);
+      this.grid[i] = i;
     }
   }
 }));

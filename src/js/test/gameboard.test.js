@@ -18,18 +18,36 @@ describe('GameBoard', () => {
   });
 
   describe('set ship position', () => {
-    test('Gameboard should place attaker ship length of 1', () => {
+    beforeEach(() => {
       gameBoard.setShipPosition(ships.attacker, 0);
+      gameBoard.setShipPosition(ships.submarine, 2);
+      gameBoard.setShipPosition(ships.carrier, 4);
+    });
+    test('Gameboard should place attaker ship length of 1', () => {
+
       expect(ships.attacker.position).toEqual([0]);
+      expect(gameBoard.grid[0]).toBe(0);
     });
     test('Gameboard should place submarine ship length of 2 ', () => {
-      gameBoard.setShipPosition(ships.submarine, 2);
+
       expect(ships.submarine.position).toEqual([2, 3]);
     });
 
     test('Gameboard should place carrier ship length of 4 ', () => {
-      gameBoard.setShipPosition(ships.carrier, 4);
+
       expect(ships.carrier.position).toEqual([4, 5, 6, 7]);
+    });
+
+    // Gameboard filled up test
+
+    test('gameboard should filled up with all the placed ship position', () => {
+      const every = (arr, fn) => {
+        for (let i = 0; i < arr.length; i++) {
+          if (!fn(arr[i])) return false;
+        }
+        return true;
+      };
+      expect(every(gameBoard.grid, x => x !== undefined)).toBeFalsy();
     });
   });
 
