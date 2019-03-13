@@ -21,14 +21,11 @@ const GameBoard = (ships => ({
       // If yes then determine the ship that occupies it
       Object.keys(ships).forEach((key) => {
         if (ships[key].position.includes(index)) ships[key].hit();
-        console.log(ships[key].position);
       });
     } else {
       // Else update the grid to reflect a missed shot
       this.grid[index] = "*";
     }
-
-
   },
 }));
 

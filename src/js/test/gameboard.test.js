@@ -11,6 +11,10 @@ describe('GameBoard', () => {
       attacker: Ship(1),
     };
     gameBoard = GameBoard(ships);
+    gameBoard.setShipPosition(ships.attacker, 0, "horizontal");
+    gameBoard.setShipPosition(ships.submarine, 2, "horizontal");
+    gameBoard.setShipPosition(ships.carrier, 4, "vertical");
+    gameBoard.setShipPosition(ships.frigate, 13, "horizontal");
   })
 
   test('GameBoard should have a grid array', () => {
@@ -18,12 +22,6 @@ describe('GameBoard', () => {
   });
 
   describe('set ship position', () => {
-    beforeEach(() => {
-      gameBoard.setShipPosition(ships.attacker, 0, "horizontal");
-      gameBoard.setShipPosition(ships.submarine, 2, "horizontal");
-      gameBoard.setShipPosition(ships.carrier, 4, "vertical");
-      gameBoard.setShipPosition(ships.frigate, 13, "horizontal");
-    });
     test('Gameboard should place attaker ship length of 1', () => {
 
       expect(ships.attacker.position).toEqual([0]);
@@ -57,15 +55,14 @@ describe('GameBoard', () => {
   });
 
   describe('receiveAttack', () => {
-    beforeEach(() => {
-      gameBoard.setShipPosition(ships.attacker, 0, "horizontal");
-      gameBoard.setShipPosition(ships.submarine, 2, "horizontal");
-      gameBoard.setShipPosition(ships.carrier, 4, "vertical");
-      gameBoard.setShipPosition(ships.frigate, 13, "horizontal");
-    });
     test("it should call hit method of a ship if that ship is in the index that was passed", () => {
       gameBoard.receiveAttack(3);
       expect(gameBoard.ships.submarine.hits).toBe(1);
+    });
+
+    test('it should update gameboars grid wil * if missed', () => {
+      gameBoard.receiveAttack(25);
+      expect(gameBoard.grid[25]).toBe('*');
     });
   });
 
