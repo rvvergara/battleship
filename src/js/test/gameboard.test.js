@@ -24,21 +24,21 @@ describe('GameBoard', () => {
   describe('set ship position', () => {
     test('Gameboard should place attaker ship length of 1', () => {
 
-      expect(ships.attacker.position).toEqual([0]);
+      expect(gameBoard.ships.attacker.position).toEqual([0]);
       expect(gameBoard.grid[0]).toBe(0);
     });
     test('Gameboard should place submarine ship length of 2 ', () => {
 
-      expect(ships.submarine.position).toEqual([2, 3]);
+      expect(gameBoard.ships.submarine.position).toEqual([2, 3]);
     });
 
     test('Gameboard should place carrier ship length of 4 ', () => {
 
-      expect(ships.carrier.position).toEqual([4, 14, 24, 34]);
+      expect(gameBoard.ships.carrier.position).toEqual([4, 14, 24, 34]);
     });
 
     test("Gameboard should not place ship in occupied squares", () => {
-      expect(ships.frigate.position).toEqual([]);
+      expect(gameBoard.ships.frigate.position).toEqual([]);
     });
 
     // Gameboard filled up test
@@ -63,6 +63,20 @@ describe('GameBoard', () => {
     test('it should update gameboars grid wil * if missed', () => {
       gameBoard.receiveAttack(25);
       expect(gameBoard.grid[25]).toBe('*');
+    });
+  });
+
+  describe('All ships sank', () => {
+    beforeEach(() => {
+      Object.keys(ships).forEach((key) => {
+        for (let i = 0; i < ships[key].length; i++) {
+          ships[key].hit();
+        }
+      });
+    });
+
+    test('allShipsSunk() should return true', () => {
+      expect(gameBoard.allShipsSunk()).toBe(true);
     });
   });
 

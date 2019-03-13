@@ -27,6 +27,9 @@ const GameBoard = (ships => ({
       this.grid[index] = "*";
     }
   },
+  allShipsSunk() {
+    return Object.keys(this.ships).every((key) => this.ships[key].isSunk());
+  },
 }));
 
 module.exports = GameBoard;
