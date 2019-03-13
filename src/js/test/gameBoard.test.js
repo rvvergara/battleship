@@ -1,4 +1,4 @@
-const GameBoard = require('../factories/gameboard');
+const GameBoard = require('../factories/gameBoard');
 const Ship = require('../factories/ship');
 
 describe('GameBoard', () => {
