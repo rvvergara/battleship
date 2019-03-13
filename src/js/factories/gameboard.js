@@ -15,6 +15,21 @@ const GameBoard = (ships => ({
       }
     };
   },
+  receiveAttack(index) {
+    // Determine if the index in grid is occupied
+    if (this.grid[index] !== undefined) {
+      // If yes then determine the ship that occupies it
+      Object.keys(ships).forEach((key) => {
+        if (ships[key].position.includes(index)) ships[key].hit();
+        console.log(ships[key].position);
+      });
+    } else {
+      // Else update the grid to reflect a missed shot
+      this.grid[index] = "*";
+    }
+
+
+  },
 }));
 
 module.exports = GameBoard;

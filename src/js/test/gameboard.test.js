@@ -56,5 +56,17 @@ describe('GameBoard', () => {
     });
   });
 
+  describe('receiveAttack', () => {
+    beforeEach(() => {
+      gameBoard.setShipPosition(ships.attacker, 0, "horizontal");
+      gameBoard.setShipPosition(ships.submarine, 2, "horizontal");
+      gameBoard.setShipPosition(ships.carrier, 4, "vertical");
+      gameBoard.setShipPosition(ships.frigate, 13, "horizontal");
+    });
+    test("it should call hit method of a ship if that ship is in the index that was passed", () => {
+      gameBoard.receiveAttack(3);
+      expect(gameBoard.ships.submarine.hits).toBe(1);
+    });
+  });
 
 });
