@@ -5,11 +5,6 @@ describe('Ship', () => {
   beforeEach(() => {
     ship = Ship(5);
   })
-  test('ship has a length property', () => {
-    expect(ship.length).toBe(5);
-  });
-
-
   describe("hit", () => {
     test('hit() should increment the number of hits oth the ship', () => {
       ship.hit();
