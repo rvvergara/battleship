@@ -22,6 +22,7 @@ describe('GameBoard', () => {
       gameBoard.setShipPosition(ships.attacker, 0);
       gameBoard.setShipPosition(ships.submarine, 2);
       gameBoard.setShipPosition(ships.carrier, 4);
+      gameBoard.setShipPosition(ships.frigate, 3);
     });
     test('Gameboard should place attaker ship length of 1', () => {
 
@@ -36,6 +37,10 @@ describe('GameBoard', () => {
     test('Gameboard should place carrier ship length of 4 ', () => {
 
       expect(ships.carrier.position).toEqual([4, 5, 6, 7]);
+    });
+
+    test("Gameboard should not place ship in occupied squares", () => {
+      expect(ships.frigate.position).toEqual([]);
     });
 
     // Gameboard filled up test
