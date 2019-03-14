@@ -11,5 +11,9 @@ describe("playerMixin", () => {
     });
   });
 
-  describe("humanMakeChoice", () => {});
+  describe("humanMakeChoice", () => {
+    test("humanMakeChoice to return only what is passed to it", () => {
+      expect(humanMakeChoice(1)).toBe(1);
+    });
+  });
 });
