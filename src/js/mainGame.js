@@ -20,11 +20,11 @@ const mainGame = () => {
   const gameBoard1 = GameBoard(fleet1);
   const gameBoard2 = GameBoard(fleet2);
   // 3. Create two players
-  const player1 = Object.assign(Player(gameBoard2, 'receiveAttack'), {
+  const player1 = Object.assign(Player(gameBoard2, 'receiveAttack', 'hit'), {
     makeChoice: humanMakeChoice,
   });
 
-  const player2 = Object.assign(Player(gameBoard1, 'receiveAttack'), {
+  const player2 = Object.assign(Player(gameBoard1, 'receiveAttack', 'hit'), {
     makeChoice: computerMakeChoice,
   });
 
@@ -41,10 +41,9 @@ const mainGame = () => {
   gameBoard2.setShipPosition(fleet1.carrier, 6, 'vertical');
 
   const gameCycle = () => {
-    console.log("Hello");
     while (!gameBoard1.allShipsSunk('isSunk') && !gameBoard2.allShipsSunk('isSunk')) {
-      player1.turn(player1.makeChoice(index));
-      if (!gameBoard2.allShipsSunk('isSunk')) player2.turn(player2.makeChoice());
+      player1.turn(player1.makeChoice(1));
+      if (!gameBoard2.allShipsSunk('isSunk')) player2.turn(player2.makeChoice(gameBoard1.grid));
     }
   };
 

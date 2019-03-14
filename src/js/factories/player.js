@@ -1,7 +1,7 @@
-const Player = ((obj, method) => ({
+const Player = ((board, boardMethod, shipMethod) => ({
   turn(index) {
-    obj[method](index);
-  }
+    board[boardMethod](index, shipMethod);
+  },
 }));
 
 module.exports = Player;
