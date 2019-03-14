@@ -16,9 +16,7 @@ describe('player object', () => {
       submarine: Ship(2),
       attacker: Ship(1),
     };
-    humanPlayer = Object.assign(Player(), {
-      makeChoice: playerMixin.humanMakeChoice
-    });
+    humanPlayer = Object.assign(Player(), playerMixin);
     enemyGameBoard = GameBoard(ships);
     // Set position of enemy's ships 
     enemyGameBoard.setShipPosition(ships.attacker, 0, "horizontal");
@@ -29,13 +27,14 @@ describe('player object', () => {
 
   describe('human player object', () => {
     test('humanPlayer has a makeChoice method', () => {
-      expect(humanPlayer.makeChoice()).toBeTruthy();
-    })
-  });
+      expect(humanPlayer.humanMakeChoice(enemyGameBoard.grid)).toBeTruthy();
+    });
 
-  describe('human makeChoice method', () => {
-    test('', () => {
-
+    test('human player choose correct index from avaiable positions ', () => {
+      const index = humanPlayer.humanMakeChoice(enemyGameBoard.grid);
+      expect(index).toBeGreaterThanOrEqual(0);
+      expect(index).toBeLessThanOrEqual(99);
+      expect(enemyGameBoard.grid[index]).toBeUndefined();
     });
   });
 });

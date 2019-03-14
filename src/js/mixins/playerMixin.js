@@ -8,8 +8,8 @@ const playerMixin = (() => ({
     }
     return index;
   },
-  humanMakeChoice() {
-    return true;
+  humanMakeChoice(arr, index) {
+    return index === undefined ? this.computerMakeChoice(arr) : index;
   },
 }))();
 
