@@ -1,10 +1,11 @@
 const Player = require('../factories/player');
 const Ship = require('../factories/ship');
 const GameBoard = require('../factories/gameBoard');
-const computerMixin = require('../mixins/computerMixin');
+const playerMixin = require('../mixins/playerMixin');
 
 describe('player object', () => {
-  let player;
+  let humanPlayer;
+  let computerPlayer;
   let ships;
   let enemyGameBoard;
 
@@ -15,6 +16,9 @@ describe('player object', () => {
       submarine: Ship(2),
       attacker: Ship(1),
     };
+    humanPlayer = Object.assign(Player(), {
+      makeChoice: playerMixin.humanMakeChoice
+    });
     enemyGameBoard = GameBoard(ships);
     // Set position of enemy's ships 
     enemyGameBoard.setShipPosition(ships.attacker, 0, "horizontal");
@@ -23,26 +27,15 @@ describe('player object', () => {
     enemyGameBoard.setShipPosition(ships.frigate, 13, "horizontal");
   });
 
-  describe('human player', () => {
-    beforeEach(() => {
-      player = Player(enemyGameBoard);
+  describe('human player object', () => {
+    test('humanPlayer has a makeChoice method', () => {
+      expect(humanPlayer.makeChoice()).toBeTruthy();
     })
-    test('should hit a ship during its turn', () => {
-      player.turn(0);
-      expect(enemyGameBoard.ships.attacker.isSunk()).toBe(true);
-    });
   });
 
-  describe('computer player', () => {
-    beforeEach(() => {
-      player = Object.assign(Player(enemyGameBoard), computerMixin);
-    });
+  describe('human makeChoice method', () => {
+    test('', () => {
 
-    test('computer player should be able to make a valid turn', () => {
-      player.turn(player.makeChoice(enemyGameBoard.grid));
-      expect(enemyGameBoard.grid.some(cell => cell === "*")).toBe(true);
     });
-
   });
-
 });

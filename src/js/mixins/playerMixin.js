@@ -1,5 +1,5 @@
-const computerMixin = (() => ({
-  makeChoice(arr) {
+const playerMixin = (() => ({
+  computerMakeChoice(arr) {
     // While Math.round(Math.random()*arr.length) is occupied keep selecting
     let index = Math.round(Math.random() * (arr.length - 1));
 
@@ -8,6 +8,9 @@ const computerMixin = (() => ({
     }
     return index;
   },
+  humanMakeChoice() {
+    return true;
+  },
 }))();
 
-module.exports = computerMixin;
+module.exports = playerMixin;

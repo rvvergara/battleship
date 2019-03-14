@@ -1,7 +1,5 @@
-const Player = ((gameBoard) => ({
-  turn(index) {
-    gameBoard.receiveAttack(index);
-  }
+const Player = (() => ({
+
 }));
 
 module.exports = Player;
