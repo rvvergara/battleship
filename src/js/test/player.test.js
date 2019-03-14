@@ -1,50 +1,31 @@
 const Player = require('../factories/player');
-const Ship = require('../factories/ship');
-const GameBoard = require('../factories/gameBoard');
-const playerMixin = require('../mixins/playerMixin');
 
-describe('player object', () => {
-  let humanPlayer;
-  let computerPlayer;
-  let ships;
-  let enemyGameBoard;
-
-  beforeEach(() => {
-    ships = {
-      carrier: Ship(4),
-      frigate: Ship(3),
-      submarine: Ship(2),
-      attacker: Ship(1),
-    };
-    enemyGameBoard = GameBoard(ships);
-    // Set position of enemy's ships 
-    enemyGameBoard.setShipPosition(ships.attacker, 0, "horizontal");
-    enemyGameBoard.setShipPosition(ships.submarine, 2, "horizontal");
-    enemyGameBoard.setShipPosition(ships.carrier, 4, "vertical");
-    enemyGameBoard.setShipPosition(ships.frigate, 13, "horizontal");
-  });
-
-  describe('human player object', () => {
+describe('Player object', () => {
+  describe('human player', () => {
+    let player;
+    let someObj;
+    let someMixinObj;
+    let someMethod;
     beforeEach(() => {
-      humanPlayer = Object.assign(Player(), playerMixin);
-    });
-    test('humanPlayer has a makeChoice method', () => {
-      expect(humanPlayer.humanMakeChoice(enemyGameBoard.grid)).toBeTruthy();
+      someMethod = jest.fn(index => index * 5);
+      someObj = {
+        someMethod,
+      };
+      someMixinObj = {
+        choose(index) {
+          return index;
+        },
+      };
+      player = Object.assign(Player(someObj, "someMethod"), someMixinObj);
     });
 
-    test('human player choose correct index from avaiable positions ', () => {
-      const index = humanPlayer.humanMakeChoice(enemyGameBoard.grid, 1);
-      expect(index).toBeGreaterThanOrEqual(0);
-      expect(index).toBeLessThanOrEqual(99);
-      expect(enemyGameBoard.grid[index]).toBeUndefined();
+    test('player has a method that returns an index passed to it', () => {
+      expect(player.choose(2)).toBe(2);
     });
-  });
 
-  describe('computer player object', () => {
-    beforeEach(() => {
-      computerPlayer = Object.assign(Player(), {
-        makeChoice: playerMixin.computerMakeChoice,
-      });
+    test('player can make a turn by returning an index', () => {
+      player.turn(player.choose(2));
+      expect(someObj.someMethod).toBeCalledWith(2);
     });
   });
 });
