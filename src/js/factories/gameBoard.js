@@ -1,8 +1,9 @@
 const GameBoard = (ships => ({
   grid: new Array(100),
-  ships,
+
   setShipPosition(ship, index, orientation) {
     const limit = orientation === 'horizontal' ? index + ship.length : index + 10 * (ship.length);
+    ship.position = ship.position || [];
     for (let i = index; i < limit;) {
       if (this.grid[i] === undefined) {
         ship.position.push(i);
@@ -15,20 +16,20 @@ const GameBoard = (ships => ({
       }
     }
   },
-  receiveAttack(index) {
+  receiveAttack(index, method) {
     // Determine if the index in grid is occupied
     if (this.grid[index] !== undefined) {
       // If yes then determine the ship that occupies it
       Object.keys(ships).forEach((key) => {
-        if (ships[key].position.includes(index)) ships[key].hit();
+        if (ships[key].position.includes(index)) ships[key][method]();
       });
     } else {
       // Else update the grid to reflect a missed shot
       this.grid[index] = "*";
     }
   },
-  allShipsSunk() {
-    return Object.keys(this.ships).every(key => this.ships[key].isSunk());
+  allShipsSunk(isSunkMethod) {
+    return Object.keys(ships).every(key => ships[key][isSunkMethod]());
   },
 }));
 

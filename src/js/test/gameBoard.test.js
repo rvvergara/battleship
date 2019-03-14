@@ -5,8 +5,14 @@ describe('GameBoard', () => {
   let ships;
   let gameBoard;
   beforeEach(() => {
+    const carrierFromFactory = Ship(4);
     ships = {
-      carrier: Ship(4),
+      carrier: Object.assign({}, {
+        length: carrierFromFactory.length,
+        hits: carrierFromFactory.hits,
+        hit: carrierFromFactory.hit,
+        isSunk: carrierFromFactory.isSunk,
+      }),
       frigate: Ship(3),
       submarine: Ship(2),
       attacker: Ship(1),
@@ -23,16 +29,16 @@ describe('GameBoard', () => {
   });
 
   describe('set ship position', () => {
-    test('gameBoard should position a ship with length 4 ', () => {
-      expect(gameBoard.ships.attacker.position).toEqual([0]);
+    test('gameBoard should position a ship with length 1', () => {
+      expect(ships.attacker.position).toEqual([0]);
       expect(gameBoard.grid[0]).toBe(0);
     });
-    test('gameBoard should position a ship with length 4 ', () => {
-      expect(gameBoard.ships.submarine.position).toEqual([2, 3]);
+    test('gameBoard should position a ship with length 2 ', () => {
+      expect(ships.submarine.position).toEqual([2, 3]);
     });
 
-    test('gameBoard should position a ship with length 4 ', () => {
-      expect(gameBoard.ships.carrier.position).toEqual([4, 14, 24, 34]);
+    test('gameBoard should position a ship even if the ship does not come with a position array', () => {
+      expect(ships.carrier.position).toEqual([4, 14, 24, 34]);
     });
 
     test("gameBoard should not place ship in occupied squares", () => {
@@ -54,12 +60,12 @@ describe('GameBoard', () => {
 
   describe('receiveAttack', () => {
     test("it should call hit method of a ship if that ship is occupying the index that was passed", () => {
-      gameBoard.receiveAttack(3);
-      expect(gameBoard.ships.submarine.hits).toBe(1);
+      gameBoard.receiveAttack(3, 'hit');
+      expect(ships.submarine.hits).toBe(1);
     });
 
     test("it should assign the missed index in grid as *", () => {
-      gameBoard.receiveAttack(25);
+      gameBoard.receiveAttack(25, 'hit');
       expect(gameBoard.grid[25]).toBe('*');
     });
   });
@@ -74,7 +80,7 @@ describe('GameBoard', () => {
     });
 
     test('allShipsSunk() should return true', () => {
-      expect(gameBoard.allShipsSunk()).toBe(true);
+      expect(gameBoard.allShipsSunk('isSunk')).toBe(true);
     });
   });
 });
