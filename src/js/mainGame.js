@@ -6,7 +6,6 @@ const {
   computerMakeChoice,
 } = require('./mixins/playerMixin');
 
-
 const mainGame = () => {
 
   const fleet = {
@@ -42,7 +41,7 @@ const mainGame = () => {
   gameBoard2.setShipPosition(fleet1.carrier, 6, 'vertical');
 
   const gameCycle = () => {
-    console.log(gameBoard1.grid);
+    console.log("Hello");
     while (!gameBoard1.allShipsSunk('isSunk') && !gameBoard2.allShipsSunk('isSunk')) {
       player1.turn(player1.makeChoice(index));
       if (!gameBoard2.allShipsSunk('isSunk')) player2.turn(player2.makeChoice());
@@ -54,4 +53,4 @@ const mainGame = () => {
   };
 };
 
-module.exports = mainGame;
+export default mainGame;

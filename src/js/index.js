@@ -1,3 +1,4 @@
-const mainGame = require('./mainGame');
+// const mainGame = require('./mainGame');
+import mainGame from './mainGame';
 
 mainGame().gameCycle();
