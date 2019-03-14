@@ -16,7 +16,6 @@ describe('player object', () => {
       submarine: Ship(2),
       attacker: Ship(1),
     };
-    humanPlayer = Object.assign(Player(), playerMixin);
     enemyGameBoard = GameBoard(ships);
     // Set position of enemy's ships 
     enemyGameBoard.setShipPosition(ships.attacker, 0, "horizontal");
@@ -26,15 +25,26 @@ describe('player object', () => {
   });
 
   describe('human player object', () => {
+    beforeEach(() => {
+      humanPlayer = Object.assign(Player(), playerMixin);
+    });
     test('humanPlayer has a makeChoice method', () => {
       expect(humanPlayer.humanMakeChoice(enemyGameBoard.grid)).toBeTruthy();
     });
 
     test('human player choose correct index from avaiable positions ', () => {
-      const index = humanPlayer.humanMakeChoice(enemyGameBoard.grid);
+      const index = humanPlayer.humanMakeChoice(enemyGameBoard.grid, 1);
       expect(index).toBeGreaterThanOrEqual(0);
       expect(index).toBeLessThanOrEqual(99);
       expect(enemyGameBoard.grid[index]).toBeUndefined();
+    });
+  });
+
+  describe('computer player object', () => {
+    beforeEach(() => {
+      computerPlayer = Object.assign(Player(), {
+        makeChoice: playerMixin.computerMakeChoice,
+      });
     });
   });
 });
