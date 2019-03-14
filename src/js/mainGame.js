@@ -8,20 +8,13 @@ const {
 
 
 const mainGame = () => {
-  // 1. Create two sets of ships
+
   const fleet = {
     cruiser1: Ship(1),
-    cruiser2: Ship(1),
-    cruiser3: Ship(1),
-    cruiser4: Ship(1),
     frigate1: Ship(2),
-    frigate2: Ship(2),
-    frigate3: Ship(2),
     destroyer1: Ship(3),
-    destroyer2: Ship(3),
-    carrier: Ship(4)
-  }
-
+    carrier: Ship(4),
+  };
   const fleet1 = Object.assign({}, fleet);
   const fleet2 = Object.assign({}, fleet);
   // 2. Create two gameBoards
@@ -30,21 +23,35 @@ const mainGame = () => {
   // 3. Create two players
   const player1 = Object.assign(Player(gameBoard2, 'receiveAttack'), {
     makeChoice: humanMakeChoice,
-  })
+  });
 
   const player2 = Object.assign(Player(gameBoard1, 'receiveAttack'), {
     makeChoice: computerMakeChoice,
-  })
+  });
 
-  // 4. Create gameCycle function
-  //      1. Check all gameBoards ships are not sunk yet
-  while (!gameBoard1.allShipsSunk('isSunk') && !gameBoard2.allShipsSunk('isSunk')) {
-    player1.turn(player1.makeChoice(index));
-    if (!gameBoard2.allShipsSunk('isSunk')) player2.turn(player2.makeChoice());
-  }
-  gameEnd();
+  // Position ships for Player1
+  gameBoard1.setShipPosition(fleet1.cruiser1, 0, 'vertical');
+  gameBoard1.setShipPosition(fleet1.frigate1, 2, 'vertical');
+  gameBoard1.setShipPosition(fleet1.destroyer1, 4, 'vertical');
+  gameBoard1.setShipPosition(fleet1.carrier, 6, 'vertical');
 
-  const gameEnd = () => {
+  // Position ships for Player2
+  gameBoard2.setShipPosition(fleet1.cruiser1, 0, 'vertical');
+  gameBoard2.setShipPosition(fleet1.frigate1, 2, 'vertical');
+  gameBoard2.setShipPosition(fleet1.destroyer1, 4, 'vertical');
+  gameBoard2.setShipPosition(fleet1.carrier, 6, 'vertical');
 
-  }
+  const gameCycle = () => {
+    console.log(gameBoard1.grid);
+    while (!gameBoard1.allShipsSunk('isSunk') && !gameBoard2.allShipsSunk('isSunk')) {
+      player1.turn(player1.makeChoice(index));
+      if (!gameBoard2.allShipsSunk('isSunk')) player2.turn(player2.makeChoice());
+    }
+  };
+
+  return {
+    gameCycle,
+  };
 };
+
+module.exports = mainGame;
