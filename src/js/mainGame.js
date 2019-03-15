@@ -7,14 +7,18 @@ const {
 
 const mainGame = () => {
   const battleShipObjs = ((Ship, GameBoard, Player) => {
-    const fleet = {
+    const humanFleet = Object.assign({
       cruiser1: Ship(1),
       frigate1: Ship(2),
       destroyer1: Ship(3),
       carrier: Ship(4),
-    };
-    const humanFleet = Object.assign({}, fleet);
-    const computerFleet = Object.assign({}, fleet);
+    });
+    const computerFleet = Object.assign({
+      cruiser1: Ship(1),
+      frigate1: Ship(2),
+      destroyer1: Ship(3),
+      carrier: Ship(4),
+    });
     // 2. Create two gameBoards
     const humanBoard = GameBoard(humanFleet);
     const computerBoard = GameBoard(computerFleet);

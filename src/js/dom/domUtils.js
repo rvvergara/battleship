@@ -7,19 +7,25 @@ const {
   computer,
 } = mainGame().battleShipObjs;
 
-
-
 const container = document.querySelector('.container');
 
-const attackCallBack = (target, humanBoardGrid) => {
+const attackCallBack = (target) => {
+  // Call gameTurn method
   const turn = mainGame().gameTurn(target.id, human, computer, humanBoard, computerBoard);
-  target.innerText = computerBoard.grid[Number(target.id.substr(2))];
-
-  // console.log("Computer turn-", turn);
-
-  if (turn !== undefined) document.getElementById(`h-${turn}`).innerText = humanBoard.grid[turn];
-
-}
+  /*----------------------------------------*/
+  // change the target's inner html into X
+  if (computerBoard.grid[Number(target.id.substr(2))] !== "*") {
+    target.innerText = "X";
+  } else {
+    target.innerText = computerBoard.grid[Number(target.id.substr(2))];
+  }
+  /* -----------------------------------*/
+  // update the display in the human board based on the computer's turn
+  document.getElementById(`h-${turn}`).innerText = humanBoard.grid[turn];
+  console.log("Human ships:", humanBoard.ships);
+  console.log("Computer ships:", computerBoard.ships);
+  /*-----------------------------------*/
+};
 
 const createGrid = (num, boardName) => {
   const grid = document.createElement('div');
@@ -40,7 +46,7 @@ const createRow = (num, rowNum, boardName) => {
     const box = document.createElement('div');
     box.setAttribute('class', 'col box');
     box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
-    box.addEventListener('click', e => attackCallBack(e.target, humanBoardGrid));
+    box.addEventListener('click', e => attackCallBack(e.target));
     row.appendChild(box);
   }
   return row;

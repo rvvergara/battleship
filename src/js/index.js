@@ -15,7 +15,6 @@ const {
   computer,
 } = mainGame().battleShipObjs;
 
-
 const mainRow = document.createElement('div');
 mainRow.setAttribute('class', 'row');
 mainRow.appendChild(humanBoardGrid);
