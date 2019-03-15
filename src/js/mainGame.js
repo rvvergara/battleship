@@ -25,13 +25,13 @@ const mainGame = () => {
       makeChoice: computerMakeChoice,
     });
 
-    // Position ships for Player1
+    // Position ships for human
     humanBoard.setShipPosition(humanFleet.cruiser1, 0, 'vertical');
     humanBoard.setShipPosition(humanFleet.frigate1, 2, 'vertical');
     humanBoard.setShipPosition(humanFleet.destroyer1, 4, 'vertical');
     humanBoard.setShipPosition(humanFleet.carrier, 6, 'vertical');
 
-    // Position ships for Player2
+    // Position ships for computer
     computerBoard.setShipPosition(computerFleet.cruiser1, 0, 'vertical');
     computerBoard.setShipPosition(computerFleet.frigate1, 2, 'vertical');
     computerBoard.setShipPosition(computerFleet.destroyer1, 4, 'vertical');
