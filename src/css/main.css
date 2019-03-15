@@ -2,6 +2,11 @@
   border: 1px solid #222222;
   padding: 10px;
   height: 45px;
+  cursor: pointer;
+}
+
+.box:hover {
+  transform: scale(1.04)
 }
 
 .grid1 {

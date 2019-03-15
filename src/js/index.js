@@ -11,9 +11,9 @@ const {
   computer,
 } = mainGame().battleShipObjs;
 
-mainGame().gameTurn(1, human, computer, humanBoard, computerBoard);
-const humanBoardGrid = createGrid();
-const computerBoardGrid = createGrid();
+// mainGame().gameTurn(1, human, computer, humanBoard, computerBoard);
+const humanBoardGrid = createGrid(10, 'h');
+const computerBoardGrid = createGrid(10, 'c');
 
 const container = document.querySelector('.container');
 
