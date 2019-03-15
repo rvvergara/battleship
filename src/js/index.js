@@ -14,7 +14,7 @@ mainGame().gameTurn(1, human, computer, humanBoard, computerBoard);
 const humanBoardGrid = createGrid();
 const computerBoardGrid = createGrid();
 
-const container = document.querySelector('.container');
+const container = document.querySelector('.container-fluid');
 
 const mainRow = document.createElement('div');
 mainRow.setAttribute('class', 'row');

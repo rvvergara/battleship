@@ -2,3 +2,17 @@
   border: 1px solid #222222;
   padding: 10px;
 }
+
+.grid1 {
+  width: 45%;
+  position: absolute;
+  top: 0;
+  left: 50px;
+}
+
+.grid2 {
+  width: 45%;
+  position: absolute;
+  top: 0;
+  right: 50px;
+}
