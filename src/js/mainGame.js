@@ -62,8 +62,6 @@ const mainGame = () => {
       let choice = computerPlayer.makeChoice(humanBoard.grid);
       computerPlayer.turn(choice);
       while (humanBoard.grid[choice] !== '*') {
-        console.log("HI");
-
         choices.push(choice);
         choice = computerPlayer.makeChoice(humanBoard.grid);
         computerPlayer.turn(choice);
