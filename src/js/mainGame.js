@@ -59,7 +59,8 @@ const mainGame = () => {
 
     let choice;
 
-    if (!computerBoard.allShipsSunk('isSunk', 'Computer')) {
+    if (!computerBoard.allShipsSunk('isSunk', 'Computer') && computerBoard.grid[Number(index.substr(2))] === '*') {
+
       choice = computerPlayer.makeChoice(humanBoard.grid);
       computerPlayer.turn(choice);
     }

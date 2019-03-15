@@ -21,11 +21,14 @@ const attackCallBack = (target) => {
   }
   /* -----------------------------------*/
   // update the display in the human board based on the computer's turn
-  const humanSquare = document.getElementById(`h-${turn}`);
-  if (humanBoard.grid[turn] !== "*") {
-    humanSquare.innerText = "X";
-  } else {
-    humanSquare.innerText = humanBoard.grid[turn];
+
+  if (turn !== undefined) {
+    const humanSquare = document.getElementById(`h-${turn}`);
+    if (humanBoard.grid[turn] !== "*") {
+      humanSquare.innerText = "X";
+    } else {
+      humanSquare.innerText = humanBoard.grid[turn];
+    }
   }
   /*-----------------------------------*/
 };
