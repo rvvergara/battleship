@@ -28,8 +28,16 @@ const GameBoard = (ships => ({
       this.grid[index] = "*";
     }
   },
-  allShipsSunk(isSunkMethod) {
-    return Object.keys(ships).every(key => ships[key][isSunkMethod]());
+  allShipsSunk(isSunkMethod, pname) {
+    // return Object.keys(ships).every(key => ships[key][isSunkMethod]());
+    const shipSunkArray = Object.keys(ships).map((key) => {
+
+      console.log(`${pname} ${key} hits: `, ships[key].hits);
+      return ships[key][isSunkMethod]();
+
+    });
+    console.log(shipSunkArray);
+    return shipSunkArray.every(bool => bool === true);
   },
 }));
 

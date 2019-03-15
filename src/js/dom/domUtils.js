@@ -7,8 +7,18 @@ const {
   computer,
 } = mainGame().battleShipObjs;
 
-const attackCallBack = (id) => {
-  mainGame().gameTurn(id, human, computer, humanBoard, computerBoard);
+
+
+const container = document.querySelector('.container');
+
+const attackCallBack = (target, humanBoardGrid) => {
+  const turn = mainGame().gameTurn(target.id, human, computer, humanBoard, computerBoard);
+  target.innerText = computerBoard.grid[Number(target.id.substr(2))];
+
+  // console.log("Computer turn-", turn);
+
+  if (turn !== undefined) document.getElementById(`h-${turn}`).innerText = humanBoard.grid[turn];
+
 }
 
 const createGrid = (num, boardName) => {
@@ -29,11 +39,18 @@ const createRow = (num, rowNum, boardName) => {
   for (let i = 0; i < num; i++) {
     const box = document.createElement('div');
     box.setAttribute('class', 'col box');
-    box.setAttribute('id', `${boardName}-${(rowNum + String(i))}`);
-    box.addEventListener('click', e => attackCallBack(e.target.id));
+    box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
+    box.addEventListener('click', e => attackCallBack(e.target, humanBoardGrid));
     row.appendChild(box);
   }
   return row;
 };
+const humanBoardGrid = createGrid(10, 'h');
+const computerBoardGrid = createGrid(10, 'c');
 
-export default createGrid;
+export {
+  createGrid,
+  humanBoardGrid,
+  computerBoardGrid,
+  container,
+};

@@ -49,9 +49,17 @@ const mainGame = () => {
   const gameTurn = (index, humanPlayer, computerPlayer, humanBoard, computerBoard) => {
     // humanPlayer turn(index) gets called
     humanPlayer.turn(Number(index.substr(2)));
-    console.log(computerBoard.allShipsSunk('isSunk'));
     // if computer's gameBoard is still alive then computerPlayer turn(computerPlayer.makeChoice()) gets called
-    if (!computerBoard.allShipsSunk('isSunk')) computerPlayer.turn(computerPlayer.makeChoice(humanBoard));
+
+    humanBoard.allShipsSunk('isSunk', 'Human');
+
+    let choice;
+
+    if (!computerBoard.allShipsSunk('isSunk', 'Computer')) {
+      choice = computerPlayer.makeChoice(humanBoard.grid);
+      computerPlayer.turn(choice);
+    }
+    return choice;
     // check if someone has won
   };
 

@@ -72,14 +72,19 @@ describe('GameBoard', () => {
 
   describe('All ships sank', () => {
     beforeEach(() => {
-      Object.keys(ships).forEach((key) => {
+      Object.keys(ships).slice(0, -1).forEach((key) => {
         for (let i = 0; i < ships[key].length; i += 1) {
           ships[key].hit();
         }
       });
     });
 
+    test('allShipsSunk() should return false ', () => {
+      expect(gameBoard.allShipsSunk('isSunk')).toBe(false);
+    });
+
     test('allShipsSunk() should return true', () => {
+      ships.attacker.hit();
       expect(gameBoard.allShipsSunk('isSunk')).toBe(true);
     });
   });
