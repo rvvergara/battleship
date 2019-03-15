@@ -65,8 +65,8 @@ const mainGame = () => {
         console.log("HI");
 
         choices.push(choice);
-        computerPlayer.turn(choice);
         choice = computerPlayer.makeChoice(humanBoard.grid);
+        computerPlayer.turn(choice);
       }
       choices.push(choice);
       // 
