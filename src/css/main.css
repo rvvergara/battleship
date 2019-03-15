@@ -1,6 +1,7 @@
 .box {
   border: 1px solid #222222;
   padding: 10px;
+  height: 45px;
 }
 
 .grid1 {
