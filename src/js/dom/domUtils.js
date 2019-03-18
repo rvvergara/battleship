@@ -35,12 +35,11 @@ const attackCallBack = (target) => {
 const changeText = (humanSquare, humanBoard, turn) => {
   humanSquare.innerText = humanBoard.grid[turn];
   document.querySelector('.guard-box').classList.add('invisible');
-
 };
 
 const createGrid = (num, boardName) => {
   const grid = document.createElement('div');
-  grid.setAttribute('class', `col-5 mx-3 mt-5 ${boardName}`);
+  grid.setAttribute('class', `col-5 mx-3 mt-5`);
 
   for (let i = 0; i < num; i++) {
     grid.appendChild(createRow(num, i, boardName));
@@ -57,12 +56,14 @@ const createRow = (num, rowNum, boardName) => {
     const box = document.createElement('div');
     box.setAttribute('class', 'col box');
     box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
-    box.addEventListener('click', (e) => {
-      e.stopPropagation();
-      attackCallBack(e.target, boardName);
-    }, {
-      once: true,
-    });
+    if (boardName === 'c') {
+      box.addEventListener('click', (e) => {
+        e.stopPropagation();
+        attackCallBack(e.target);
+      }, {
+        once: true,
+      });
+    }
     row.appendChild(box);
   }
   return row;
