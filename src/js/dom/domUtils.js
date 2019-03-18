@@ -9,12 +9,19 @@ let {
   computer,
 } = game.battleShipObjs;
 
-const container = document.querySelector('.container');
+let container = document.querySelector('.container');
+
+let mainRow = document.querySelector('.main-row');
+let humanBoardGrid;
+let computerBoardGrid;
+
 
 const attackCallBack = (target) => {
   // Call gameTurn method
   const index = Number(target.id.substr(2));
   const turns = game.gameTurn(index, human, computer, humanBoard, computerBoard);
+  console.log("This is computer turns", turns);
+
   /*----------------------------------------*/
   // change the target's inner html into X
   if (computerBoard.grid[index] !== "*") {
@@ -27,6 +34,7 @@ const attackCallBack = (target) => {
   /* -----------------------------------*/
   // update the display in the human board based on the computer's turn
   if (turns !== []) {
+
     turns.forEach((turn) => {
       const humanSquare = document.getElementById(`h-${turn}`);
       document.querySelector('.guard-box').classList.remove('invisible');
@@ -78,9 +86,17 @@ const addBoxListener = (box) => {
   });
 };
 
-const humanBoardGrid = createGrid(10, 'h');
-const computerBoardGrid = createGrid(10, 'c');
 
+const createGameEnv = () => {
+  mainRow.setAttribute('class', 'row');
+  humanBoardGrid = createGrid(10, 'h');
+  computerBoardGrid = createGrid(10, 'c');
+  mainRow.appendChild(humanBoardGrid);
+  mainRow.appendChild(computerBoardGrid);
+  container.appendChild(mainRow);
+}
+
+createGameEnv();
 
 const guardBox = (parent) => {
   const bigBox = document.createElement('div');
@@ -110,12 +126,18 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
     human,
     computer,
   } = game.battleShipObjs);
-  // Clear all cells
-  [...document.getElementsByClassName('box')].forEach((box) => {
-    box.innerText = "";
-  });
-  // Add back event listeners
-  [...document.getElementsByClassName('c')].forEach(box => addBoxListener(box));
+  // // Clear all cells
+  // [...document.getElementsByClassName('box')].forEach((box) => {
+  //   box.innerText = "";
+  // });
+  // [...document.getElementsByClassName('c')].forEach((box) => {
+  //   box.removeEventListener('click', attackCallBack);
+  // });
+  // // Add back event listeners
+  // [...document.getElementsByClassName('c')].forEach(box => addBoxListener(box));
+  mainRow.innerHTML = "";
+  createGameEnv();
+  guardBox(computerBoardGrid);
 
   // Remove endGame div
   if (document.querySelector('p')) document.querySelector('.container').removeChild(document.querySelector('p'));
@@ -128,4 +150,5 @@ export {
   humanBoardGrid,
   computerBoardGrid,
   container,
+  createGameEnv,
 };

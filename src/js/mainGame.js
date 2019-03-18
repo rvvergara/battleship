@@ -58,6 +58,8 @@ const mainGame = () => {
   ) => {
     // humanPlayer turn(index) gets called
     humanPlayer.turn(index);
+    console.log('This is human turn');
+
     // if computer's gameBoard is still alive then computerPlayer turn(computerPlayer.makeChoice()) gets called
     // Computer choices
     const turns = computerTurn(computerPlayer, computerBoard, humanBoard, index);
