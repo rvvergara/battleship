@@ -53,3 +53,8 @@
   z-index: 2100;
   margin: 11.5rem 0;
 }
+
+button {
+  position: absolute;
+  z-index: 5000;
+}

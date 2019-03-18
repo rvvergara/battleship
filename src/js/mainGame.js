@@ -61,6 +61,7 @@ const mainGame = () => {
     // if computer's gameBoard is still alive then computerPlayer turn(computerPlayer.makeChoice()) gets called
     // Computer choices
     const turns = computerTurn(computerPlayer, computerBoard, humanBoard, index);
+    console.log(humanBoard.grid);
     if (checkWin(humanBoard) || checkWin(computerBoard)) endGame();
     return turns;
   };

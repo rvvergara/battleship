@@ -1,18 +1,20 @@
 import mainGame from '../mainGame';
 
-const {
+let game = mainGame();
+
+let {
   humanBoard,
   computerBoard,
   human,
   computer,
-} = mainGame().battleShipObjs;
+} = game.battleShipObjs;
 
 const container = document.querySelector('.container');
 
 const attackCallBack = (target) => {
   // Call gameTurn method
   const index = Number(target.id.substr(2));
-  const turns = mainGame().gameTurn(index, human, computer, humanBoard, computerBoard);
+  const turns = game.gameTurn(index, human, computer, humanBoard, computerBoard);
   /*----------------------------------------*/
   // change the target's inner html into X
   if (computerBoard.grid[index] !== "*") {
@@ -20,7 +22,7 @@ const attackCallBack = (target) => {
   } else {
     target.innerText = computerBoard.grid[index];
   }
-  if (mainGame().checkWin(computerBoard)) createEndGameDiv("Human win!");
+  if (game.checkWin(computerBoard)) createEndGameDiv("Human win!");
 
   /* -----------------------------------*/
   // update the display in the human board based on the computer's turn
@@ -31,7 +33,7 @@ const attackCallBack = (target) => {
       setTimeout(() => changeText(humanSquare, humanBoard, turn), 2000);
     });
   }
-  if (mainGame().checkWin(humanBoard)) createEndGameDiv("Computer win!");
+  if (game.checkWin(humanBoard)) createEndGameDiv("Computer win!");
 };
 
 const changeText = (humanSquare, humanBoard, turn) => {
@@ -59,16 +61,21 @@ const createRow = (num, rowNum, boardName) => {
     box.setAttribute('class', 'col box');
     box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
     if (boardName === 'c') {
-      box.addEventListener('click', (e) => {
-        e.stopPropagation();
-        attackCallBack(e.target);
-      }, {
-        once: true,
-      });
+      box.classList.add('c');
+      addBoxListener(box);
     }
     row.appendChild(box);
   }
   return row;
+};
+
+const addBoxListener = (box) => {
+  box.addEventListener('click', (e) => {
+    e.stopPropagation();
+    attackCallBack(e.target);
+  }, {
+    once: true,
+  });
 };
 
 const humanBoardGrid = createGrid(10, 'h');
@@ -79,9 +86,9 @@ const guardBox = (parent) => {
   const bigBox = document.createElement('div');
   bigBox.setAttribute('class', 'bg-secondary position-absolute guard-box invisible');
   parent.appendChild(bigBox);
-}
+};
 
-const guardBoxLayer = guardBox(computerBoardGrid);
+guardBox(computerBoardGrid);
 
 const createEndGameDiv = (statusMsg) => {
   const endGameDiv = document.createElement('div');
@@ -92,6 +99,29 @@ const createEndGameDiv = (statusMsg) => {
   container.appendChild(msg);
   container.appendChild(endGameDiv);
 };
+
+document.getElementsByTagName("button")[0].addEventListener("click", () => {
+  //1. Create a new game
+  game = mainGame();
+  // 2. Generate new pieces for the game
+  ({
+    humanBoard,
+    computerBoard,
+    human,
+    computer,
+  } = game.battleShipObjs);
+  // Clear all cells
+  [...document.getElementsByClassName('box')].forEach((box) => {
+    box.innerText = "";
+  });
+  // Add back event listeners
+  [...document.getElementsByClassName('c')].forEach(box => addBoxListener(box));
+
+  // Remove endGame div
+  if (document.querySelector('p')) document.querySelector('.container').removeChild(document.querySelector('p'));
+  if (document.querySelector('.end-game')) document.querySelector('.container').removeChild(document.querySelector('.end-game'));
+
+});
 
 export {
   createGrid,
