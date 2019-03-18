@@ -3,11 +3,11 @@ const GameBoard = ships => ({
   ships,
   setShipPosition(ship, index, orientation) {
     const limit =
-      orientation === "horizontal"
-        ? index + ship.length
-        : index + 10 * ship.length;
+      orientation === "horizontal" ?
+      index + ship.length :
+      index + 10 * ship.length;
     ship.position = ship.position || [];
-    for (let i = index; i < limit; ) {
+    for (let i = index; i < limit;) {
       if (this.grid[i] === undefined) {
         ship.position.push(i);
         this.grid[i] = i;
@@ -23,18 +23,21 @@ const GameBoard = ships => ({
     // Determine if the index in grid is occupied
     if (this.grid[index] !== undefined) {
       // If yes then determine the ship that occupies it
-      Object.keys(ships).forEach(key => {
-        if (ships[key].position.includes(index)) ships[key][method]();
+      Object.keys(ships).forEach((key) => {
+        if (ships[key].position.includes(index)) {
+          ships[key][method]();
+          this.grid[index] = "X";
+        }
       });
     } else {
       // Else update the grid to reflect a missed shot
       this.grid[index] = "*";
     }
   },
-  allShipsSunk(isSunkMethod, pname) {
+  allShipsSunk(isSunkMethod) {
     // return Object.keys(ships).every(key => ships[key][isSunkMethod]());
 
-    const shipSunkArray = Object.keys(ships).map(key => {
+    const shipSunkArray = Object.keys(ships).map((key) => {
       // console.log(`${pname} ${key} hits: `, ships[key].hits);
       return ships[key][isSunkMethod]();
     });
