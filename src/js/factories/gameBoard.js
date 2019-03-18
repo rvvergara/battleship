@@ -35,15 +35,8 @@ const GameBoard = ships => ({
     }
   },
   allShipsSunk(isSunkMethod) {
-    // return Object.keys(ships).every(key => ships[key][isSunkMethod]());
-
-    const shipSunkArray = Object.keys(ships).map((key) => {
-      // console.log(`${pname} ${key} hits: `, ships[key].hits);
-      return ships[key][isSunkMethod]();
-    });
-    // console.log(shipSunkArray);
-    return shipSunkArray.every(bool => bool === true);
-  }
+    return Object.keys(ships).every(key => ships[key][isSunkMethod]());
+  },
 });
 
 module.exports = GameBoard;

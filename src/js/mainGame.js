@@ -11,7 +11,7 @@ const mainGame = () => {
       cruiser1: Ship(1),
       frigate1: Ship(2),
       destroyer1: Ship(3),
-      carrier: Ship(4)
+      carrier: Ship(4),
     });
     const computerFleet = Object.assign({
       cruiser1: Ship(1),
@@ -39,7 +39,7 @@ const mainGame = () => {
     computerBoard.setShipPosition(computerFleet.cruiser1, 0, "vertical");
     computerBoard.setShipPosition(computerFleet.frigate1, 2, "vertical");
     computerBoard.setShipPosition(computerFleet.destroyer1, 4, "vertical");
-    computerBoard.setShipPosition(humanFleet.carrier, 6, "vertical");
+    computerBoard.setShipPosition(computerFleet.carrier, 6, "vertical");
 
     return {
       humanBoard,
@@ -58,25 +58,31 @@ const mainGame = () => {
   ) => {
     // humanPlayer turn(index) gets called
     humanPlayer.turn(index);
+    if (checkWin(computerBoard)) console.log("Human wins!");
     // if computer's gameBoard is still alive then computerPlayer turn(computerPlayer.makeChoice()) gets called
     // Computer choices
     const turns = computerTurn(computerPlayer, computerBoard, humanBoard, index);
+    if (checkWin(humanBoard)) console.log("Computer wins!");
     return turns;
   };
 
-  const computerTurn = (player, ownBoard, oponnentBoard, index) => {
+  const computerTurn = (player, ownBoard, opponentBoard, index) => {
     const choices = [];
     if (!ownBoard.allShipsSunk('isSunk', 'Computer') && ownBoard.grid[index] === '*') {
-      let choice = player.makeChoice(oponnentBoard.grid);
+      let choice = player.makeChoice(opponentBoard.grid);
       player.turn(choice);
-      while (oponnentBoard.grid[choice] !== '*') {
+      while (opponentBoard.grid[choice] !== '*') {
         choices.push(choice);
-        choice = player.makeChoice(oponnentBoard.grid);
+        choice = player.makeChoice(opponentBoard.grid);
         player.turn(choice);
       }
       choices.push(choice);
     }
     return choices;
+  };
+
+  const checkWin = (opponentBoard) => {
+    return opponentBoard.allShipsSunk('isSunk');
   };
 
   return {
