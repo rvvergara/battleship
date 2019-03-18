@@ -9,8 +9,7 @@ const {
 
 const container = document.querySelector('.container');
 
-const attackCallBack = (target, boardName) => {
-  guardBox(document.querySelector('.h'));
+const attackCallBack = (target) => {
   // Call gameTurn method
   const index = Number(target.id.substr(2));
   const turns = mainGame().gameTurn(index, human, computer, humanBoard, computerBoard);
@@ -70,11 +69,14 @@ const createRow = (num, rowNum, boardName) => {
 const humanBoardGrid = createGrid(10, 'h');
 const computerBoardGrid = createGrid(10, 'c');
 
+
 const guardBox = (parent) => {
   const bigBox = document.createElement('div');
-  bigBox.setAttribute('class', 'bg-secondary position-absolute gaurd-box');
+  bigBox.setAttribute('class', 'bg-secondary position-absolute guard-box invisible');
   parent.appendChild(bigBox);
 }
+
+const guardBoxLayer = guardBox(computerBoardGrid);
 
 export {
   createGrid,
