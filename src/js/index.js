@@ -8,12 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import '../css/main.css';
 
-const {
-  humanBoard,
-  computerBoard,
-  human,
-  computer,
-} = mainGame().battleShipObjs;
 
 const mainRow = document.createElement('div');
 mainRow.setAttribute('class', 'row');
