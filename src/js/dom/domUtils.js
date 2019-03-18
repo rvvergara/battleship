@@ -20,6 +20,8 @@ const attackCallBack = (target) => {
   } else {
     target.innerText = computerBoard.grid[index];
   }
+  if (mainGame().checkWin(computerBoard)) createEndGameDiv("Human win!");
+
   /* -----------------------------------*/
   // update the display in the human board based on the computer's turn
   if (turns !== []) {
@@ -27,9 +29,9 @@ const attackCallBack = (target) => {
       const humanSquare = document.getElementById(`h-${turn}`);
       document.querySelector('.guard-box').classList.remove('invisible');
       setTimeout(() => changeText(humanSquare, humanBoard, turn), 2000);
-
     });
   }
+  if (mainGame().checkWin(humanBoard)) createEndGameDiv("Computer win!");
 };
 
 const changeText = (humanSquare, humanBoard, turn) => {
@@ -80,6 +82,16 @@ const guardBox = (parent) => {
 }
 
 const guardBoxLayer = guardBox(computerBoardGrid);
+
+const createEndGameDiv = (statusMsg) => {
+  const endGameDiv = document.createElement('div');
+  endGameDiv.setAttribute('class', 'position-absolute end-game');
+  const msg = document.createElement('p');
+  msg.setAttribute('class', 'position-absolute  end-game-msg');
+  msg.innerText = statusMsg;
+  container.appendChild(msg);
+  container.appendChild(endGameDiv);
+};
 
 export {
   createGrid,

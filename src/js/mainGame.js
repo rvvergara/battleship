@@ -91,6 +91,7 @@ const mainGame = () => {
   return {
     gameTurn,
     battleShipObjs,
+    checkWin,
   };
 };
 
