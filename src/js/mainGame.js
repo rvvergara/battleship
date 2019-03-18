@@ -17,7 +17,7 @@ const mainGame = () => {
       cruiser1: Ship(1),
       frigate1: Ship(2),
       destroyer1: Ship(3),
-      carrier: Ship(4)
+      carrier: Ship(4),
     });
     // 2. Create two gameBoards
     const humanBoard = GameBoard(humanFleet);

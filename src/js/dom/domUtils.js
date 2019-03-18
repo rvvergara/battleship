@@ -54,11 +54,17 @@ const createRow = (num, rowNum, boardName) => {
     const box = document.createElement('div');
     box.setAttribute('class', 'col box');
     box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
-    box.addEventListener('click', e => attackCallBack(e.target));
+    box.addEventListener('click', (e) => {
+      e.stopPropagation();
+      attackCallBack(e.target);
+    }, {
+      once: true,
+    });
     row.appendChild(box);
   }
   return row;
 };
+
 const humanBoardGrid = createGrid(10, 'h');
 const computerBoardGrid = createGrid(10, 'c');
 
