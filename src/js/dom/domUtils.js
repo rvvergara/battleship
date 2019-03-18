@@ -25,14 +25,13 @@ const attackCallBack = (target) => {
   if (turns !== []) {
     turns.forEach((turn) => {
       const humanSquare = document.getElementById(`h-${turn}`);
-      if (humanBoard.grid[turn] !== "*") {
-        humanSquare.innerText = "X";
-      } else {
-        humanSquare.innerText = humanBoard.grid[turn];
-      }
+      setTimeout(() => changeText(humanSquare, humanBoard, turn), 2000);
     });
   }
-  /*-----------------------------------*/
+};
+
+const changeText = (humanSquare, humanBoard, turn) => {
+  humanSquare.innerText = humanBoard.grid[turn];
 };
 
 const createGrid = (num, boardName) => {
