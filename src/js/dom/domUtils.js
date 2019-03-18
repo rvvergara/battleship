@@ -25,6 +25,7 @@ const attackCallBack = (target) => {
   if (turns !== []) {
     turns.forEach((turn) => {
       const humanSquare = document.getElementById(`h-${turn}`);
+      document.querySelector('.guard-box').classList.remove('invisible');
       setTimeout(() => changeText(humanSquare, humanBoard, turn), 2000);
 
     });
@@ -33,7 +34,8 @@ const attackCallBack = (target) => {
 
 const changeText = (humanSquare, humanBoard, turn) => {
   humanSquare.innerText = humanBoard.grid[turn];
-  document.querySelector('.gaurd-box').classList.add('invisible');
+  document.querySelector('.guard-box').classList.add('invisible');
+
 };
 
 const createGrid = (num, boardName) => {
