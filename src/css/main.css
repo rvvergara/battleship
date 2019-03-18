@@ -43,10 +43,13 @@
 }
 
 .end-game-msg {
+  width: 100%;
   font-size: 3em;
   text-align: center;
   color: #16a085;
-  margin: 0 auto;
+  top: 0;
+  left: 0;
   padding: 20px;
   z-index: 2100;
+  margin: 11.5rem 0;
 }
