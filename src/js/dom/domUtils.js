@@ -11,17 +11,17 @@ const container = document.querySelector('.container');
 
 const attackCallBack = (target) => {
   // Call gameTurn method
-  const turns = mainGame().gameTurn(target.id, human, computer, humanBoard, computerBoard);
+  const index = Number(target.id.substr(2));
+  const turns = mainGame().gameTurn(index, human, computer, humanBoard, computerBoard);
   /*----------------------------------------*/
   // change the target's inner html into X
-  if (computerBoard.grid[Number(target.id.substr(2))] !== "*") {
+  if (computerBoard.grid[index] !== "*") {
     target.innerText = "X";
   } else {
-    target.innerText = computerBoard.grid[Number(target.id.substr(2))];
+    target.innerText = computerBoard.grid[index];
   }
   /* -----------------------------------*/
   // update the display in the human board based on the computer's turn
-
   if (turns !== []) {
     turns.forEach((turn) => {
       const humanSquare = document.getElementById(`h-${turn}`);

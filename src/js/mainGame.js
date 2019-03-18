@@ -57,7 +57,7 @@ const mainGame = () => {
     computerBoard
   ) => {
     // humanPlayer turn(index) gets called
-    humanPlayer.turn(Number(index.substr(2)));
+    humanPlayer.turn(index);
     // if computer's gameBoard is still alive then computerPlayer turn(computerPlayer.makeChoice()) gets called
     // Computer choices
     const turns = computerTurn(computerPlayer, computerBoard, humanBoard, index);
@@ -66,7 +66,7 @@ const mainGame = () => {
 
   const computerTurn = (player, ownBoard, oponnentBoard, index) => {
     const choices = [];
-    if (!ownBoard.allShipsSunk('isSunk', 'Computer') && ownBoard.grid[Number(index.substr(2))] === '*') {
+    if (!ownBoard.allShipsSunk('isSunk', 'Computer') && ownBoard.grid[index] === '*') {
       let choice = player.makeChoice(oponnentBoard.grid);
       player.turn(choice);
       while (oponnentBoard.grid[choice] !== '*') {
@@ -81,7 +81,7 @@ const mainGame = () => {
 
   return {
     gameTurn,
-    battleShipObjs
+    battleShipObjs,
   };
 };
 
