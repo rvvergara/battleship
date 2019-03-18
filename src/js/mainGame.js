@@ -58,11 +58,10 @@ const mainGame = () => {
   ) => {
     // humanPlayer turn(index) gets called
     humanPlayer.turn(index);
-    if (checkWin(computerBoard)) console.log("Human wins!");
     // if computer's gameBoard is still alive then computerPlayer turn(computerPlayer.makeChoice()) gets called
     // Computer choices
     const turns = computerTurn(computerPlayer, computerBoard, humanBoard, index);
-    if (checkWin(humanBoard)) console.log("Computer wins!");
+    if (checkWin(humanBoard) || checkWin(computerBoard)) endGame();
     return turns;
   };
 
@@ -84,6 +83,10 @@ const mainGame = () => {
   const checkWin = (opponentBoard) => {
     return opponentBoard.allShipsSunk('isSunk');
   };
+
+  const endGame = () => {
+    console.log("Game Over!!!");
+  }
 
   return {
     gameTurn,
