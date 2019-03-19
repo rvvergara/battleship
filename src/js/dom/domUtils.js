@@ -139,19 +139,18 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
 
 
 
-const createShipBox = (parent, shipTitle, ship) => {
+const createShipBox = (shipTitle, ship) => {
   const shipBox = document.createElement('div');
   shipBox.setAttribute('id', shipTitle);
-  shipBox.setAttribute('class', 'd-inline-block mx-2');
-  shipBox.style.width = '46px';
-  shipBox.style.height = `${ship.length * 46}px`;
-  shipBox.style.background = "blue";
-  parent.appendChild(shipBox);
+  shipBox.setAttribute('draggable', 'true');
+  shipBox.style = `width: 100%; height: ${ship.length*100 + 15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 500000`;
+  shipBox.setAttribute('ondragstart', "drag(event)");
+  document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
 };
 
 function generateShips() {
   Object.keys(humanBoard.ships).forEach(key => {
-    createShipBox(shipContainer, key, humanBoard.ships[key]);
+    createShipBox(key, humanBoard.ships[key]);
   });
 }
 generateShips();
