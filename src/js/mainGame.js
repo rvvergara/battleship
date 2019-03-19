@@ -2,7 +2,8 @@ const Ship = require("./factories/ship");
 const GameBoard = require("./factories/gameBoard");
 const Player = require("./factories/player");
 const {
-  computerMakeChoice
+  generateRandomNumberFromArray,
+  computerMakeChoice,
 } = require("./mixins/playerMixin");
 
 const mainGame = () => {
@@ -26,7 +27,8 @@ const mainGame = () => {
     const human = Object.assign(Player(computerBoard, "receiveAttack", "hit"));
 
     const computer = Object.assign(Player(humanBoard, "receiveAttack", "hit"), {
-      makeChoice: computerMakeChoice
+      generateRandomNumberFromArray,
+      makeChoice: computerMakeChoice,
     });
 
     // Position ships for human
@@ -45,7 +47,7 @@ const mainGame = () => {
       humanBoard,
       computerBoard,
       human,
-      computer
+      computer,
     };
   })(Ship, GameBoard, Player);
 
@@ -54,33 +56,15 @@ const mainGame = () => {
     humanPlayer,
     computerPlayer,
     humanBoard,
-    computerBoard
+    computerBoard,
   ) => {
     // humanPlayer turn(index) gets called
     humanPlayer.turn(index);
-    console.log('This is human turn');
-
-    // if computer's gameBoard is still alive then computerPlayer turn(computerPlayer.makeChoice()) gets called
     // Computer choices
-    const turns = computerTurn(computerPlayer, computerBoard, humanBoard, index);
-    console.log(humanBoard.grid);
+    const turns = computerMakeChoice(computerPlayer, computerBoard, humanBoard, index);
+    // computerMakeChoice({player: computerPlayer, ownBoard: computerBoard, enemyBoard: humanBoard, index, boardMethod: 'allShipsSunk',shipMethod: 'isSunk', boardProp: 'grid'})
     if (checkWin(humanBoard) || checkWin(computerBoard)) endGame();
     return turns;
-  };
-
-  const computerTurn = (player, ownBoard, opponentBoard, index) => {
-    const choices = [];
-    if (!ownBoard.allShipsSunk('isSunk', 'Computer') && ownBoard.grid[index] === '*') {
-      let choice = player.makeChoice(opponentBoard.grid);
-      player.turn(choice);
-      while (opponentBoard.grid[choice] !== '*') {
-        choices.push(choice);
-        choice = player.makeChoice(opponentBoard.grid);
-        player.turn(choice);
-      }
-      choices.push(choice);
-    }
-    return choices;
   };
 
   const checkWin = (opponentBoard) => {
@@ -89,7 +73,7 @@ const mainGame = () => {
 
   const endGame = () => {
     console.log("Game Over!!!");
-  }
+  };
 
   return {
     gameTurn,

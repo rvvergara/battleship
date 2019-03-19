@@ -20,7 +20,6 @@ const attackCallBack = (target) => {
   // Call gameTurn method
   const index = Number(target.id.substr(2));
   const turns = game.gameTurn(index, human, computer, humanBoard, computerBoard);
-  console.log("This is computer turns", turns);
 
   /*----------------------------------------*/
   // change the target's inner html into X
@@ -126,15 +125,6 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
     human,
     computer,
   } = game.battleShipObjs);
-  // // Clear all cells
-  // [...document.getElementsByClassName('box')].forEach((box) => {
-  //   box.innerText = "";
-  // });
-  // [...document.getElementsByClassName('c')].forEach((box) => {
-  //   box.removeEventListener('click', attackCallBack);
-  // });
-  // // Add back event listeners
-  // [...document.getElementsByClassName('c')].forEach(box => addBoxListener(box));
   mainRow.innerHTML = "";
   createGameEnv();
   guardBox(computerBoardGrid);
