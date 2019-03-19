@@ -27,19 +27,16 @@ const playerMixin = (() => ({
     const {
       player,
       ownBoard,
-      enemyBoard,
+      opponentBoard,
       index,
-      boardMethod,
-      shipMethod,
-      boardProp
     } = options;
 
-    if (ownBoard[boardMethod](shipMethod) === false && ownBoard[boardProp][index] === '*') {
-      const choice = randomGeneratorFn(enemyBoard[boardProp]);
+    if (ownBoard.allShipsSunk('isSunk') === false && ownBoard.grid[index] === '*') {
+      const choice = randomGeneratorFn(opponentBoard.grid);
 
       player.turn(choice);
 
-      choices = choices.concat(sanitizingFn(player, enemyBoard, choice, randomGeneratorFn));
+      choices = choices.concat(sanitizingFn(player, opponentBoard, choice, randomGeneratorFn));
     }
     return choices;
   },

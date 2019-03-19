@@ -16,6 +16,9 @@ describe("playerMixin", () => {
       },
       ownBoard: {
         grid: ['*', , 2, 3, '*'],
+        allShipsSunk() {
+          return false;
+        },
       },
       opponentBoard: {
         grid: [0, 1, '*', , , ],
@@ -38,7 +41,7 @@ describe("playerMixin", () => {
   test('computerMakeChoice returns an array of choices', () => {
     const randomGenMocker = () => 0;
     const sanitize = (p, b, c) => [2];
-    expect(computerMakeChoice(options, randomGenMocker, sanitize)).toEqual([]);
+    expect(computerMakeChoice(options, randomGenMocker, sanitize)).toEqual([2]);
   });
 
   test("generateRandomNumberFromArray returns a valid number", () => {

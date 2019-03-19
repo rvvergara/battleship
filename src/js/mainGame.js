@@ -65,11 +65,8 @@ const mainGame = () => {
     const turns = computerMakeChoice({
       player: computerPlayer,
       ownBoard: computerBoard,
-      enemyBoard: humanBoard,
+      opponentBoard: humanBoard,
       index,
-      boardMethod: 'allShipsSunk',
-      shipMethod: 'isSunk',
-      boardProp: 'grid',
     }, generateRandomNumberFromArray, choiceSanitizer);
 
     if (checkWin(humanBoard) || checkWin(computerBoard)) endGame();
