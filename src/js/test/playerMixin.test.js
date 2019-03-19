@@ -16,11 +16,11 @@ describe("playerMixin", () => {
         grid: ['*', , 2, 3, '*'],
       },
       opponentBoard: {
-        grid: [0, 1, , '*', ],
+        grid: [0, 1, , , , ],
       },
-      index: 0,
+      index: 4,
       boardMethod: function foo(shipMethod) {
-        return shipMethod;
+        return shipMethod();
       },
       shipMethod: function baz() {
         return false;
@@ -31,6 +31,7 @@ describe("playerMixin", () => {
 
   test("generateRandomNumberFromArray returns a valid number", () => {
     const arr = [0, 1, , '*', ];
+    expect(generateRandomNumberFromArray(arr)).toBeGreaterThanOrEqual(0);
     expect(generateRandomNumberFromArray(arr)).toBeLessThanOrEqual(5);
   });
 });
