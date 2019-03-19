@@ -174,19 +174,6 @@ function generateShips() {
 }
 generateShips();
 
-// function changeShipPositionBG() {
-//   humanBoard.grid.forEach((el, index) => {
-//     if (el !== undefined) {
-//       document.getElementById(`h-${index}`).appendChild(createShipBox());
-//     }
-//   });
-
-// }
-
-
-// changeShipPositionBG();
-
-
 
 export {
   createGrid,
