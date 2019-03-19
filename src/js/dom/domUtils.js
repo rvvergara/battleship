@@ -87,8 +87,10 @@ const createRow = (num, rowNum, boardName) => {
   for (let i = 0; i < num; i++) {
     const box = document.createElement('div');
     box.setAttribute('class', 'col box');
-    box.addEventListener('drop', e => drop(e));
-    box.addEventListener('dragover', e => allowDrop(e));
+    if (boardName === 'h') {
+      box.addEventListener('drop', e => drop(e));
+      box.addEventListener('dragover', e => allowDrop(e));
+    }
     box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
     if (boardName === 'c') {
       box.classList.add('c');
