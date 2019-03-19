@@ -135,6 +135,26 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
 
 });
 
+const createShipBox = () => {
+  const shipBox = document.createElement('div');
+  shipBox.setAttribute('class', 'ship-box');
+  return shipBox;
+};
+
+function changeShipPositionBG() {
+  humanBoard.grid.forEach((el, index) => {
+    if (el !== undefined) {
+      document.getElementById(`h-${index}`).appendChild(createShipBox());
+    }
+  });
+
+}
+
+
+changeShipPositionBG();
+
+
+
 export {
   createGrid,
   humanBoardGrid,
