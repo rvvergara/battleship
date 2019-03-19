@@ -61,6 +61,25 @@ const createGrid = (num, boardName) => {
   return grid;
 };
 
+//===================================
+// Dragging related fns
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  if (!isNaN(Number(ev.target.id.substr(2)))) {
+    ev.target.appendChild(document.getElementById(data));
+  }
+}
+//===================================
+
 
 const createRow = (num, rowNum, boardName) => {
   const row = document.createElement('div');
@@ -68,8 +87,8 @@ const createRow = (num, rowNum, boardName) => {
   for (let i = 0; i < num; i++) {
     const box = document.createElement('div');
     box.setAttribute('class', 'col box');
-    box.setAttribute('ondrop', 'drop(event)');
-    box.setAttribute('ondragover', 'allowDrop(event)');
+    box.addEventListener('drop', e => drop(e));
+    box.addEventListener('dragover', e => allowDrop(e));
     box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
     if (boardName === 'c') {
       box.classList.add('c');
@@ -144,7 +163,7 @@ const createShipBox = (shipTitle, ship) => {
   shipBox.setAttribute('id', shipTitle);
   shipBox.setAttribute('draggable', 'true');
   shipBox.style = `width: 100%; height: ${ship.length*100 + 15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 500000`;
-  shipBox.setAttribute('ondragstart', "drag(event)");
+  shipBox.addEventListener('dragstart', e => drag(e));
   document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
 };
 
