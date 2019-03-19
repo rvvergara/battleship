@@ -73,6 +73,7 @@ const mainGame = () => {
     }, generateRandomNumberFromArray, choiceSanitizer);
 
     if (checkWin(humanBoard) || checkWin(computerBoard)) endGame();
+
     return turns;
   };
 

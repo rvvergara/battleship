@@ -23,7 +23,7 @@ const playerMixin = (() => ({
 
   // computerMakeChoice(player, ownBoard, opponentBoard, index)
   computerMakeChoice(options, randomGeneratorFn, sanitizingFn) {
-    const choices = [];
+    let choices = [];
     const {
       player,
       ownBoard,
@@ -33,10 +33,13 @@ const playerMixin = (() => ({
       shipMethod,
       boardProp
     } = options;
+
     if (ownBoard[boardMethod](shipMethod) === false && ownBoard[boardProp][index] === '*') {
-      const choice = randomGeneratorFn(enemyBoard.grid);
+      const choice = randomGeneratorFn(enemyBoard[boardProp]);
+
       player.turn(choice);
-      choices.concat(sanitizingFn(player, enemyBoard, choice));
+
+      choices = choices.concat(sanitizingFn(player, enemyBoard, choice, randomGeneratorFn));
     }
     return choices;
   },
