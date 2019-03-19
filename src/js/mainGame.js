@@ -3,6 +3,7 @@ const GameBoard = require("./factories/gameBoard");
 const Player = require("./factories/player");
 const {
   generateRandomNumberFromArray,
+  choiceSanitizer,
   computerMakeChoice,
 } = require("./mixins/playerMixin");
 
@@ -61,8 +62,16 @@ const mainGame = () => {
     // humanPlayer turn(index) gets called
     humanPlayer.turn(index);
     // Computer choices
-    const turns = computerMakeChoice(computerPlayer, computerBoard, humanBoard, index);
-    // computerMakeChoice({player: computerPlayer, ownBoard: computerBoard, enemyBoard: humanBoard, index, boardMethod: 'allShipsSunk',shipMethod: 'isSunk', boardProp: 'grid'})
+    const turns = computerMakeChoice({
+      player: computerPlayer,
+      ownBoard: computerBoard,
+      enemyBoard: humanBoard,
+      index,
+      boardMethod: 'allShipsSunk',
+      shipMethod: 'isSunk',
+      boardProp: 'grid',
+    }, generateRandomNumberFromArray, choiceSanitizer);
+
     if (checkWin(humanBoard) || checkWin(computerBoard)) endGame();
     return turns;
   };
