@@ -26,7 +26,8 @@ const attackCallBack = (target) => {
   /*----------------------------------------*/
   // change the target's inner html into X
   if (computerBoard.grid[index] !== "*") {
-    target.innerText = "X";
+    // target.innerText = "X";
+    target.style = "background-color: red";
   } else {
     target.innerText = computerBoard.grid[index];
   }
@@ -46,7 +47,12 @@ const attackCallBack = (target) => {
 };
 
 const changeText = (humanSquare, humanBoard, turn) => {
-  humanSquare.innerText = humanBoard.grid[turn];
+  if (humanBoard.grid[turn] === 'X') {
+    humanSquare.style = "background-color: red;z-index: 5500";
+  } else {
+    humanSquare.insertAdjacentText("afterbegin", humanBoard.grid[turn]);
+  }
+
   document.querySelector('.guard-box').classList.add('invisible');
 };
 
@@ -76,7 +82,17 @@ function drop(ev) {
   const data = ev.dataTransfer.getData("text");
   if (!isNaN(Number(ev.target.id.substr(2)))) {
     ev.target.appendChild(document.getElementById(data));
+    humanBoard.ships[data].position.forEach((id) => {
+      humanBoard.grid[id] = undefined;
+    });
+    humanBoard.ships[data].position = [];
+
+    humanBoard.setShipPosition(humanBoard.ships[data], Number(ev.target.id.substr(2)), 'vertical');
+    console.log(humanBoard.ships[data].position);
   }
+
+
+
 }
 //===================================
 
@@ -164,7 +180,7 @@ const createShipBox = (shipTitle, ship) => {
   const shipBox = document.createElement('div');
   shipBox.setAttribute('id', shipTitle);
   shipBox.setAttribute('draggable', 'true');
-  shipBox.style = `width: 100%; height: ${ship.length*100 + 15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 500000`;
+  shipBox.style = `width: 100%; height: ${ship.length*100 + 15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 5000`;
   shipBox.addEventListener('dragstart', e => drag(e));
   document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
 };
