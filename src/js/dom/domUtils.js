@@ -68,6 +68,8 @@ const createRow = (num, rowNum, boardName) => {
   for (let i = 0; i < num; i++) {
     const box = document.createElement('div');
     box.setAttribute('class', 'col box');
+    box.setAttribute('ondrop', 'drop(event)');
+    box.setAttribute('ondragover', 'allowDrop(event)');
     box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
     if (boardName === 'c') {
       box.classList.add('c');
@@ -133,7 +135,6 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
   // Remove endGame div
   if (document.querySelector('p')) document.querySelector('.container').removeChild(document.querySelector('p'));
   if (document.querySelector('.end-game')) document.querySelector('.container').removeChild(document.querySelector('.end-game'));
-
 });
 
 
