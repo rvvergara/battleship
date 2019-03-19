@@ -15,6 +15,8 @@ let mainRow = document.querySelector('.main-row');
 let humanBoardGrid;
 let computerBoardGrid;
 
+let shipContainer = document.querySelector('.ship-container');
+
 
 const attackCallBack = (target) => {
   // Call gameTurn method
@@ -92,7 +94,6 @@ const createGameEnv = () => {
   computerBoardGrid = createGrid(10, 'c');
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
-  container.appendChild(mainRow);
 }
 
 createGameEnv();
@@ -135,23 +136,36 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
 
 });
 
-const createShipBox = () => {
+
+
+const createShipBox = (parent, shipTitle, ship) => {
   const shipBox = document.createElement('div');
-  shipBox.setAttribute('class', 'ship-box');
-  return shipBox;
+  shipBox.setAttribute('id', shipTitle);
+  shipBox.setAttribute('class', 'd-inline-block mx-2');
+  shipBox.style.width = '46px';
+  shipBox.style.height = `${ship.length * 46}px`;
+  shipBox.style.background = "blue";
+  parent.appendChild(shipBox);
 };
 
-function changeShipPositionBG() {
-  humanBoard.grid.forEach((el, index) => {
-    if (el !== undefined) {
-      document.getElementById(`h-${index}`).appendChild(createShipBox());
-    }
+function generateShips() {
+  Object.keys(humanBoard.ships).forEach(key => {
+    createShipBox(shipContainer, key, humanBoard.ships[key]);
   });
-
 }
+generateShips();
+
+// function changeShipPositionBG() {
+//   humanBoard.grid.forEach((el, index) => {
+//     if (el !== undefined) {
+//       document.getElementById(`h-${index}`).appendChild(createShipBox());
+//     }
+//   });
+
+// }
 
 
-changeShipPositionBG();
+// changeShipPositionBG();
 
 
 

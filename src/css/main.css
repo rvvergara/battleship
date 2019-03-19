@@ -69,3 +69,12 @@ button {
   left: 0;
   z-index: 1500;
 }
+
+div#carrier {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 158px;
+  background: #efedef;
+}
