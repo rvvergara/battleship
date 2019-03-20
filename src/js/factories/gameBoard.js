@@ -8,7 +8,7 @@ const GameBoard = ships => ({
       index + 10 * ship.length;
     ship.position = ship.position || [];
     const origShipPosition = [...ship.position];
-
+    ship.position = [];
     const origBoardGrid = [...this.grid];
 
     for (let i = index; i < limit;) {

@@ -75,20 +75,35 @@ function allowDrop(ev) {
 
 function drag(ev) {
   ev.dataTransfer.setData("text", ev.target.id);
+  ev.dataTransfer.setData("origShipPosition", humanBoard.ships[ev.target.id].position);
+
 }
 
 function drop(ev) {
   ev.preventDefault();
+  const origPos = ev.dataTransfer.getData("origShipPosition").split(',').map(x => Number(x));
+  // console.log(origPos);
+
   const data = ev.dataTransfer.getData("text");
   if (!isNaN(Number(ev.target.id.substr(2)))) {
-    ev.target.appendChild(document.getElementById(data));
-    humanBoard.ships[data].position.forEach((id) => {
-      humanBoard.grid[id] = undefined;
-    });
-    humanBoard.ships[data].position = [];
-
+    humanBoard.ships[data].position = origPos;
     humanBoard.setShipPosition(humanBoard.ships[data], Number(ev.target.id.substr(2)), 'vertical');
-    console.log(humanBoard.ships[data].position);
+
+    if (origPos === humanBoard.ships[data].position) {
+      ev.target.appendChild(document.getElementById(data));
+      humanBoard.ships[data].position.forEach((id) => {
+        humanBoard.grid[id] = undefined;
+      });
+      console.log("In if: ", humanBoard.ships[data].position);
+
+    } else {
+      humanBoard.ships[data].position = origPos;
+      console.log(humanBoard.ships[data].position);
+    }
+
+
+
+    // humanBoard.setShipPosition(humanBoard.ships[data], Number(ev.target.id.substr(2)), 'vertical');
   }
 
 
