@@ -4,11 +4,13 @@ const Ship = require('../factories/ship');
 describe('GameBoard', () => {
   let ships;
   let gameBoard;
+  let origBoardGrid;
   beforeEach(() => {
     const carrierFromFactory = Ship(4);
     ships = {
       carrier: Object.assign({}, {
         length: carrierFromFactory.length,
+        position: [8, 18, 28, 38],
         hits: carrierFromFactory.hits,
         hit: carrierFromFactory.hit,
         isSunk: carrierFromFactory.isSunk,
@@ -22,6 +24,7 @@ describe('GameBoard', () => {
     gameBoard.setShipPosition(ships.submarine, 2, "horizontal");
     gameBoard.setShipPosition(ships.carrier, 4, "vertical");
     gameBoard.setShipPosition(ships.frigate, 13, "horizontal");
+    origBoardGrid = [...gameBoard.grid];
   });
 
   test('GameBoard should have a grid array', () => {
@@ -39,6 +42,7 @@ describe('GameBoard', () => {
 
     test('gameBoard should position a ship even if the ship does not come with a position array', () => {
       expect(ships.carrier.position).toEqual([4, 14, 24, 34]);
+      expect(gameBoard.grid).toEqual(origBoardGrid)
     });
 
     test("gameBoard should not place ship in occupied squares", () => {
