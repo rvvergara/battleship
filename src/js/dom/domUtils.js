@@ -75,26 +75,17 @@ function drag(ev) {
   );
 }
 
-function drop(ev) {
+const drop = (ev) => {
   ev.preventDefault();
-  const origPos = ev.dataTransfer
-    .getData("origShipPosition")
-    .split(",")
-    .map(x => Number(x));
-
   const data = ev.dataTransfer.getData("text");
-  if (!isNaN(Number(ev.target.id.substr(2)))) {
+  const id = Number(ev.target.id.substr(2));
+  if (!isNaN(id)) {
     const successfulShipRepositioning = humanBoard.setShipPosition(
       humanBoard.ships[data],
-      Number(ev.target.id.substr(2)),
+      id,
       "vertical"
     );
-
-    console.log(humanBoard.grid[Number(ev.target.id.substr(2))]);
-
-    if (successfulShipRepositioning) {
-      ev.target.appendChild(document.getElementById(data));
-    }
+    if (successfulShipRepositioning) ev.target.appendChild(document.getElementById(data));
   }
 }
 //===================================
