@@ -134,20 +134,25 @@ const createGameDisplay = (gameObj, parent, mainRow) => {
   guardBox(computerBoardGrid);
 };
 
-const createShipBox = (shipTitle, shipLength) => {
+const shipStyle = (shipLength, bgColor, opacityLevel, orientation) => {
+  const mainDimension = orientation === "horizontal" ? 'width' : 'height';
+  const minorDimension = orientation === "horizontal" ? "height" : "width";
+  return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${bgColor}; opacity: ${opacityLevel}; z-index: 5000`;
+};
+
+const createShipBox = (shipTitle, shipLength, bg, opacity, orientation) => {
   const shipBox = document.createElement("div");
   shipBox.setAttribute("id", shipTitle);
   shipBox.setAttribute("draggable", "true");
-  shipBox.style = `width: 100%; height: ${shipLength * 100
-    + 15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 5000`;
+  shipBox.style = shipStyle(shipLength, bg, opacity, orientation);
   shipBox.addEventListener("dragstart", e => drag(e));
   return shipBox;
 };
 
-const generateShips = (humanBoard) => {
+const generateShips = (humanBoard, bg, opacity, orientation) => {
   Object.keys(humanBoard.ships).forEach(key => {
     const ship = humanBoard.ships[key]
-    const shipBox = createShipBox(key, ship.length);
+    const shipBox = createShipBox(key, ship.length, bg, opacity, orientation);
     document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
   });
 };

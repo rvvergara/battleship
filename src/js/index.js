@@ -12,6 +12,6 @@ const game = mainGame();
 const container = document.querySelector(".container");
 const mainRow = document.querySelector(".main-row");
 
-const computerBoardGrid = createGameDisplay(game, container, mainRow);
+createGameDisplay(game, container, mainRow);
 
-generateShips(game.battleShipObjs.humanBoard);
+generateShips(game.battleShipObjs.humanBoard, "blue", '0.7', 'vertical');
