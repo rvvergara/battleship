@@ -9,13 +9,30 @@ let {
   computer
 } = game.battleShipObjs;
 
-let container = document.querySelector(".container");
+const container = document.querySelector(".container");
 
-let mainRow = document.querySelector(".main-row");
+const mainRow = document.querySelector(".main-row");
 let humanBoardGrid;
 let computerBoardGrid;
 
-let shipContainer = document.querySelector(".ship-container");
+const changeDisplayOfHitSquare = (square, board, index) => {
+  if (board.grid[index] === "X") {
+    square.style = "background-color: red";
+  } else {
+    square.insertAdjacentText("afterbegin", board.grid[index]);
+  }
+};
+
+const updateSquareDisplay = (board, turnsArr) => {
+  turnsArr.forEach(turn => {
+    const humanSquare = document.getElementById(`h-${turn}`);
+    document.querySelector(".guard-box").classList.remove("invisible");
+    setTimeout(() => {
+      changeDisplayOfHitSquare(humanSquare, board, turn);
+      document.querySelector(".guard-box").classList.add("invisible");
+    }, 2000);
+  });
+};
 
 const attackCallBack = target => {
   // Call gameTurn method
@@ -27,37 +44,10 @@ const attackCallBack = target => {
     humanBoard,
     computerBoard
   );
-
-  /*----------------------------------------*/
-  // change the target's inner html into X
-  if (computerBoard.grid[index] !== "*") {
-    // target.innerText = "X";
-    target.style = "background-color: red";
-  } else {
-    target.innerText = computerBoard.grid[index];
-  }
+  changeDisplayOfHitSquare(target, computerBoard, index);
   if (game.checkWin(computerBoard)) createEndGameDiv("Human win!");
-
-  /* -----------------------------------*/
-  // update the display in the human board based on the computer's turn
-  if (turns !== []) {
-    turns.forEach(turn => {
-      const humanSquare = document.getElementById(`h-${turn}`);
-      document.querySelector(".guard-box").classList.remove("invisible");
-      setTimeout(() => changeText(humanSquare, humanBoard, turn), 2000);
-    });
-  }
+  if (turns !== []) updateSquareDisplay(humanBoard, turns);
   if (game.checkWin(humanBoard)) createEndGameDiv("Computer win!");
-};
-
-const changeText = (humanSquare, humanBoard, turn) => {
-  if (humanBoard.grid[turn] === "X") {
-    humanSquare.style = "background-color: red;z-index: 5500";
-  } else {
-    humanSquare.insertAdjacentText("afterbegin", humanBoard.grid[turn]);
-  }
-
-  document.querySelector(".guard-box").classList.add("invisible");
 };
 
 const createGrid = (num, boardName) => {
@@ -101,7 +91,6 @@ function drop(ev) {
     );
 
     console.log(humanBoard.grid[Number(ev.target.id.substr(2))]);
-
 
     if (successfulShipRepositioning) {
       ev.target.appendChild(document.getElementById(data));
