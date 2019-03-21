@@ -1,5 +1,3 @@
-const mainRow = document.querySelector(".main-row");
-
 const changeDisplayOfHitSquare = (square, board, index) => {
   if (board.grid[index] === "X") {
     square.style = "background-color: red";
@@ -125,7 +123,7 @@ const drag = (ev) => {
 };
 
 
-const createGameDisplay = (gameObj, parent) => {
+const createGameDisplay = (gameObj, parent, mainRow) => {
   const humanBoardGrid = createGrid(10, "h", gameObj, parent);
   const computerBoardGrid = createGrid(10, "c", gameObj, parent);
   mainRow.appendChild(humanBoardGrid);
