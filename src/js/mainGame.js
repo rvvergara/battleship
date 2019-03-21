@@ -8,6 +8,13 @@ const {
 } = require("./mixins/playerMixin");
 
 const mainGame = () => {
+  const setDefaultShipsPosition = (fleetObj, boardObj, posArr) => {
+    Object.keys(fleetObj).forEach((ship, i) => {
+      const key = Number(Object.keys(posArr[i])[0]);
+      boardObj.setShipPosition(fleetObj[ship], key, posArr[i][key]);
+    });
+  };
+
   const battleShipObjs = ((Ship, GameBoard, Player) => {
     const humanFleet = Object.assign({
       cruiser1: Ship(1),
@@ -21,10 +28,8 @@ const mainGame = () => {
       destroyer1: Ship(3),
       carrier: Ship(4),
     });
-    // 2. Create two gameBoards
     const humanBoard = GameBoard(humanFleet);
     const computerBoard = GameBoard(computerFleet);
-    // 3. Create two players
     const human = Object.assign(Player(computerBoard, "receiveAttack", "hit"));
 
     const computer = Object.assign(Player(humanBoard, "receiveAttack", "hit"), {
@@ -32,7 +37,7 @@ const mainGame = () => {
       makeChoice: computerMakeChoice,
     });
 
-    const defPos = [{
+    const defaultPosition = [{
         0: "vertical"
       },
       {
@@ -45,20 +50,8 @@ const mainGame = () => {
         6: "vertical"
       },
     ];
-
-
-    const setDefaultShipsPosition = (fleetObj, boardObj, posArr) => {
-      Object.keys(fleetObj).forEach((ship, i) => {
-        const key = Number(Object.keys(posArr[i])[0]);
-        boardObj.setShipPosition(fleetObj[ship], key, posArr[i][key]);
-      });
-    };
-
-    // Position ships for human
-    setDefaultShipsPosition(humanFleet, humanBoard, defPos);
-    // Position ships for computer should be dynamic
-    setDefaultShipsPosition(computerFleet, computerBoard, defPos);
-
+    setDefaultShipsPosition(humanFleet, humanBoard, defaultPosition);
+    setDefaultShipsPosition(computerFleet, computerBoard, defaultPosition);
 
     return {
       humanBoard,
@@ -78,23 +71,21 @@ const mainGame = () => {
 
     humanPlayer.turn(index);
 
-    const turns = computerMakeChoice({
+    const computerChoices = computerMakeChoice({
       player: computerPlayer,
       ownBoard: computerBoard,
       opponentBoard: humanBoard,
       index,
     }, generateRandomNumberFromArray, choiceSanitizer);
 
-    return turns;
+    return computerChoices;
   };
 
   const checkWin = (opponentBoard) => {
     return opponentBoard.allShipsSunk('isSunk');
   };
 
-  const endGame = (humanBoard, computerBoard) => {
-    return checkWin(humanBoard) || checkWin(computerBoard);
-  };
+  const endGame = (humanBoard, computerBoard) => (checkWin(humanBoard) || checkWin(computerBoard))
 
   return {
     gameTurn,
