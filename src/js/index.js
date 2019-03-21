@@ -1,17 +1,17 @@
-import mainGame from './mainGame';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/main.css';
+
 import {
-  humanBoardGrid,
   computerBoardGrid,
-  container,
-  mainrow,
   createGameDisplay,
   guardBox,
   generateShips,
 } from './dom/domUtils';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-import '../css/main.css';
+import mainGame from './mainGame';
 
-createGameDisplay();
+const game = mainGame();
+
+createGameDisplay(game);
 guardBox(computerBoardGrid);
-generateShips();
+generateShips(game.battleShipObjs.humanBoard);

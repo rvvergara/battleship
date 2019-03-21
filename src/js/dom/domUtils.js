@@ -2,16 +2,17 @@ import mainGame from "../mainGame";
 
 let game = mainGame();
 
-let {
-  humanBoard,
-  computerBoard,
-  human,
-  computer,
-} = game.battleShipObjs;
+// let {
+//   humanBoard,
+//   computerBoard,
+//   human,
+//   computer,
+// } = game.battleShipObjs;
 
 const container = document.querySelector(".container");
 
 const mainRow = document.querySelector(".main-row");
+
 let humanBoardGrid;
 let computerBoardGrid;
 
@@ -44,36 +45,45 @@ const createEndGameDiv = statusMsg => {
   container.appendChild(endGameDiv);
 };
 
-const attackCallBack = target => {
+const attackCallBack = (target, gameObj) => {
   // Call gameTurn method
   const index = Number(target.id.substr(2));
-  const turns = game.gameTurn(
+
+  const {
+    humanBoard,
+    computerBoard,
+    human,
+    computer,
+  } = gameObj.battleShipObjs;
+
+  const turns = gameObj.gameTurn(
     index,
     human,
     computer,
     humanBoard,
     computerBoard,
   );
+
   changeDisplayOfHitSquare(target, computerBoard, index);
-  if (game.checkWin(computerBoard)) createEndGameDiv("Human win!");
+  if (gameObj.checkWin(computerBoard)) createEndGameDiv("Human win!");
   if (turns !== []) updateSquareDisplay(humanBoard, turns);
-  if (game.checkWin(humanBoard)) createEndGameDiv("Computer win!");
+  if (gameObj.checkWin(humanBoard)) createEndGameDiv("Computer win!");
 };
 
 
-const addBoxListener = box => {
+const addBoxListener = (box, gameObj) => {
   box.addEventListener(
     "click",
     e => {
       e.stopPropagation();
-      attackCallBack(e.target);
+      attackCallBack(e.target, gameObj);
     }, {
       once: true,
     },
   );
 };
 
-const drop = (ev) => {
+const drop = (ev, humanBoard) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
@@ -91,36 +101,36 @@ const allowDrop = (ev) => {
   ev.preventDefault();
 };
 
-const createSquare = (i, rowNum, boardName) => {
+const createSquare = (i, rowNum, boardName, gameObj) => {
   const box = document.createElement("div");
   box.setAttribute("class", "col box");
   if (boardName === "h") {
-    box.addEventListener("drop", e => drop(e));
+    box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard));
     box.addEventListener("dragover", e => allowDrop(e));
   }
   box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
   if (boardName === "c") {
     box.classList.add("c");
-    addBoxListener(box);
+    addBoxListener(box, gameObj);
   }
   return box;
 };
 
-const createRow = (num, rowNum, boardName) => {
+const createRow = (num, rowNum, boardName, gameObj) => {
   const row = document.createElement("div");
   row.setAttribute("class", "row");
   for (let i = 0; i < num; i += 1) {
-    const square = createSquare(i, rowNum, boardName);
+    const square = createSquare(i, rowNum, boardName, gameObj);
     row.appendChild(square);
   }
   return row;
 };
 
-const createGrid = (num, boardName) => {
+const createGrid = (num, boardName, gameObj) => {
   const grid = document.createElement("div");
   grid.setAttribute("class", `col-5 mx-3 mt-5`);
   for (let i = 0; i < num; i += 1) {
-    grid.appendChild(createRow(num, i, boardName));
+    grid.appendChild(createRow(num, i, boardName, gameObj));
   }
   return grid;
 };
@@ -128,17 +138,13 @@ const createGrid = (num, boardName) => {
 
 const drag = (ev) => {
   ev.dataTransfer.setData("text", ev.target.id);
-  ev.dataTransfer.setData(
-    "origShipPosition",
-    humanBoard.ships[ev.target.id].position,
-  );
 };
 
 
-const createGameDisplay = () => {
+const createGameDisplay = (gameObj) => {
   mainRow.setAttribute("class", "row");
-  humanBoardGrid = createGrid(10, "h");
-  computerBoardGrid = createGrid(10, "c");
+  humanBoardGrid = createGrid(10, "h", gameObj);
+  computerBoardGrid = createGrid(10, "c", gameObj);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
 };
@@ -163,7 +169,7 @@ const createShipBox = (shipTitle, ship) => {
   document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
 };
 
-const generateShips = () => {
+const generateShips = (humanBoard) => {
   Object.keys(humanBoard.ships).forEach(key => {
     createShipBox(key, humanBoard.ships[key]);
   });
@@ -201,10 +207,7 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
 
 
 export {
-  createGrid,
-  humanBoardGrid,
   computerBoardGrid,
-  container,
   createGameDisplay,
   guardBox,
   generateShips,
