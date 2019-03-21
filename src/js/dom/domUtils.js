@@ -51,6 +51,10 @@ const attackCallBack = (target, gameObj, parent) => {
   if (gameObj.endGame(humanBoard, computerBoard)) createEndGameDiv(gameObj.checkWin, computerBoard, humanBoard, parent);
 };
 
+const drag = (ev) => {
+  ev.dataTransfer.setData("text", ev.target.id);
+};
+
 const drop = (ev, humanBoard) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
@@ -69,10 +73,26 @@ const allowDrop = (ev) => {
   ev.preventDefault();
 };
 
+const rotateBox = (board, ship) => {
+  if (ship.position.length > 1) {
+    if (ship.position[1] - ship.position[0] === 10) {
+      // console.log("Ship position before rotate ", ship.position);
+
+      // console.log("Ship position after rotate ", ship.position);
+    } else {
+      console.log("Horizontal")
+    }
+  };
+
+}
+
 const addBoxFunctionalities = (boardName, box, gameObj, parent) => {
   if (boardName === "h") {
     box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard));
     box.addEventListener("dragover", e => allowDrop(e));
+    box.addEventListener("click", (e) => {
+      rotateBox(gameObj.battleShipObjs.humanBoard, gameObj.battleShipObjs.humanBoard.ships[e.target.id]);
+    });
   } else {
     box.addEventListener(
       "click",
@@ -114,10 +134,6 @@ const createGrid = (num, boardName, gameObj, parent) => {
   return grid;
 };
 
-const drag = (ev) => {
-  ev.dataTransfer.setData("text", ev.target.id);
-};
-
 const guardBox = (parent) => {
   const bigBox = document.createElement("div");
   bigBox.setAttribute(
@@ -150,10 +166,10 @@ const createShipBox = (shipTitle, shipLength, bg, opacity, orientation) => {
   return shipBox;
 };
 
-const generateShips = (humanBoard, bg, opacity, orientation) => {
+const generateShips = (humanBoard, styleObj) => {
   Object.keys(humanBoard.ships).forEach(key => {
     const ship = humanBoard.ships[key]
-    const shipBox = createShipBox(key, ship.length, bg, opacity, orientation);
+    const shipBox = createShipBox(key, ship.length, styleObj.bg, styleObj.opacity, styleObj.orientation);
     document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
   });
 };
@@ -171,7 +187,7 @@ const resetGameDisplay = (gameObj, parent, mainRow, styleObj) => {
   clearEndGameView(parent);
   mainRow.innerHTML = "";
   createGameDisplay(gameObj, parent, mainRow);
-  generateShips(gameObj.battleShipObjs.humanBoard, styleObj.bg, styleObj.opacity, styleObj.orientation);
+  generateShips(gameObj.battleShipObjs.humanBoard, styleObj);
 };
 
 

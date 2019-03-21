@@ -41,13 +41,13 @@ const mainGame = () => {
         0: "vertical"
       },
       {
-        2: "vertical"
+        2: "horizontal"
       },
       {
         4: "vertical"
       },
       {
-        6: "vertical"
+        40: "vertical"
       },
     ];
     setDefaultShipsPosition(humanFleet, humanBoard, defaultPosition);

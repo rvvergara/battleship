@@ -17,12 +17,12 @@ const mainRow = document.querySelector(".main-row");
 const styleObj = {
   bg: "blue",
   opacity: "0.7",
-  position: "vertical",
-}
+  orientation: "vertical",
+};
 
 createGameDisplay(game, container, mainRow);
 
-generateShips(game.battleShipObjs.humanBoard, "blue", '0.7', 'vertical');
+generateShips(game.battleShipObjs.humanBoard, styleObj);
 
 document.getElementsByTagName("button")[0].addEventListener('click', () => {
   game = mainGame();
