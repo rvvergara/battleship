@@ -88,7 +88,8 @@ const addBoxFunctionalities = (boardName, box, gameObj, parent) => {
 
 const createSquare = (i, rowNum, boardName, gameObj, parent) => {
   const box = document.createElement("div");
-  box.setAttribute("class", "col box");
+  const className = boardName === 'c' ? "col box box-c" : "col box";
+  box.setAttribute("class", className);
   box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
   addBoxFunctionalities(boardName, box, gameObj, parent);
   return box;
