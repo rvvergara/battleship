@@ -88,22 +88,27 @@ const drop = (ev) => {
 }
 //= ==================================
 
+const createSquare = (i, rowNum, boardName) => {
+  const box = document.createElement("div");
+  box.setAttribute("class", "col box");
+  if (boardName === "h") {
+    box.addEventListener("drop", e => drop(e));
+    box.addEventListener("dragover", e => allowDrop(e));
+  }
+  box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
+  if (boardName === "c") {
+    box.classList.add("c");
+    addBoxListener(box);
+  }
+  return box;
+};
+
 const createRow = (num, rowNum, boardName) => {
   const row = document.createElement("div");
   row.setAttribute("class", "row");
   for (let i = 0; i < num; i += 1) {
-    const box = document.createElement("div");
-    box.setAttribute("class", "col box");
-    if (boardName === "h") {
-      box.addEventListener("drop", e => drop(e));
-      box.addEventListener("dragover", e => allowDrop(e));
-    }
-    box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
-    if (boardName === "c") {
-      box.classList.add("c");
-      addBoxListener(box);
-    }
-    row.appendChild(box);
+    const square = createSquare(i, rowNum, boardName);
+    row.appendChild(square);
   }
   return row;
 };
@@ -120,7 +125,7 @@ const addBoxListener = box => {
   );
 };
 
-const createGameEnv = () => {
+const createGameDisplay = () => {
   mainRow.setAttribute("class", "row");
   humanBoardGrid = createGrid(10, "h");
   computerBoardGrid = createGrid(10, "c");
@@ -128,7 +133,7 @@ const createGameEnv = () => {
   mainRow.appendChild(computerBoardGrid);
 };
 
-createGameEnv();
+createGameDisplay();
 
 const guardBox = parent => {
   const bigBox = document.createElement("div");
@@ -200,5 +205,5 @@ export {
   humanBoardGrid,
   computerBoardGrid,
   container,
-  createGameEnv,
+  createGameDisplay,
 };
