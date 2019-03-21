@@ -2,7 +2,12 @@ import mainGame from "../mainGame";
 
 let game = mainGame();
 
-let { humanBoard, computerBoard, human, computer } = game.battleShipObjs;
+let {
+  humanBoard,
+  computerBoard,
+  human,
+  computer
+} = game.battleShipObjs;
 
 let container = document.querySelector(".container");
 
@@ -100,9 +105,6 @@ function drop(ev) {
 
     if (successfulShipRepositioning) {
       ev.target.appendChild(document.getElementById(data));
-      humanBoard.ships[data].position.forEach(id => {
-        humanBoard.grid[id] = undefined;
-      });
     }
   }
 }
@@ -134,8 +136,7 @@ const addBoxListener = box => {
     e => {
       e.stopPropagation();
       attackCallBack(e.target);
-    },
-    {
+    }, {
       once: true
     }
   );
@@ -176,7 +177,12 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
   //1. Create a new game
   game = mainGame();
   // 2. Generate new pieces for the game
-  ({ humanBoard, computerBoard, human, computer } = game.battleShipObjs);
+  ({
+    humanBoard,
+    computerBoard,
+    human,
+    computer
+  } = game.battleShipObjs);
   mainRow.innerHTML = "";
   createGameEnv();
   guardBox(computerBoardGrid);
@@ -184,12 +190,12 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
   // Remove endGame div
   if (document.querySelector("p"))
     document
-      .querySelector(".container")
-      .removeChild(document.querySelector("p"));
+    .querySelector(".container")
+    .removeChild(document.querySelector("p"));
   if (document.querySelector(".end-game"))
     document
-      .querySelector(".container")
-      .removeChild(document.querySelector(".end-game"));
+    .querySelector(".container")
+    .removeChild(document.querySelector(".end-game"));
 });
 
 const createShipBox = (shipTitle, ship) => {
