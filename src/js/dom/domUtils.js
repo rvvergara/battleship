@@ -1,27 +1,27 @@
-import mainGame from '../mainGame';
+import mainGame from "../mainGame";
 
 let game = mainGame();
 
-let {
-  humanBoard,
-  computerBoard,
-  human,
-  computer,
-} = game.battleShipObjs;
+let { humanBoard, computerBoard, human, computer } = game.battleShipObjs;
 
-let container = document.querySelector('.container');
+let container = document.querySelector(".container");
 
-let mainRow = document.querySelector('.main-row');
+let mainRow = document.querySelector(".main-row");
 let humanBoardGrid;
 let computerBoardGrid;
 
-let shipContainer = document.querySelector('.ship-container');
+let shipContainer = document.querySelector(".ship-container");
 
-
-const attackCallBack = (target) => {
+const attackCallBack = target => {
   // Call gameTurn method
   const index = Number(target.id.substr(2));
-  const turns = game.gameTurn(index, human, computer, humanBoard, computerBoard);
+  const turns = game.gameTurn(
+    index,
+    human,
+    computer,
+    humanBoard,
+    computerBoard
+  );
 
   /*----------------------------------------*/
   // change the target's inner html into X
@@ -36,10 +36,9 @@ const attackCallBack = (target) => {
   /* -----------------------------------*/
   // update the display in the human board based on the computer's turn
   if (turns !== []) {
-
-    turns.forEach((turn) => {
+    turns.forEach(turn => {
       const humanSquare = document.getElementById(`h-${turn}`);
-      document.querySelector('.guard-box').classList.remove('invisible');
+      document.querySelector(".guard-box").classList.remove("invisible");
       setTimeout(() => changeText(humanSquare, humanBoard, turn), 2000);
     });
   }
@@ -47,18 +46,18 @@ const attackCallBack = (target) => {
 };
 
 const changeText = (humanSquare, humanBoard, turn) => {
-  if (humanBoard.grid[turn] === 'X') {
+  if (humanBoard.grid[turn] === "X") {
     humanSquare.style = "background-color: red;z-index: 5500";
   } else {
     humanSquare.insertAdjacentText("afterbegin", humanBoard.grid[turn]);
   }
 
-  document.querySelector('.guard-box').classList.add('invisible');
+  document.querySelector(".guard-box").classList.add("invisible");
 };
 
 const createGrid = (num, boardName) => {
-  const grid = document.createElement('div');
-  grid.setAttribute('class', `col-5 mx-3 mt-5`);
+  const grid = document.createElement("div");
+  grid.setAttribute("class", `col-5 mx-3 mt-5`);
 
   for (let i = 0; i < num; i++) {
     grid.appendChild(createRow(num, i, boardName));
@@ -75,56 +74,53 @@ function allowDrop(ev) {
 
 function drag(ev) {
   ev.dataTransfer.setData("text", ev.target.id);
-  ev.dataTransfer.setData("origShipPosition", humanBoard.ships[ev.target.id].position);
-
+  ev.dataTransfer.setData(
+    "origShipPosition",
+    humanBoard.ships[ev.target.id].position
+  );
 }
 
 function drop(ev) {
   ev.preventDefault();
-  const origPos = ev.dataTransfer.getData("origShipPosition").split(',').map(x => Number(x));
-  // console.log(origPos);
+  const origPos = ev.dataTransfer
+    .getData("origShipPosition")
+    .split(",")
+    .map(x => Number(x));
 
   const data = ev.dataTransfer.getData("text");
   if (!isNaN(Number(ev.target.id.substr(2)))) {
-    humanBoard.ships[data].position = origPos;
-    humanBoard.setShipPosition(humanBoard.ships[data], Number(ev.target.id.substr(2)), 'vertical');
+    const successfulShipRepositioning = humanBoard.setShipPosition(
+      humanBoard.ships[data],
+      Number(ev.target.id.substr(2)),
+      "vertical"
+    );
 
-    if (origPos === humanBoard.ships[data].position) {
+    console.log(origPos);
+    console.log(humanBoard.ships[data].position);
+
+    if (successfulShipRepositioning) {
       ev.target.appendChild(document.getElementById(data));
-      humanBoard.ships[data].position.forEach((id) => {
+      humanBoard.ships[data].position.forEach(id => {
         humanBoard.grid[id] = undefined;
       });
-      console.log("In if: ", humanBoard.ships[data].position);
-
-    } else {
-      humanBoard.ships[data].position = origPos;
-      console.log(humanBoard.ships[data].position);
     }
-
-
-
-    // humanBoard.setShipPosition(humanBoard.ships[data], Number(ev.target.id.substr(2)), 'vertical');
   }
-
-
-
 }
 //===================================
 
-
 const createRow = (num, rowNum, boardName) => {
-  const row = document.createElement('div');
-  row.setAttribute('class', 'row');
+  const row = document.createElement("div");
+  row.setAttribute("class", "row");
   for (let i = 0; i < num; i++) {
-    const box = document.createElement('div');
-    box.setAttribute('class', 'col box');
-    if (boardName === 'h') {
-      box.addEventListener('drop', e => drop(e));
-      box.addEventListener('dragover', e => allowDrop(e));
+    const box = document.createElement("div");
+    box.setAttribute("class", "col box");
+    if (boardName === "h") {
+      box.addEventListener("drop", e => drop(e));
+      box.addEventListener("dragover", e => allowDrop(e));
     }
-    box.setAttribute('id', `${boardName}-${((rowNum * 10) + i)}`);
-    if (boardName === 'c') {
-      box.classList.add('c');
+    box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
+    if (boardName === "c") {
+      box.classList.add("c");
       addBoxListener(box);
     }
     row.appendChild(box);
@@ -132,39 +128,45 @@ const createRow = (num, rowNum, boardName) => {
   return row;
 };
 
-const addBoxListener = (box) => {
-  box.addEventListener('click', (e) => {
-    e.stopPropagation();
-    attackCallBack(e.target);
-  }, {
-    once: true,
-  });
+const addBoxListener = box => {
+  box.addEventListener(
+    "click",
+    e => {
+      e.stopPropagation();
+      attackCallBack(e.target);
+    },
+    {
+      once: true
+    }
+  );
 };
 
-
 const createGameEnv = () => {
-  mainRow.setAttribute('class', 'row');
-  humanBoardGrid = createGrid(10, 'h');
-  computerBoardGrid = createGrid(10, 'c');
+  mainRow.setAttribute("class", "row");
+  humanBoardGrid = createGrid(10, "h");
+  computerBoardGrid = createGrid(10, "c");
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
-}
+};
 
 createGameEnv();
 
-const guardBox = (parent) => {
-  const bigBox = document.createElement('div');
-  bigBox.setAttribute('class', 'bg-secondary position-absolute guard-box invisible');
+const guardBox = parent => {
+  const bigBox = document.createElement("div");
+  bigBox.setAttribute(
+    "class",
+    "bg-secondary position-absolute guard-box invisible"
+  );
   parent.appendChild(bigBox);
 };
 
 guardBox(computerBoardGrid);
 
-const createEndGameDiv = (statusMsg) => {
-  const endGameDiv = document.createElement('div');
-  endGameDiv.setAttribute('class', 'position-absolute end-game');
-  const msg = document.createElement('p');
-  msg.setAttribute('class', 'position-absolute  end-game-msg');
+const createEndGameDiv = statusMsg => {
+  const endGameDiv = document.createElement("div");
+  endGameDiv.setAttribute("class", "position-absolute end-game");
+  const msg = document.createElement("p");
+  msg.setAttribute("class", "position-absolute  end-game-msg");
   msg.innerText = statusMsg;
   container.appendChild(msg);
   container.appendChild(endGameDiv);
@@ -174,29 +176,29 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
   //1. Create a new game
   game = mainGame();
   // 2. Generate new pieces for the game
-  ({
-    humanBoard,
-    computerBoard,
-    human,
-    computer,
-  } = game.battleShipObjs);
+  ({ humanBoard, computerBoard, human, computer } = game.battleShipObjs);
   mainRow.innerHTML = "";
   createGameEnv();
   guardBox(computerBoardGrid);
 
   // Remove endGame div
-  if (document.querySelector('p')) document.querySelector('.container').removeChild(document.querySelector('p'));
-  if (document.querySelector('.end-game')) document.querySelector('.container').removeChild(document.querySelector('.end-game'));
+  if (document.querySelector("p"))
+    document
+      .querySelector(".container")
+      .removeChild(document.querySelector("p"));
+  if (document.querySelector(".end-game"))
+    document
+      .querySelector(".container")
+      .removeChild(document.querySelector(".end-game"));
 });
 
-
-
 const createShipBox = (shipTitle, ship) => {
-  const shipBox = document.createElement('div');
-  shipBox.setAttribute('id', shipTitle);
-  shipBox.setAttribute('draggable', 'true');
-  shipBox.style = `width: 100%; height: ${ship.length*100 + 15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 5000`;
-  shipBox.addEventListener('dragstart', e => drag(e));
+  const shipBox = document.createElement("div");
+  shipBox.setAttribute("id", shipTitle);
+  shipBox.setAttribute("draggable", "true");
+  shipBox.style = `width: 100%; height: ${ship.length * 100 +
+    15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 5000`;
+  shipBox.addEventListener("dragstart", e => drag(e));
   document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
 };
 
@@ -207,11 +209,10 @@ function generateShips() {
 }
 generateShips();
 
-
 export {
   createGrid,
   humanBoardGrid,
   computerBoardGrid,
   container,
-  createGameEnv,
+  createGameEnv
 };
