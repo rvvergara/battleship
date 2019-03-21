@@ -45,21 +45,20 @@ const mainGame = () => {
         6: "vertical"
       },
     ];
-    // []
 
 
+    const setDefaultShipsPosition = (fleetObj, boardObj, posArr) => {
+      Object.keys(fleetObj).forEach((ship, i) => {
+        const key = Number(Object.keys(posArr[i])[0]);
+        boardObj.setShipPosition(fleetObj[ship], key, posArr[i][key]);
+      });
+    };
 
     // Position ships for human
-    Object.keys(humanFleet).forEach((ship, i) => {
-      const key = Number(Object.keys(defPos[i])[0]);
-      humanBoard.setShipPosition(humanFleet[ship], key, defPos[i][key]);
-    });
-
+    setDefaultShipsPosition(humanFleet, humanBoard, defPos);
     // Position ships for computer should be dynamic
-    Object.keys(computerFleet).forEach((ship, i) => {
-      const key = Number(Object.keys(defPos[i])[0]);
-      computerBoard.setShipPosition(computerFleet[ship], key, defPos[i][key]);
-    });
+    setDefaultShipsPosition(computerFleet, computerBoard, defPos);
+
 
     return {
       humanBoard,
