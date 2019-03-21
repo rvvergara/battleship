@@ -157,36 +157,25 @@ const generateShips = (humanBoard, bg, opacity, orientation) => {
   });
 };
 
+const clearEndGameView = (parent) => {
+  const statusMsgPTag = document.querySelector("p");
+  const endGameDiv = document.querySelector(".end-game");
+  if (statusMsgPTag && endGameDiv) {
+    parent.removeChild(statusMsgPTag);
+    parent.removeChild(endGameDiv);
+  }
+};
 
-document.getElementsByTagName("button")[0].addEventListener("click", () => {
-  // 1. Create a new game
-  game = mainGame();
-  // 2. Generate new pieces for the game
-  ({
-    humanBoard,
-    computerBoard,
-    human,
-    computer,
-  } = game.battleShipObjs);
+const resetGameDisplay = (gameObj, parent, mainRow, styleObj) => {
+  clearEndGameView(parent);
   mainRow.innerHTML = "";
-  createGameDisplay();
-  guardBox(computerBoardGrid);
-  generateShips();
+  createGameDisplay(gameObj, parent, mainRow);
+  generateShips(gameObj.battleShipObjs.humanBoard, styleObj.bg, styleObj.opacity, styleObj.orientation);
+};
 
-  // Remove endGame div
-  if (document.querySelector("p")) {
-    document
-      .querySelector(".container")
-      .removeChild(document.querySelector("p"));
-  }
-  if (document.querySelector(".end-game")) {
-    document
-      .querySelector(".container")
-      .removeChild(document.querySelector(".end-game"));
-  }
-});
 
 export {
   createGameDisplay,
   generateShips,
+  resetGameDisplay,
 };

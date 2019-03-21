@@ -57,7 +57,7 @@
 
 button {
   position: absolute;
-  z-index: 5000;
+  z-index: 10000;
 }
 
 .ship-box {
