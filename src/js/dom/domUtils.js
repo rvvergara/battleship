@@ -166,8 +166,9 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
     computer,
   } = game.battleShipObjs);
   mainRow.innerHTML = "";
-  createGameEnv();
+  createGameDisplay();
   guardBox(computerBoardGrid);
+  generateShips();
 
   // Remove endGame div
   if (document.querySelector("p")) {
