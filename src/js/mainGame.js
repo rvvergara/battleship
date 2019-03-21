@@ -69,8 +69,6 @@ const mainGame = () => {
       index,
     }, generateRandomNumberFromArray, choiceSanitizer);
 
-    if (checkWin(humanBoard) || checkWin(computerBoard)) endGame();
-
     return turns;
   };
 
@@ -78,14 +76,15 @@ const mainGame = () => {
     return opponentBoard.allShipsSunk('isSunk');
   };
 
-  const endGame = () => {
-    console.log("Game Over!!!");
+  const endGame = (humanBoard, computerBoard) => {
+    return checkWin(humanBoard) || checkWin(computerBoard);
   };
 
   return {
     gameTurn,
     battleShipObjs,
     checkWin,
+    endGame,
   };
 };
 

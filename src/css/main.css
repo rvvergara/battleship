@@ -36,7 +36,7 @@
 .end-game {
   width: 100%;
   height: 100%;
-  z-index: 2000;
+  z-index: 6000;
   top: 0;
   left: 0;
   background-color: #ecf0f1;
@@ -51,7 +51,7 @@
   top: 0;
   left: 0;
   padding: 20px;
-  z-index: 2100;
+  z-index: 6500;
   margin: 11.5rem 0;
 }
 

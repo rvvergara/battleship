@@ -48,7 +48,7 @@ const attackCallBack = (target, gameObj, parent) => {
   );
   changeDisplayOfHitSquare(target, computerBoard, index);
   if (turns !== []) updateSquareDisplay(humanBoard, turns);
-  if (gameObj.checkWin(computerBoard) || gameObj.checkWin(humanBoard)) createEndGameDiv(gameObj.checkWin, computerBoard, humanBoard, parent);
+  if (gameObj.endGame(humanBoard, computerBoard)) createEndGameDiv(gameObj.checkWin, computerBoard, humanBoard, parent);
 };
 
 const drop = (ev, humanBoard) => {
