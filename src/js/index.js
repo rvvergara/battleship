@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/main.css';
 
 import {
-  computerBoardGrid,
   createGameDisplay,
   guardBox,
   generateShips,
@@ -12,6 +11,7 @@ import mainGame from './mainGame';
 
 const game = mainGame();
 
-createGameDisplay(game);
+const computerBoardGrid = createGameDisplay(game);
+
 guardBox(computerBoardGrid);
 generateShips(game.battleShipObjs.humanBoard);

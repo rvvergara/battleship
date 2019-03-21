@@ -2,8 +2,8 @@ const container = document.querySelector(".container");
 
 const mainRow = document.querySelector(".main-row");
 
-let humanBoardGrid;
-let computerBoardGrid;
+// let humanBoardGrid;
+// let computerBoardGrid;
 
 const changeDisplayOfHitSquare = (square, board, index) => {
   if (board.grid[index] === "X") {
@@ -132,10 +132,12 @@ const drag = (ev) => {
 
 const createGameDisplay = (gameObj) => {
   mainRow.setAttribute("class", "row");
-  humanBoardGrid = createGrid(10, "h", gameObj);
-  computerBoardGrid = createGrid(10, "c", gameObj);
+  const humanBoardGrid = createGrid(10, "h", gameObj);
+  const computerBoardGrid = createGrid(10, "c", gameObj);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
+
+  return computerBoardGrid;
 };
 
 
@@ -196,7 +198,7 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
 
 
 export {
-  computerBoardGrid,
+  // computerBoardGrid,
   createGameDisplay,
   guardBox,
   generateShips,
