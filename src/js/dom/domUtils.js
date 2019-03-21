@@ -100,8 +100,8 @@ function drop(ev) {
       "vertical"
     );
 
-    console.log(origPos);
-    console.log(humanBoard.ships[data].position);
+    console.log(humanBoard.grid[Number(ev.target.id.substr(2))]);
+
 
     if (successfulShipRepositioning) {
       ev.target.appendChild(document.getElementById(data));

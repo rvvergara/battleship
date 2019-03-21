@@ -3,18 +3,20 @@ const GameBoard = ships => ({
   ships,
   setShipPosition(ship, index, orientation) {
     const limit =
-      orientation === "horizontal"
-        ? index + ship.length
-        : index + 10 * ship.length;
+      orientation === "horizontal" ?
+      index + ship.length :
+      index + 10 * ship.length;
     ship.position = ship.position || [];
     const origShipPosition = [...ship.position];
     ship.position = [];
     const origBoardGrid = [...this.grid];
 
-    for (let i = index; i < limit; ) {
+    for (let i = index, j = 0; i < limit;) {
       if (this.grid[i] === undefined) {
         ship.position.push(i);
         this.grid[i] = i;
+        this.grid[origShipPosition[j]] = undefined;
+        j += 1;
         orientation === "horizontal" ? (i += 1) : (i += 10);
       } else {
         this.grid = origBoardGrid;
