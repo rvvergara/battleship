@@ -76,9 +76,12 @@ const allowDrop = (ev) => {
 const rotateBox = (board, ship) => {
   if (ship.position.length > 1) {
     if (ship.position[1] - ship.position[0] === 10) {
-      // console.log("Ship position before rotate ", ship.position);
-
-      // console.log("Ship position after rotate ", ship.position);
+      console.log("Ship position before rotate ", ship.position);
+      ship.position.forEach(id => {
+        board.grid[id] = undefined;
+      });
+      board.setShipPosition(ship, ship.position[0], 'horizontal');
+      console.log("Ship position after rotate ", ship.position);
     } else {
       console.log("Horizontal")
     }
