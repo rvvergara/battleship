@@ -32,17 +32,34 @@ const mainGame = () => {
       makeChoice: computerMakeChoice,
     });
 
-    // Position ships for human
-    humanBoard.setShipPosition(humanFleet.cruiser1, 0, "vertical");
-    humanBoard.setShipPosition(humanFleet.frigate1, 2, "vertical");
-    humanBoard.setShipPosition(humanFleet.destroyer1, 4, "vertical");
-    humanBoard.setShipPosition(humanFleet.carrier, 6, "vertical");
+    const defPos = [{
+        0: "vertical"
+      },
+      {
+        2: "vertical"
+      },
+      {
+        4: "vertical"
+      },
+      {
+        6: "vertical"
+      },
+    ];
+    // []
 
-    // Position ships for computer
-    computerBoard.setShipPosition(computerFleet.cruiser1, 0, "vertical");
-    computerBoard.setShipPosition(computerFleet.frigate1, 2, "vertical");
-    computerBoard.setShipPosition(computerFleet.destroyer1, 4, "vertical");
-    computerBoard.setShipPosition(computerFleet.carrier, 6, "vertical");
+
+
+    // Position ships for human
+    Object.keys(humanFleet).forEach((ship, i) => {
+      const key = Number(Object.keys(defPos[i])[0]);
+      humanBoard.setShipPosition(humanFleet[ship], key, defPos[i][key]);
+    });
+
+    // Position ships for computer should be dynamic
+    Object.keys(computerFleet).forEach((ship, i) => {
+      const key = Number(Object.keys(defPos[i])[0]);
+      computerBoard.setShipPosition(computerFleet[ship], key, defPos[i][key]);
+    });
 
     return {
       humanBoard,
@@ -59,9 +76,9 @@ const mainGame = () => {
     humanBoard,
     computerBoard,
   ) => {
-    // humanPlayer turn(index) gets called
+
     humanPlayer.turn(index);
-    // Computer choices
+
     const turns = computerMakeChoice({
       player: computerPlayer,
       ownBoard: computerBoard,
