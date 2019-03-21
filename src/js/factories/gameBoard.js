@@ -2,10 +2,8 @@ const GameBoard = ships => ({
   grid: new Array(100),
   ships,
   setShipPosition(ship, index, orientation) {
-    const limit =
-      orientation === "horizontal" ?
-      index + ship.length :
-      index + 10 * ship.length;
+    const limit = orientation === "horizontal" ? index + ship.length : index + 10 * ship.length;
+
     ship.position = ship.position || [];
     const origShipPosition = [...ship.position];
     ship.position = [];
@@ -17,14 +15,15 @@ const GameBoard = ships => ({
         this.grid[i] = i;
         this.grid[origShipPosition[j]] = undefined;
         j += 1;
-        orientation === "horizontal" ? (i += 1) : (i += 10);
+        const increment = orientation === "horizontal" ? 1 : 10;
+        if (i === limit - increment) return true;
+        i += increment;
       } else {
         this.grid = origBoardGrid;
         ship.position = origShipPosition;
         return false;
       }
     }
-    return true;
   },
   receiveAttack(index, method) {
     // Determine if the index in grid is occupied
