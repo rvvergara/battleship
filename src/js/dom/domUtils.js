@@ -61,11 +61,11 @@ const createGrid = (num, boardName) => {
 
 //= ==================================
 // Dragging related fns
-function allowDrop(ev) {
+const allowDrop = (ev) => {
   ev.preventDefault();
 }
 
-function drag(ev) {
+const drag = (ev) => {
   ev.dataTransfer.setData("text", ev.target.id);
   ev.dataTransfer.setData(
     "origShipPosition",
