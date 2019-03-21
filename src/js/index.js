@@ -10,8 +10,9 @@ import {
 import mainGame from './mainGame';
 
 const game = mainGame();
+const container = document.querySelector(".container");
 
-const computerBoardGrid = createGameDisplay(game);
+const computerBoardGrid = createGameDisplay(game, container);
 
 guardBox(computerBoardGrid);
 generateShips(game.battleShipObjs.humanBoard);

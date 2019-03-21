@@ -1,9 +1,4 @@
-const container = document.querySelector(".container");
-
 const mainRow = document.querySelector(".main-row");
-
-// let humanBoardGrid;
-// let computerBoardGrid;
 
 const changeDisplayOfHitSquare = (square, board, index) => {
   if (board.grid[index] === "X") {
@@ -24,17 +19,17 @@ const updateSquareDisplay = (board, turnsArr) => {
   });
 };
 
-const createEndGameDiv = statusMsg => {
+const createEndGameDiv = (statusMsg, parent) => {
   const endGameDiv = document.createElement("div");
   endGameDiv.setAttribute("class", "position-absolute end-game");
   const msg = document.createElement("p");
   msg.setAttribute("class", "position-absolute  end-game-msg");
   msg.innerText = statusMsg;
-  container.appendChild(msg);
-  container.appendChild(endGameDiv);
+  parent.appendChild(msg);
+  parent.appendChild(endGameDiv);
 };
 
-const attackCallBack = (target, gameObj) => {
+const attackCallBack = (target, gameObj, parent) => {
   // Call gameTurn method
   const index = Number(target.id.substr(2));
 
@@ -54,18 +49,18 @@ const attackCallBack = (target, gameObj) => {
   );
 
   changeDisplayOfHitSquare(target, computerBoard, index);
-  if (gameObj.checkWin(computerBoard)) createEndGameDiv("Human win!");
+  if (gameObj.checkWin(computerBoard)) createEndGameDiv("Human win!", parent);
   if (turns !== []) updateSquareDisplay(humanBoard, turns);
-  if (gameObj.checkWin(humanBoard)) createEndGameDiv("Computer win!");
+  if (gameObj.checkWin(humanBoard)) createEndGameDiv("Computer win!", parent);
 };
 
 
-const addBoxListener = (box, gameObj) => {
+const addBoxListener = (box, gameObj, parent) => {
   box.addEventListener(
     "click",
     e => {
       e.stopPropagation();
-      attackCallBack(e.target, gameObj);
+      attackCallBack(e.target, gameObj, parent);
     }, {
       once: true,
     },
@@ -90,7 +85,7 @@ const allowDrop = (ev) => {
   ev.preventDefault();
 };
 
-const createSquare = (i, rowNum, boardName, gameObj) => {
+const createSquare = (i, rowNum, boardName, gameObj, parent) => {
   const box = document.createElement("div");
   box.setAttribute("class", "col box");
   if (boardName === "h") {
@@ -100,26 +95,26 @@ const createSquare = (i, rowNum, boardName, gameObj) => {
   box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
   if (boardName === "c") {
     box.classList.add("c");
-    addBoxListener(box, gameObj);
+    addBoxListener(box, gameObj, parent);
   }
   return box;
 };
 
-const createRow = (num, rowNum, boardName, gameObj) => {
+const createRow = (num, rowNum, boardName, gameObj, parent) => {
   const row = document.createElement("div");
   row.setAttribute("class", "row");
   for (let i = 0; i < num; i += 1) {
-    const square = createSquare(i, rowNum, boardName, gameObj);
+    const square = createSquare(i, rowNum, boardName, gameObj, parent);
     row.appendChild(square);
   }
   return row;
 };
 
-const createGrid = (num, boardName, gameObj) => {
+const createGrid = (num, boardName, gameObj, parent) => {
   const grid = document.createElement("div");
   grid.setAttribute("class", `col-5 mx-3 mt-5`);
   for (let i = 0; i < num; i += 1) {
-    grid.appendChild(createRow(num, i, boardName, gameObj));
+    grid.appendChild(createRow(num, i, boardName, gameObj, parent));
   }
   return grid;
 };
@@ -130,13 +125,11 @@ const drag = (ev) => {
 };
 
 
-const createGameDisplay = (gameObj) => {
-  mainRow.setAttribute("class", "row");
-  const humanBoardGrid = createGrid(10, "h", gameObj);
-  const computerBoardGrid = createGrid(10, "c", gameObj);
+const createGameDisplay = (gameObj, parent) => {
+  const humanBoardGrid = createGrid(10, "h", gameObj, parent);
+  const computerBoardGrid = createGrid(10, "c", gameObj, parent);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
-
   return computerBoardGrid;
 };
 
