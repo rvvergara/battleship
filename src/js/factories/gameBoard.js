@@ -16,7 +16,6 @@ const GameBoard = ships => ({
         this.grid[origShipPosition[j]] = undefined;
         j += 1;
         const increment = orientation === "horizontal" ? 1 : 10;
-        if (i === limit - increment) return true;
         i += increment;
       } else {
         this.grid = origBoardGrid;
@@ -24,6 +23,7 @@ const GameBoard = ships => ({
         return false;
       }
     }
+    return true;
   },
   receiveAttack(index, method) {
     // Determine if the index in grid is occupied
