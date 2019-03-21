@@ -133,9 +133,9 @@ const createGameDisplay = () => {
   mainRow.appendChild(computerBoardGrid);
 };
 
-createGameDisplay();
 
-const guardBox = parent => {
+
+const guardBox = (parent) => {
   const bigBox = document.createElement("div");
   bigBox.setAttribute(
     "class",
@@ -144,7 +144,6 @@ const guardBox = parent => {
   parent.appendChild(bigBox);
 };
 
-guardBox(computerBoardGrid);
 
 const createEndGameDiv = statusMsg => {
   const endGameDiv = document.createElement("div");
@@ -193,12 +192,11 @@ const createShipBox = (shipTitle, ship) => {
   document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
 };
 
-function generateShips() {
+const generateShips = () => {
   Object.keys(humanBoard.ships).forEach(key => {
     createShipBox(key, humanBoard.ships[key]);
   });
 }
-generateShips();
 
 export {
   createGrid,
@@ -206,4 +204,6 @@ export {
   computerBoardGrid,
   container,
   createGameDisplay,
+  guardBox,
+  generateShips,
 };
