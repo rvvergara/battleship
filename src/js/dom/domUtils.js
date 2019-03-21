@@ -17,7 +17,11 @@ const updateSquareDisplay = (board, turnsArr) => {
   });
 };
 
-const createEndGameDiv = (statusMsg, parent) => {
+const createEndGameDiv = (checkWinFn, computerBoard, humanBoard, parent) => {
+  let statusMsg;
+  if (checkWinFn(computerBoard)) statusMsg = "You win!";
+  else if (checkWinFn(humanBoard)) statusMsg = "Computer wins!";
+
   const endGameDiv = document.createElement("div");
   endGameDiv.setAttribute("class", "position-absolute end-game");
   const msg = document.createElement("p");
@@ -28,16 +32,13 @@ const createEndGameDiv = (statusMsg, parent) => {
 };
 
 const attackCallBack = (target, gameObj, parent) => {
-  // Call gameTurn method
   const index = Number(target.id.substr(2));
-
   const {
     humanBoard,
     computerBoard,
     human,
     computer,
   } = gameObj.battleShipObjs;
-
   const turns = gameObj.gameTurn(
     index,
     human,
@@ -45,24 +46,9 @@ const attackCallBack = (target, gameObj, parent) => {
     humanBoard,
     computerBoard,
   );
-
   changeDisplayOfHitSquare(target, computerBoard, index);
-  if (gameObj.checkWin(computerBoard)) createEndGameDiv("Human win!", parent);
   if (turns !== []) updateSquareDisplay(humanBoard, turns);
-  if (gameObj.checkWin(humanBoard)) createEndGameDiv("Computer win!", parent);
-};
-
-
-const addBoxListener = (box, gameObj, parent) => {
-  box.addEventListener(
-    "click",
-    e => {
-      e.stopPropagation();
-      attackCallBack(e.target, gameObj, parent);
-    }, {
-      once: true,
-    },
-  );
+  if (gameObj.checkWin(computerBoard) || gameObj.checkWin(humanBoard)) createEndGameDiv(gameObj.checkWin, computerBoard, humanBoard, parent);
 };
 
 const drop = (ev, humanBoard) => {
@@ -83,18 +69,28 @@ const allowDrop = (ev) => {
   ev.preventDefault();
 };
 
-const createSquare = (i, rowNum, boardName, gameObj, parent) => {
-  const box = document.createElement("div");
-  box.setAttribute("class", "col box");
+const addBoxFunctionalities = (boardName, box, gameObj, parent) => {
   if (boardName === "h") {
     box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard));
     box.addEventListener("dragover", e => allowDrop(e));
+  } else {
+    box.addEventListener(
+      "click",
+      e => {
+        e.stopPropagation();
+        attackCallBack(e.target, gameObj, parent);
+      }, {
+        once: true,
+      },
+    );
   }
+};
+
+const createSquare = (i, rowNum, boardName, gameObj, parent) => {
+  const box = document.createElement("div");
+  box.setAttribute("class", "col box");
   box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
-  if (boardName === "c") {
-    box.classList.add("c");
-    addBoxListener(box, gameObj, parent);
-  }
+  addBoxFunctionalities(boardName, box, gameObj, parent);
   return box;
 };
 
@@ -117,20 +113,9 @@ const createGrid = (num, boardName, gameObj, parent) => {
   return grid;
 };
 
-
 const drag = (ev) => {
   ev.dataTransfer.setData("text", ev.target.id);
 };
-
-
-const createGameDisplay = (gameObj, parent, mainRow) => {
-  const humanBoardGrid = createGrid(10, "h", gameObj, parent);
-  const computerBoardGrid = createGrid(10, "c", gameObj, parent);
-  mainRow.appendChild(humanBoardGrid);
-  mainRow.appendChild(computerBoardGrid);
-  return computerBoardGrid;
-};
-
 
 const guardBox = (parent) => {
   const bigBox = document.createElement("div");
@@ -141,19 +126,29 @@ const guardBox = (parent) => {
   parent.appendChild(bigBox);
 };
 
-const createShipBox = (shipTitle, ship) => {
+const createGameDisplay = (gameObj, parent, mainRow) => {
+  const humanBoardGrid = createGrid(10, "h", gameObj, parent);
+  const computerBoardGrid = createGrid(10, "c", gameObj, parent);
+  mainRow.appendChild(humanBoardGrid);
+  mainRow.appendChild(computerBoardGrid);
+  guardBox(computerBoardGrid);
+};
+
+const createShipBox = (shipTitle, shipLength) => {
   const shipBox = document.createElement("div");
   shipBox.setAttribute("id", shipTitle);
   shipBox.setAttribute("draggable", "true");
-  shipBox.style = `width: 100%; height: ${ship.length * 100
+  shipBox.style = `width: 100%; height: ${shipLength * 100
     + 15}%; position: absolute; top: 0; left: 0; background: blue; opacity: 0.7; z-index: 5000`;
   shipBox.addEventListener("dragstart", e => drag(e));
-  document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
+  return shipBox;
 };
 
 const generateShips = (humanBoard) => {
   Object.keys(humanBoard.ships).forEach(key => {
-    createShipBox(key, humanBoard.ships[key]);
+    const ship = humanBoard.ships[key]
+    const shipBox = createShipBox(key, ship.length);
+    document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
   });
 };
 
@@ -186,11 +181,7 @@ document.getElementsByTagName("button")[0].addEventListener("click", () => {
   }
 });
 
-
-
 export {
-  // computerBoardGrid,
   createGameDisplay,
-  guardBox,
   generateShips,
 };

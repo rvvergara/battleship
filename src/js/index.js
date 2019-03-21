@@ -3,7 +3,6 @@ import '../css/main.css';
 
 import {
   createGameDisplay,
-  guardBox,
   generateShips,
 } from './dom/domUtils';
 
@@ -15,5 +14,4 @@ const mainRow = document.querySelector(".main-row");
 
 const computerBoardGrid = createGameDisplay(game, container, mainRow);
 
-guardBox(computerBoardGrid);
 generateShips(game.battleShipObjs.humanBoard);
