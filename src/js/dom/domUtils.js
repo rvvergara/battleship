@@ -1,14 +1,3 @@
-import mainGame from "../mainGame";
-
-let game = mainGame();
-
-// let {
-//   humanBoard,
-//   computerBoard,
-//   human,
-//   computer,
-// } = game.battleShipObjs;
-
 const container = document.querySelector(".container");
 
 const mainRow = document.querySelector(".main-row");
