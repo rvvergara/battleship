@@ -38,8 +38,11 @@ const mainGame = (defPos) => {
     const computer = Object.assign(playerFactory(humanBoard, "receiveAttack", "hit"), {
       generateRandomNumberFromArray,
       makeChoice: computerMakeChoice,
+      shotsRecord: {
+        shotsMade: [],
+        shotsQueue: [],
+      }
     });
-
 
     setDefaultShipsPosition(humanFleet, humanBoard, defPos);
     setDefaultShipsPosition(computerFleet, computerBoard, defPos);

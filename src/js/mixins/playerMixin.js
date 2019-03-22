@@ -1,8 +1,8 @@
 const playerMixin = (() => ({
-  generateRandomNumberFromArray(arr) {
+  generateRandomNumberFromArray(arr, player) {
     // While Math.round(Math.random()*arr.length) is occupied keep selecting
     let index = Math.round(Math.random() * (arr.length - 1));
-    while (arr[index] === "*" || arr[index] === "X") {
+    while (player.shotsRecord.shotsMade.includes(index)) {
       index = Math.round(Math.random() * (arr.length - 1));
     }
     return index;
@@ -13,7 +13,7 @@ const playerMixin = (() => ({
     // For as long as the choice does not correspond to an * then keep making a choice
     while (opponentBoard.grid[choice] !== '*') {
       choices.push(choice);
-      choice = randomGeneratorFn(opponentBoard.grid);
+      choice = randomGeneratorFn(opponentBoard.grid, player);
       player.turn(choice);
     }
     choices.push(choice);
@@ -32,10 +32,12 @@ const playerMixin = (() => ({
     } = options;
 
     if (ownBoard.allShipsSunk('isSunk') === false && ownBoard.grid[index] === '*') {
-      const choice = randomGeneratorFn(opponentBoard.grid);
+      const choice = randomGeneratorFn(opponentBoard.grid, player);
 
       player.turn(choice);
 
+      player.shotsRecord.shotsMade.push(choice);
+      // console.log(player.shotsRecord.shotsMade);
       choices = choices.concat(sanitizingFn(player, opponentBoard, choice, randomGeneratorFn));
     }
     return choices;
