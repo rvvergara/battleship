@@ -17,7 +17,7 @@ const mainRow = document.querySelector(".main-row");
 const styleObj = {
   bg: "blue",
   opacity: "0.7",
-  orientation: "vertical",
+  orientation: "horizontal",
 };
 
 createGameDisplay(game, container, mainRow);

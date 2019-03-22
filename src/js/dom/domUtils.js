@@ -109,9 +109,6 @@ const addBoxFunctionalities = (boardName, box, gameObj, parent) => {
   if (boardName === "h") {
     box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard));
     box.addEventListener("dragover", e => allowDrop(e));
-    box.addEventListener("click", (e) => {
-      rotateShipEventListener(gameObj.battleShipObjs.humanBoard, e.target.id);
-    });
   } else {
     box.addEventListener(
       "click",
@@ -176,11 +173,15 @@ const shipStyle = (shipLength, bgColor, opacityLevel, orientation) => {
   return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${bgColor}; opacity: ${opacityLevel}; z-index: 5000`;
 };
 
-const createShipBox = (shipTitle, shipLength, bg, opacity, orientation) => {
+const createShipBox = (shipTitle, shipLength, bg, opacity, orientation, shipObj) => {
   const shipBox = document.createElement("div");
   shipBox.setAttribute("id", shipTitle);
+
   shipBox.setAttribute("draggable", "true");
   shipBox.style = shipStyle(shipLength, bg, opacity, orientation);
+  shipBox.addEventListener("click", (e) => {
+    console.log(shipObj.position)
+  });
   shipBox.addEventListener("dragstart", e => dragStart(e));
   shipBox.addEventListener("drag", e => drag(e));
   shipBox.addEventListener("dragend", e => {
@@ -192,7 +193,7 @@ const createShipBox = (shipTitle, shipLength, bg, opacity, orientation) => {
 const generateShips = (humanBoard, styleObj) => {
   Object.keys(humanBoard.ships).forEach(key => {
     const ship = humanBoard.ships[key]
-    const shipBox = createShipBox(key, ship.length, styleObj.bg, styleObj.opacity, styleObj.orientation);
+    const shipBox = createShipBox(key, ship.length, styleObj.bg, styleObj.opacity, styleObj.orientation, ship);
     document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
   });
 };
