@@ -132,21 +132,21 @@ const createSquare = (i, rowNum, board, gameObj, parent) => {
   return box;
 };
 
-const createRow = (num, rowNum, boardName, gameObj, parent, posArr) => {
+const createRow = (num, rowNum, boardName, gameObj, parent) => {
   const row = document.createElement("div");
   row.setAttribute("class", "row");
   for (let i = 0; i < num; i += 1) {
-    const square = createSquare(i, rowNum, boardName, gameObj, parent, posArr);
+    const square = createSquare(i, rowNum, boardName, gameObj, parent);
     row.appendChild(square);
   }
   return row;
 };
 
-const createGrid = (num, boardName, gameObj, parent, posArr) => {
+const createGrid = (num, boardName, gameObj, parent) => {
   const grid = document.createElement("div");
   grid.setAttribute("class", `col-5 mx-3 mt-5`);
   for (let i = 0; i < num; i += 1) {
-    grid.appendChild(createRow(num, i, boardName, gameObj, parent, posArr));
+    grid.appendChild(createRow(num, i, boardName, gameObj, parent));
   }
   return grid;
 };
@@ -160,9 +160,9 @@ const guardBox = (parent) => {
   parent.appendChild(bigBox);
 };
 
-const createGameDisplay = (gameObj, parent, mainRow, posArr) => {
-  const humanBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent, posArr);
-  const computerBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent, posArr);
+const createGameDisplay = (gameObj, parent, mainRow) => {
+  const humanBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent);
+  const computerBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
   guardBox(computerBoardGrid);
@@ -171,7 +171,7 @@ const createGameDisplay = (gameObj, parent, mainRow, posArr) => {
 const shipStyle = (shipLength, styleObj) => {
   const mainDimension = styleObj.orientation === "horizontal" ? 'width' : 'height';
   const minorDimension = styleObj.orientation === "horizontal" ? "height" : "width";
-  return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${styleObj.bgColor}; opacity: ${styleObj.opacityLevel}; z-index: 5000`;
+  return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${styleObj.bg}; opacity: ${styleObj.opacity}; z-index: 5000`;
 };
 
 const createShipBox = (shipTitle, shipLength, styleObj, shipObj) => {
@@ -191,15 +191,15 @@ const createShipBox = (shipTitle, shipLength, styleObj, shipObj) => {
 };
 
 const generateShips = (humanBoard, styleObj) => {
-  Object.keys(humanBoard.ships).forEach(key => {
-    const ship = humanBoard.ships[key]
+  Object.keys(humanBoard.ships).forEach(shipName => {
+    const ship = humanBoard.ships[shipName];
 
     const shipOrientation = ship.position.length > 1 ? (ship.position[1] - ship.position[0] === 10 ? 'vertical' : 'horizontal') : 'vertical';
 
     const styleObjwithOrientation = Object.assign(styleObj, {
-      orientation: shipOrientation
+      orientation: shipOrientation,
     });
-    const shipBox = createShipBox(key, ship.length, styleObjwithOrientation, ship);
+    const shipBox = createShipBox(shipName, ship.length, styleObjwithOrientation, ship);
     document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
   });
 };

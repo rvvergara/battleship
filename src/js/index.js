@@ -33,7 +33,7 @@ const styleObj = {
 };
 
 
-createGameDisplay(game, container, mainRow, defaultPosition);
+createGameDisplay(game, container, mainRow);
 
 generateShips(game.battleShipObjs.humanBoard, styleObj);
 
