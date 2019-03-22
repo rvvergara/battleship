@@ -82,6 +82,8 @@ const drop = (ev, humanBoard) => {
     } else {
       document.getElementById(data).setAttribute('class', 'block');
     }
+  } else {
+    document.getElementById(data).setAttribute('class', 'block');
   }
 };
 
