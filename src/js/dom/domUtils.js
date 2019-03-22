@@ -101,8 +101,16 @@ const rotateShipPosition = (board, shipName) => {
   };
 };
 
-const rotateShipEventListener = (board, shipName) => {
+const rotateBox = (shipBox, board, shipName) => {
   rotateShipPosition(board, shipName);
+  const ship = board.ships[shipName];
+  const shipOrientation = getShipOrientation(ship);
+  shipBox.style = shipStyle(ship.length, {
+    orientation: shipOrientation,
+    bg: "blue",
+    opacity: "0.7"
+  });
+
 };
 
 const addBoxFunctionalities = (board, box, gameObj, parent) => {
@@ -174,13 +182,15 @@ const shipStyle = (shipLength, styleObj) => {
   return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${styleObj.bg}; opacity: ${styleObj.opacity}; z-index: 5000`;
 };
 
-const createShipBox = (shipTitle, shipLength, styleObj, shipObj) => {
+const createShipBox = (shipTitle, board, styleObj) => {
+  const ship = board.ships[shipTitle];
   const shipBox = document.createElement("div");
   shipBox.setAttribute("id", shipTitle);
   shipBox.setAttribute("draggable", "true");
-  shipBox.style = shipStyle(shipLength, styleObj);
+  shipBox.style = shipStyle(ship.length, styleObj);
   shipBox.addEventListener("click", (e) => {
-    console.log(shipObj.position)
+    e.stopPropagation();
+    rotateBox(e.target, board, shipTitle);
   });
   shipBox.addEventListener("dragstart", e => dragStart(e));
   shipBox.addEventListener("drag", e => drag(e));
@@ -190,16 +200,18 @@ const createShipBox = (shipTitle, shipLength, styleObj, shipObj) => {
   return shipBox;
 };
 
+const getShipOrientation = (ship) => ship.position.length > 1 ? (ship.position[1] - ship.position[0] === 10 ? 'vertical' : 'horizontal') : 'vertical';
+
 const generateShips = (humanBoard, styleObj) => {
   Object.keys(humanBoard.ships).forEach(shipName => {
     const ship = humanBoard.ships[shipName];
 
-    const shipOrientation = ship.position.length > 1 ? (ship.position[1] - ship.position[0] === 10 ? 'vertical' : 'horizontal') : 'vertical';
+    const shipOrientation = getShipOrientation(ship);
 
     const styleObjwithOrientation = Object.assign(styleObj, {
       orientation: shipOrientation,
     });
-    const shipBox = createShipBox(shipName, ship.length, styleObjwithOrientation, ship);
+    const shipBox = createShipBox(shipName, humanBoard, styleObjwithOrientation);
     document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
   });
 };
