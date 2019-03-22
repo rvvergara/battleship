@@ -7,7 +7,7 @@ const {
   computerMakeChoice,
 } = require("./mixins/playerMixin");
 
-const mainGame = () => {
+const mainGame = (defPos) => {
   const setDefaultShipsPosition = (fleetObj, boardObj, posArr) => {
     Object.keys(fleetObj).forEach((ship, i) => {
       const key = Number(Object.keys(posArr[i])[0]);
@@ -37,19 +37,7 @@ const mainGame = () => {
       makeChoice: computerMakeChoice,
     });
 
-    const defaultPosition = [{
-        0: "horizontal"
-      },
-      {
-        2: "horizontal"
-      },
-      {
-        22: "horizontal"
-      },
-      {
-        42: "horizontal"
-      },
-    ];
+
     setDefaultShipsPosition(humanFleet, humanBoard, defaultPosition);
     setDefaultShipsPosition(computerFleet, computerBoard, defaultPosition);
 

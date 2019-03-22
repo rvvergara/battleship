@@ -9,22 +9,38 @@ import {
 
 import mainGame from './mainGame';
 
-let game = mainGame();
+const defaultPosition = [{
+    0: "vertical"
+  },
+  {
+    2: "horizontal"
+  },
+  {
+    4: "vertical"
+  },
+  {
+    30: "horizontal"
+  },
+];
+
+let game = mainGame(defaultPosition);
 const container = document.querySelector(".container");
 const mainRow = document.querySelector(".main-row");
+
 
 
 const styleObj = {
   bg: "blue",
   opacity: "0.7",
-  orientation: "horizontal",
+  orientation: "vertical",
 };
+
 
 createGameDisplay(game, container, mainRow, styleObj.orientation);
 
 generateShips(game.battleShipObjs.humanBoard, styleObj);
 
 document.getElementsByTagName("button")[0].addEventListener('click', () => {
-  game = mainGame();
+  game = mainGame(defaultPosition);
   resetGameDisplay(game, container, mainRow, styleObj);
 });
