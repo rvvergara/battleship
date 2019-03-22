@@ -51,21 +51,37 @@ const attackCallBack = (target, gameObj, parent) => {
   if (gameObj.endGame(humanBoard, computerBoard)) createEndGameDiv(gameObj.checkWin, computerBoard, humanBoard, parent);
 };
 
-const drag = (ev) => {
+const dragStart = (ev) => {
   ev.dataTransfer.setData("text", ev.target.id);
+};
+
+const drag = (ev) => {
+  ev.target.setAttribute('class', 'invisible');
 };
 
 const drop = (ev, humanBoard) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
+  console.log("is id NaN? ", isNaN(id));
   if (!isNaN(id)) {
+    humanBoard.ships[data].position.forEach(id => {
+      humanBoard.grid[id] = undefined;
+    });
     const successfulShipRepositioning = humanBoard.setShipPosition(
       humanBoard.ships[data],
       id,
-      "vertical"
+      "vertical",
     );
-    if (successfulShipRepositioning) ev.target.appendChild(document.getElementById(data));
+
+    console.log("Successfully repositioned? ", successfulShipRepositioning);
+
+    if (successfulShipRepositioning) {
+      document.getElementById(data).setAttribute('class', 'block');
+      ev.target.appendChild(document.getElementById(data));
+    } else {
+      document.getElementById(data).setAttribute('class', 'block');
+    }
   }
 };
 
@@ -165,7 +181,8 @@ const createShipBox = (shipTitle, shipLength, bg, opacity, orientation) => {
   shipBox.setAttribute("id", shipTitle);
   shipBox.setAttribute("draggable", "true");
   shipBox.style = shipStyle(shipLength, bg, opacity, orientation);
-  shipBox.addEventListener("dragstart", e => drag(e));
+  shipBox.addEventListener("dragstart", e => dragStart(e));
+  shipBox.addEventListener("drag", e => drag(e));
   return shipBox;
 };
 

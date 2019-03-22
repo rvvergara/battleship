@@ -1,3 +1,11 @@
+.invisible {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
 .box {
   border: 1px solid #222222;
   padding: 10px;
