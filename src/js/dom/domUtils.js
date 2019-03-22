@@ -101,16 +101,13 @@ const rotateShipPosition = (board, shipName) => {
   };
 };
 
-const rotateBox = (shipBox, board, shipName) => {
+const rotateBox = (shipBox, board, shipName, styleObj) => {
   rotateShipPosition(board, shipName);
   const ship = board.ships[shipName];
   const shipOrientation = getShipOrientation(ship);
-  shipBox.style = shipStyle(ship.length, {
+  shipBox.style = shipStyle(ship.length, Object.assign(styleObj, {
     orientation: shipOrientation,
-    bg: "blue",
-    opacity: "0.7"
-  });
-
+  }));
 };
 
 const addBoxFunctionalities = (board, box, gameObj, parent) => {
@@ -190,7 +187,7 @@ const createShipBox = (shipTitle, board, styleObj) => {
   shipBox.style = shipStyle(ship.length, styleObj);
   shipBox.addEventListener("click", (e) => {
     e.stopPropagation();
-    rotateBox(e.target, board, shipTitle);
+    rotateBox(e.target, board, shipTitle, styleObj);
   });
   shipBox.addEventListener("dragstart", e => dragStart(e));
   shipBox.addEventListener("drag", e => drag(e));
