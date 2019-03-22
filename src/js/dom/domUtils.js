@@ -170,7 +170,7 @@ const guardBox = (parent) => {
 
 const createGameDisplay = (gameObj, parent, mainRow) => {
   const humanBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent);
-  const computerBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent);
+  const computerBoardGrid = createGrid(10, gameObj.battleShipObjs.computerBoard, gameObj, parent);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
   guardBox(computerBoardGrid);
