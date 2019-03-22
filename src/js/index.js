@@ -20,7 +20,7 @@ const styleObj = {
   orientation: "horizontal",
 };
 
-createGameDisplay(game, container, mainRow);
+createGameDisplay(game, container, mainRow, styleObj.orientation);
 
 generateShips(game.battleShipObjs.humanBoard, styleObj);
 

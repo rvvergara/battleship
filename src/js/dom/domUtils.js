@@ -65,13 +65,13 @@ const clearShipPositionsFromGrid = (board, shipName) => {
   });
 };
 
-const drop = (ev, humanBoard) => {
+const drop = (ev, humanBoard, orientation) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
   if (!isNaN(id)) {
     clearShipPositionsFromGrid(humanBoard, data);
-    const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, "vertical");
+    const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, orientation);
     if (successfulShipRepositioning) {
       ev.target.appendChild(document.getElementById(data));
     }
@@ -105,9 +105,9 @@ const rotateShipEventListener = (board, shipName) => {
 
 
 
-const addBoxFunctionalities = (boardName, box, gameObj, parent) => {
+const addBoxFunctionalities = (boardName, box, gameObj, parent, shipOrientation) => {
   if (boardName === "h") {
-    box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard));
+    box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard, shipOrientation));
     box.addEventListener("dragover", e => allowDrop(e));
   } else {
     box.addEventListener(
@@ -122,30 +122,30 @@ const addBoxFunctionalities = (boardName, box, gameObj, parent) => {
   }
 };
 
-const createSquare = (i, rowNum, boardName, gameObj, parent) => {
+const createSquare = (i, rowNum, boardName, gameObj, parent, shipOrientation) => {
   const box = document.createElement("div");
   const className = boardName === 'c' ? "col box box-c" : "col box";
   box.setAttribute("class", className);
   box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
-  addBoxFunctionalities(boardName, box, gameObj, parent);
+  addBoxFunctionalities(boardName, box, gameObj, parent, shipOrientation);
   return box;
 };
 
-const createRow = (num, rowNum, boardName, gameObj, parent) => {
+const createRow = (num, rowNum, boardName, gameObj, parent, shipOrientation) => {
   const row = document.createElement("div");
   row.setAttribute("class", "row");
   for (let i = 0; i < num; i += 1) {
-    const square = createSquare(i, rowNum, boardName, gameObj, parent);
+    const square = createSquare(i, rowNum, boardName, gameObj, parent, shipOrientation);
     row.appendChild(square);
   }
   return row;
 };
 
-const createGrid = (num, boardName, gameObj, parent) => {
+const createGrid = (num, boardName, gameObj, parent, shipOrientation) => {
   const grid = document.createElement("div");
   grid.setAttribute("class", `col-5 mx-3 mt-5`);
   for (let i = 0; i < num; i += 1) {
-    grid.appendChild(createRow(num, i, boardName, gameObj, parent));
+    grid.appendChild(createRow(num, i, boardName, gameObj, parent, shipOrientation));
   }
   return grid;
 };
@@ -159,9 +159,9 @@ const guardBox = (parent) => {
   parent.appendChild(bigBox);
 };
 
-const createGameDisplay = (gameObj, parent, mainRow) => {
-  const humanBoardGrid = createGrid(10, "h", gameObj, parent);
-  const computerBoardGrid = createGrid(10, "c", gameObj, parent);
+const createGameDisplay = (gameObj, parent, mainRow, shipOrientation) => {
+  const humanBoardGrid = createGrid(10, "h", gameObj, parent, shipOrientation);
+  const computerBoardGrid = createGrid(10, "c", gameObj, parent, shipOrientation);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
   guardBox(computerBoardGrid);
