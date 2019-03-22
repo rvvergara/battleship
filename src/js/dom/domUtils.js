@@ -63,22 +63,24 @@ const removeShipFromBackend = (board, data) => {
   board.ships[data].position.forEach(id => {
     board.grid[id] = undefined;
   });
-}
+};
+
 const drop = (ev, humanBoard) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
-  if (!Number.isNaN(id)) {
+  const shipDiv = document.getElementById(data);
+  if (!isNaN(id)) {
     removeShipFromBackend(humanBoard, data);
     const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, "vertical");
     if (successfulShipRepositioning) {
-      document.getElementById(data).setAttribute('class', 'block');
-      ev.target.appendChild(document.getElementById(data));
+      shipDiv.setAttribute('class', 'block');
+      ev.target.appendChild(shipDiv);
     } else {
-      document.getElementById(data).setAttribute('class', 'block');
+      shipDiv.setAttribute('class', 'block');
     }
   } else {
-    document.getElementById(data).setAttribute('class', 'block');
+    shipDiv.setAttribute('class', 'block');
   }
 };
 
