@@ -10,29 +10,32 @@ const {
 const mainGame = (defPos) => {
   const setDefaultShipsPosition = (fleetObj, boardObj, posArr) => {
     Object.keys(fleetObj).forEach((ship, i) => {
-      const key = Number(Object.keys(posArr[i])[0]);
-      boardObj.setShipPosition(fleetObj[ship], key, posArr[i][key]);
+      const shipStartingIndex = Number(Object.keys(posArr[i])[0]);
+
+      const shipOrientation = posArr[i][shipStartingIndex]
+
+      boardObj.setShipPosition(fleetObj[ship], shipStartingIndex, shipOrientation);
     });
   };
 
-  const battleShipObjs = ((Ship, GameBoard, Player) => {
+  const battleShipObjs = ((shipFactory, gameBoardFactory, playerFactory) => {
     const humanFleet = Object.assign({
-      cruiser1: Ship(1),
-      frigate1: Ship(2),
-      destroyer1: Ship(3),
-      carrier: Ship(4),
+      cruiser1: shipFactory(1),
+      frigate1: shipFactory(2),
+      destroyer1: shipFactory(3),
+      carrier: shipFactory(4),
     });
     const computerFleet = Object.assign({
-      cruiser1: Ship(1),
-      frigate1: Ship(2),
-      destroyer1: Ship(3),
-      carrier: Ship(4),
+      cruiser1: shipFactory(1),
+      frigate1: shipFactory(2),
+      destroyer1: shipFactory(3),
+      carrier: shipFactory(4),
     });
-    const humanBoard = GameBoard(humanFleet);
-    const computerBoard = GameBoard(computerFleet);
-    const human = Object.assign(Player(computerBoard, "receiveAttack", "hit"));
+    const humanBoard = gameBoardFactory(humanFleet);
+    const computerBoard = gameBoardFactory(computerFleet);
+    const human = Object.assign(playerFactory(computerBoard, "receiveAttack", "hit"));
 
-    const computer = Object.assign(Player(humanBoard, "receiveAttack", "hit"), {
+    const computer = Object.assign(playerFactory(humanBoard, "receiveAttack", "hit"), {
       generateRandomNumberFromArray,
       makeChoice: computerMakeChoice,
     });
@@ -40,7 +43,6 @@ const mainGame = (defPos) => {
 
     setDefaultShipsPosition(humanFleet, humanBoard, defPos);
     setDefaultShipsPosition(computerFleet, computerBoard, defPos);
-    console.log(humanBoard.ships);
     return {
       humanBoard,
       computerBoard,
@@ -56,7 +58,6 @@ const mainGame = (defPos) => {
     humanBoard,
     computerBoard,
   ) => {
-
     humanPlayer.turn(index);
 
     const computerChoices = computerMakeChoice({
@@ -73,7 +74,7 @@ const mainGame = (defPos) => {
     return opponentBoard.allShipsSunk('isSunk');
   };
 
-  const endGame = (humanBoard, computerBoard) => (checkWin(humanBoard) || checkWin(computerBoard))
+  const endGame = (humanBoard, computerBoard) => (checkWin(humanBoard) || checkWin(computerBoard));
 
   return {
     gameTurn,
