@@ -69,18 +69,12 @@ const drop = (ev, humanBoard) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
-  const shipDiv = document.getElementById(data);
   if (!isNaN(id)) {
     removeShipFromBackend(humanBoard, data);
     const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, "vertical");
     if (successfulShipRepositioning) {
-      shipDiv.setAttribute('class', 'block');
-      ev.target.appendChild(shipDiv);
-    } else {
-      shipDiv.setAttribute('class', 'block');
+      ev.target.appendChild(document.getElementById(data));
     }
-  } else {
-    shipDiv.setAttribute('class', 'block');
   }
 };
 
@@ -182,6 +176,9 @@ const createShipBox = (shipTitle, shipLength, bg, opacity, orientation) => {
   shipBox.style = shipStyle(shipLength, bg, opacity, orientation);
   shipBox.addEventListener("dragstart", e => dragStart(e));
   shipBox.addEventListener("drag", e => drag(e));
+  shipBox.addEventListener("dragend", e => {
+    e.target.setAttribute('class', 'block');
+  });
   return shipBox;
 };
 
