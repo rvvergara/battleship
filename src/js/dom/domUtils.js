@@ -59,8 +59,8 @@ const drag = (ev) => {
   ev.target.setAttribute('class', 'invisible');
 };
 
-const removeShipFromBackend = (board, data) => {
-  board.ships[data].position.forEach(id => {
+const clearShipPositionsFromGrid = (board, shipName) => {
+  board.ships[shipName].position.forEach(id => {
     board.grid[id] = undefined;
   });
 };
@@ -70,7 +70,7 @@ const drop = (ev, humanBoard) => {
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
   if (!isNaN(id)) {
-    removeShipFromBackend(humanBoard, data);
+    clearShipPositionsFromGrid(humanBoard, data);
     const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, "vertical");
     if (successfulShipRepositioning) {
       ev.target.appendChild(document.getElementById(data));
@@ -82,28 +82,35 @@ const allowDrop = (ev) => {
   ev.preventDefault();
 };
 
-const rotateBox = (board, ship) => {
+const rotateShipPosition = (board, shipName) => {
+  const ship = board.ships[shipName];
   if (ship.position.length > 1) {
     if (ship.position[1] - ship.position[0] === 10) {
       console.log("Ship position before rotate ", ship.position);
-      ship.position.forEach(id => {
-        board.grid[id] = undefined;
-      });
+      clearShipPositionsFromGrid(board, shipName);
       board.setShipPosition(ship, ship.position[0], 'horizontal');
       console.log("Ship position after rotate ", ship.position);
     } else {
-      console.log("Horizontal")
+      console.log("Ship position before rotate ", ship.position);
+      clearShipPositionsFromGrid(board, shipName);
+      board.setShipPosition(ship, ship.position[0], 'verticle');
+      console.log("Ship position after rotate ", ship.position);
     }
   };
+};
 
-}
+const rotateShipEventListener = (board, shipName) => {
+  rotateShipPosition(board, shipName);
+};
+
+
 
 const addBoxFunctionalities = (boardName, box, gameObj, parent) => {
   if (boardName === "h") {
     box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard));
     box.addEventListener("dragover", e => allowDrop(e));
     box.addEventListener("click", (e) => {
-      rotateBox(gameObj.battleShipObjs.humanBoard, gameObj.battleShipObjs.humanBoard.ships[e.target.id]);
+      rotateShipEventListener(gameObj.battleShipObjs.humanBoard, e.target.id);
     });
   } else {
     box.addEventListener(
