@@ -38,9 +38,9 @@ const mainGame = (defPos) => {
     });
 
 
-    setDefaultShipsPosition(humanFleet, humanBoard, defaultPosition);
-    setDefaultShipsPosition(computerFleet, computerBoard, defaultPosition);
-
+    setDefaultShipsPosition(humanFleet, humanBoard, defPos);
+    setDefaultShipsPosition(computerFleet, computerBoard, defPos);
+    console.log(humanBoard.ships);
     return {
       humanBoard,
       computerBoard,

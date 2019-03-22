@@ -4,30 +4,28 @@ import '../css/main.css';
 import {
   createGameDisplay,
   generateShips,
-  resetGameDisplay
+  resetGameDisplay,
 } from './dom/domUtils';
 
 import mainGame from './mainGame';
 
 const defaultPosition = [{
-    0: "vertical"
+    0: "vertical",
   },
   {
-    2: "horizontal"
+    2: "vertical",
   },
   {
-    4: "vertical"
+    4: "vertical",
   },
   {
-    30: "horizontal"
+    30: "vertical",
   },
 ];
 
 let game = mainGame(defaultPosition);
 const container = document.querySelector(".container");
 const mainRow = document.querySelector(".main-row");
-
-
 
 const styleObj = {
   bg: "blue",

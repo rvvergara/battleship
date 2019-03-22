@@ -167,18 +167,18 @@ const createGameDisplay = (gameObj, parent, mainRow, shipOrientation) => {
   guardBox(computerBoardGrid);
 };
 
-const shipStyle = (shipLength, bgColor, opacityLevel, orientation) => {
-  const mainDimension = orientation === "horizontal" ? 'width' : 'height';
-  const minorDimension = orientation === "horizontal" ? "height" : "width";
-  return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${bgColor}; opacity: ${opacityLevel}; z-index: 5000`;
+const shipStyle = (shipLength, styleObj) => {
+  const mainDimension = styleObj.orientation === "horizontal" ? 'width' : 'height';
+  const minorDimension = styleObj.orientation === "horizontal" ? "height" : "width";
+  return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${styleObj.bgColor}; opacity: ${styleObj.opacityLevel}; z-index: 5000`;
 };
 
-const createShipBox = (shipTitle, shipLength, bg, opacity, orientation, shipObj) => {
+const createShipBox = (shipTitle, shipLength, styleObj, shipObj) => {
   const shipBox = document.createElement("div");
   shipBox.setAttribute("id", shipTitle);
 
   shipBox.setAttribute("draggable", "true");
-  shipBox.style = shipStyle(shipLength, bg, opacity, orientation);
+  shipBox.style = shipStyle(shipLength, styleObj);
   shipBox.addEventListener("click", (e) => {
     console.log(shipObj.position)
   });
