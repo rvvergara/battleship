@@ -3,6 +3,7 @@ const GameBoard = require("./factories/gameBoard");
 const Player = require("./factories/player");
 const {
   generateRandomNumberFromArray,
+  intelligentChoiceGenerator,
   choiceSanitizer,
   computerMakeChoice,
 } = require("./mixins/playerMixin");
@@ -68,7 +69,7 @@ const mainGame = (defPos) => {
       ownBoard: computerBoard,
       opponentBoard: humanBoard,
       index,
-    }, generateRandomNumberFromArray, choiceSanitizer);
+    }, intelligentChoiceGenerator, generateRandomNumberFromArray, choiceSanitizer);
 
     return computerChoices;
   };
