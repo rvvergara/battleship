@@ -59,23 +59,18 @@ const drag = (ev) => {
   ev.target.setAttribute('class', 'invisible');
 };
 
+const removeShipFromBackend = (board, data) => {
+  board.ships[data].position.forEach(id => {
+    board.grid[id] = undefined;
+  });
+}
 const drop = (ev, humanBoard) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
-  console.log("is id NaN? ", isNaN(id));
-  if (!isNaN(id)) {
-    humanBoard.ships[data].position.forEach(id => {
-      humanBoard.grid[id] = undefined;
-    });
-    const successfulShipRepositioning = humanBoard.setShipPosition(
-      humanBoard.ships[data],
-      id,
-      "vertical",
-    );
-
-    console.log("Successfully repositioned? ", successfulShipRepositioning);
-
+  if (!Number.isNaN(id)) {
+    removeShipFromBackend(humanBoard, data);
+    const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, "vertical");
     if (successfulShipRepositioning) {
       document.getElementById(data).setAttribute('class', 'block');
       ev.target.appendChild(document.getElementById(data));
