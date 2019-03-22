@@ -10,7 +10,8 @@ const GameBoard = ships => ({
     const origBoardGrid = [...this.grid];
 
     for (let i = index, j = 0; i < limit;) {
-      if (this.grid[i] === undefined && i < this.grid.length && (ship.position !== [] && (ship.position[ship.position.length - 1] + 1) % 10 !== 0)) {
+      const horizontalCondition = orientation === "horizontal" ? (ship.position !== [] && (ship.position[ship.position.length - 1] + 1) % 10 !== 0) : true;
+      if (this.grid[i] === undefined && i < this.grid.length && horizontalCondition) {
         ship.position.push(i);
         this.grid[i] = i;
         this.grid[origShipPosition[j]] = undefined;
