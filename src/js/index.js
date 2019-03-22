@@ -13,13 +13,13 @@ const defaultPosition = [{
     0: "vertical",
   },
   {
-    2: "vertical",
+    2: "horizontal",
   },
   {
     4: "vertical",
   },
   {
-    30: "vertical",
+    30: "horizontal",
   },
 ];
 
@@ -30,11 +30,10 @@ const mainRow = document.querySelector(".main-row");
 const styleObj = {
   bg: "blue",
   opacity: "0.7",
-  orientation: "vertical",
 };
 
 
-createGameDisplay(game, container, mainRow, styleObj.orientation);
+createGameDisplay(game, container, mainRow, defaultPosition);
 
 generateShips(game.battleShipObjs.humanBoard, styleObj);
 

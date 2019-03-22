@@ -65,10 +65,12 @@ const clearShipPositionsFromGrid = (board, shipName) => {
   });
 };
 
-const drop = (ev, humanBoard, orientation) => {
+const drop = (ev, humanBoard) => {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const id = Number(ev.target.id.substr(2));
+  const ship = humanBoard.ships[data];
+  const orientation = ship.position[1] - ship.position[0] === 1 ? 'horizontal' : 'vertical';
   if (!isNaN(id)) {
     clearShipPositionsFromGrid(humanBoard, data);
     const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, orientation);
@@ -103,11 +105,9 @@ const rotateShipEventListener = (board, shipName) => {
   rotateShipPosition(board, shipName);
 };
 
-
-
-const addBoxFunctionalities = (boardName, box, gameObj, parent, shipOrientation) => {
-  if (boardName === "h") {
-    box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard, shipOrientation));
+const addBoxFunctionalities = (board, box, gameObj, parent) => {
+  if (board === gameObj.battleShipObjs.humanBoard) {
+    box.addEventListener("drop", e => drop(e, gameObj.battleShipObjs.humanBoard));
     box.addEventListener("dragover", e => allowDrop(e));
   } else {
     box.addEventListener(
@@ -122,30 +122,31 @@ const addBoxFunctionalities = (boardName, box, gameObj, parent, shipOrientation)
   }
 };
 
-const createSquare = (i, rowNum, boardName, gameObj, parent, shipOrientation) => {
+const createSquare = (i, rowNum, board, gameObj, parent) => {
   const box = document.createElement("div");
-  const className = boardName === 'c' ? "col box box-c" : "col box";
+  const className = board === gameObj.battleShipObjs.computerBoard ? "col box box-c" : "col box";
+  const boxId = board === gameObj.battleShipObjs.humanBoard ? `h` : `c`;
   box.setAttribute("class", className);
-  box.setAttribute("id", `${boardName}-${rowNum * 10 + i}`);
-  addBoxFunctionalities(boardName, box, gameObj, parent, shipOrientation);
+  box.setAttribute("id", `${boxId}-${rowNum * 10 + i}`);
+  addBoxFunctionalities(board, box, gameObj, parent);
   return box;
 };
 
-const createRow = (num, rowNum, boardName, gameObj, parent, shipOrientation) => {
+const createRow = (num, rowNum, boardName, gameObj, parent, posArr) => {
   const row = document.createElement("div");
   row.setAttribute("class", "row");
   for (let i = 0; i < num; i += 1) {
-    const square = createSquare(i, rowNum, boardName, gameObj, parent, shipOrientation);
+    const square = createSquare(i, rowNum, boardName, gameObj, parent, posArr);
     row.appendChild(square);
   }
   return row;
 };
 
-const createGrid = (num, boardName, gameObj, parent, shipOrientation) => {
+const createGrid = (num, boardName, gameObj, parent, posArr) => {
   const grid = document.createElement("div");
   grid.setAttribute("class", `col-5 mx-3 mt-5`);
   for (let i = 0; i < num; i += 1) {
-    grid.appendChild(createRow(num, i, boardName, gameObj, parent, shipOrientation));
+    grid.appendChild(createRow(num, i, boardName, gameObj, parent, posArr));
   }
   return grid;
 };
@@ -159,9 +160,9 @@ const guardBox = (parent) => {
   parent.appendChild(bigBox);
 };
 
-const createGameDisplay = (gameObj, parent, mainRow, shipOrientation) => {
-  const humanBoardGrid = createGrid(10, "h", gameObj, parent, shipOrientation);
-  const computerBoardGrid = createGrid(10, "c", gameObj, parent, shipOrientation);
+const createGameDisplay = (gameObj, parent, mainRow, posArr) => {
+  const humanBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent, posArr);
+  const computerBoardGrid = createGrid(10, gameObj.battleShipObjs.humanBoard, gameObj, parent, posArr);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
   guardBox(computerBoardGrid);
@@ -176,7 +177,6 @@ const shipStyle = (shipLength, styleObj) => {
 const createShipBox = (shipTitle, shipLength, styleObj, shipObj) => {
   const shipBox = document.createElement("div");
   shipBox.setAttribute("id", shipTitle);
-
   shipBox.setAttribute("draggable", "true");
   shipBox.style = shipStyle(shipLength, styleObj);
   shipBox.addEventListener("click", (e) => {
@@ -193,7 +193,13 @@ const createShipBox = (shipTitle, shipLength, styleObj, shipObj) => {
 const generateShips = (humanBoard, styleObj) => {
   Object.keys(humanBoard.ships).forEach(key => {
     const ship = humanBoard.ships[key]
-    const shipBox = createShipBox(key, ship.length, styleObj.bg, styleObj.opacity, styleObj.orientation, ship);
+
+    const shipOrientation = ship.position.length > 1 ? (ship.position[1] - ship.position[0] === 10 ? 'vertical' : 'horizontal') : 'vertical';
+
+    const styleObjwithOrientation = Object.assign(styleObj, {
+      orientation: shipOrientation
+    });
+    const shipBox = createShipBox(key, ship.length, styleObjwithOrientation, ship);
     document.getElementById(`h-${ship.position[0]}`).appendChild(shipBox);
   });
 };
