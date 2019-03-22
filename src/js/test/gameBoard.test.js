@@ -21,7 +21,7 @@ describe('GameBoard', () => {
     gameBoard = GameBoard(ships);
     gameBoard.setShipPosition(ships.attacker, 0, "horizontal");
     gameBoard.setShipPosition(ships.submarine, 2, "horizontal");
-    gameBoard.setShipPosition(ships.frigate, 13, "horizontal");
+    gameBoard.setShipPosition(ships.frigate, 9, "horizontal");
     gameBoard.setShipPosition(ships.carrier, 8, "vertical");
     origGrid = [...gameBoard.grid];
   });
@@ -37,6 +37,10 @@ describe('GameBoard', () => {
     });
     test('gameBoard should position a ship with length 2 ', () => {
       expect(ships.submarine.position).toEqual([2, 3]);
+    });
+
+    test('frigate position still should be an empty array ', () => {
+      expect(ships.frigate.position).toEqual([]);
     });
 
     test('gameBoard should position a ship even if the ship does not come with a position array', () => {

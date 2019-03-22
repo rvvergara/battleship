@@ -10,7 +10,7 @@ const GameBoard = ships => ({
     const origBoardGrid = [...this.grid];
 
     for (let i = index, j = 0; i < limit;) {
-      if (this.grid[i] === undefined && i < this.grid.length) {
+      if (this.grid[i] === undefined && i < this.grid.length && ) {
         ship.position.push(i);
         this.grid[i] = i;
         this.grid[origShipPosition[j]] = undefined;
