@@ -56,11 +56,12 @@ const createGrid = (num, boardName, gameObj, parent) => {
   return grid;
 };
 
-const guardBox = (parent) => {
+const guardBox = (parent, visibility, boardLayerName) => {
   const bigBox = document.createElement("div");
+  bigBox.setAttribute("id", boardLayerName);
   bigBox.setAttribute(
     "class",
-    "bg-secondary position-absolute guard-box invisible",
+    `bg-secondary position-absolute guard-box ${visibility}`,
   );
   parent.appendChild(bigBox);
 };
@@ -70,7 +71,8 @@ const createGameDisplay = (gameObj, parent, mainRow) => {
   const computerBoardGrid = createGrid(10, gameObj.battleShipObjs.computerBoard, gameObj, parent);
   mainRow.appendChild(humanBoardGrid);
   mainRow.appendChild(computerBoardGrid);
-  guardBox(computerBoardGrid);
+  guardBox(humanBoardGrid, "invisible", "humanGuardLayer");
+  guardBox(computerBoardGrid, "block", "computerGuardLayer");
 };
 
 const resetGameDisplay = (gameObj, parent, mainRow, styleObj) => {

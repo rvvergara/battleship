@@ -26,6 +26,8 @@ const defaultPosition = [{
 let game = mainGame(defaultPosition);
 const container = document.querySelector(".container");
 const mainRow = document.querySelector(".main-row");
+const resetBtn = document.querySelector(".reset");
+const startBtn = document.querySelector(".start");
 
 const styleObj = {
   bg: "blue",
@@ -37,7 +39,21 @@ createGameDisplay(game, container, mainRow);
 
 generateShips(game.battleShipObjs.humanBoard, styleObj);
 
-document.getElementsByTagName("button")[0].addEventListener('click', () => {
+resetBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  startBtn.classList.remove("invisible");
   game = mainGame(defaultPosition);
   resetGameDisplay(game, container, mainRow, styleObj);
+
+});
+
+const startAddEvent = (target) => {
+  target.classList.add("invisible");
+  document.querySelector("#humanGuardLayer").classList.toggle("invisible");
+  document.querySelector("#computerGuardLayer").classList.toggle("invisible");
+};
+
+startBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  startAddEvent(e.target);
 });

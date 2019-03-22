@@ -17,10 +17,10 @@ const changeDisplayOfHitSquare = (square, board, index) => {
 const updateSquareDisplay = (board, turnsArr) => {
   turnsArr.forEach(turn => {
     const humanSquare = document.getElementById(`h-${turn}`);
-    document.querySelector(".guard-box").classList.remove("invisible");
+    document.querySelector("#computerGuardLayer").classList.remove("invisible");
     setTimeout(() => {
       changeDisplayOfHitSquare(humanSquare, board, turn);
-      document.querySelector(".guard-box").classList.add("invisible");
+      document.querySelector("#computerGuardLayer").classList.add("invisible");
     }, 2000);
   });
 };
