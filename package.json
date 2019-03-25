@@ -27,6 +27,7 @@
     "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
+    "file-loader": "^3.0.1",
     "jest": "^24.5.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.6",

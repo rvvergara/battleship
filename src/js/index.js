@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/main.css';
+import '../img/ship_sunk.svg';
 
 import {
   createGameDisplay,
