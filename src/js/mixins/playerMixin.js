@@ -23,7 +23,7 @@ const playerMixin = (() => ({
     // For as long as the choice does not correspond to an * then keep making a choice  
     while (grid[choice] === 'X') {
       neighborIndices.forEach((neighborIndex) => {
-        if (grid[neighborIndex] !== undefined && !shotsMade.includes(neighborIndex) && !shotsQueue.includes(neighborIndex)) {
+        if (neighborIndex >= 0 && neighborIndex < grid.length && !shotsMade.includes(neighborIndex) && !shotsQueue.includes(neighborIndex)) {
           shotsQueue.push(neighborIndex);
         }
       });
