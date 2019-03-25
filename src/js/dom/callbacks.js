@@ -65,15 +65,11 @@ const rotateShipPosition = (board, shipName) => {
   const ship = board.ships[shipName];
   if (ship.position.length > 1) {
     if (ship.position[1] - ship.position[0] === 10) {
-      console.log("Ship position before rotate ", ship.position);
       clearShipPositionsFromGrid(board, shipName);
       board.setShipPosition(ship, ship.position[0], 'horizontal');
-      console.log("Ship position after rotate ", ship.position);
     } else {
-      console.log("Ship position before rotate ", ship.position);
       clearShipPositionsFromGrid(board, shipName);
       board.setShipPosition(ship, ship.position[0], 'verticle');
-      console.log("Ship position after rotate ", ship.position);
     }
   };
 };
