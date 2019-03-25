@@ -15,14 +15,16 @@ const playerMixin = (() => ({
   choiceSanitizer(player, opponentBoard, choice, intelligentgeneratorFn, randomGeneratorFn) {
     const choices = [];
     const grid = opponentBoard.grid;
+    /********/
     const neighborIndices = [choice - 10, choice - 1, choice + 1, choice + 10];
+    /********/
     const shotsMade = player.shotsRecord.shotsMade;
-    const shotsQueue = player.shots.shotsRecord.shotsQueue;
+    const shotsQueue = player.shotsRecord.shotsQueue;
     // For as long as the choice does not correspond to an * then keep making a choice  
     while (grid[choice] === 'X') {
-      neighborIndices.forEach((neighbor) => {
-        if (grid[neighbor] !== undefined && !shotsMade.includes(neighbor) && !shotsQueue.includes(neighbor)) {
-          shotsQueue.push(neighbor);
+      neighborIndices.forEach((neighborIndex) => {
+        if (grid[neighborIndex] !== undefined && !shotsMade.includes(neighborIndex) && !shotsQueue.includes(neighborIndex)) {
+          shotsQueue.push(neighborIndex);
         }
       });
       shotsMade.push(choice);
@@ -31,6 +33,7 @@ const playerMixin = (() => ({
       player.turn(choice);
     }
     choices.push(choice);
+    shotsMade.push(choice);
     // If the function goes inside the while loop then choices.length > 0
     return choices;
   },
@@ -50,7 +53,7 @@ const playerMixin = (() => ({
 
       player.turn(choice);
 
-      player.shotsRecord.shotsMade.push(choice);
+      // player.shotsRecord.shotsMade.push(choice);
 
       choices = choices.concat(sanitizingFn(player, opponentBoard, choice, intelligentgeneratorFn, randomGeneratorFn));
     }
