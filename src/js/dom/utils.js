@@ -3,7 +3,7 @@ const getShipOrientation = (ship) => ship.position.length > 1 ? (ship.position[1
 const shipStyle = (shipLength, styleObj) => {
   const mainDimension = styleObj.orientation === "horizontal" ? 'width' : 'height';
   const minorDimension = styleObj.orientation === "horizontal" ? "height" : "width";
-  return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 100 + 15}%; position: absolute; top: 0; left: 0; background: ${styleObj.bg}; opacity: ${styleObj.opacity}; z-index: 5000`;
+  return `${minorDimension}: 100%; ${mainDimension}: ${shipLength * 103.5}%; position: absolute; top: 0; left: 0; border: ${styleObj.brd}; border-radius: 5px; opacity: ${styleObj.opacity}; z-index: 5000`;
 };
 
 const changeDisplayOfHitSquare = (square, board, index) => {

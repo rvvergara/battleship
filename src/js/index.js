@@ -31,7 +31,7 @@ const resetBtn = document.querySelector(".reset");
 const startBtn = document.querySelector(".start");
 
 const styleObj = {
-  bg: "blue",
+  brd: "3px solid #c23616",
   opacity: "0.7",
 };
 
