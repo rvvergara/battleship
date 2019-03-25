@@ -13,6 +13,10 @@ describe("playerMixin", () => {
         turn: function fool(choice) {
           return choice;
         },
+        shotsRecord: {
+          shotsMade: [],
+          shotsQueue: [],
+        }
       },
       ownBoard: {
         grid: ['*', , 2, 3, '*'],
@@ -35,18 +39,20 @@ describe("playerMixin", () => {
 
   test('choiceSanitizer should return an array', () => {
     const randomGenMocker = () => 2;
-    expect(choiceSanitizer(options.player, options.opponentBoard, 0, randomGenMocker).length).toBe(2);
+    const intelligentMocker = () => 1;
+    expect(choiceSanitizer(options.player, options.opponentBoard, 0, intelligentMocker, randomGenMocker).length).toBe(1);
   });
 
   test('computerMakeChoice returns an array of choices', () => {
     const randomGenMocker = () => 0;
-    const sanitize = (p, b, c) => [2];
-    expect(computerMakeChoice(options, randomGenMocker, sanitize)).toEqual([2]);
+    const intelligentMocker = () => 0;
+    const sanitize = (p, b, c, i, r) => [2];
+    expect(computerMakeChoice(options, intelligentMocker, randomGenMocker, sanitize)).toEqual([2]);
   });
 
   test("generateRandomNumberFromArray returns a valid number", () => {
     const arr = [0, 1, , '*', ];
-    expect(generateRandomNumberFromArray(arr)).toBeGreaterThanOrEqual(0);
-    expect(generateRandomNumberFromArray(arr)).toBeLessThanOrEqual(5);
+    expect(generateRandomNumberFromArray(arr, options.player)).toBeGreaterThanOrEqual(0);
+    expect(generateRandomNumberFromArray(arr, options.player)).toBeLessThanOrEqual(5);
   });
 });
