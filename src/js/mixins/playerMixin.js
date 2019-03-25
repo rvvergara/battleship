@@ -25,7 +25,6 @@ const playerMixin = (() => ({
     const choices = [];
     const grid = opponentBoard.grid;
     const shotsMade = player.shotsRecord.shotsMade;
-    console.log("Shots already made", shotsMade);
     const shotsQueue = player.shotsRecord.shotsQueue;
     // For as long as the choice does not correspond to an * then keep making a choice
     while (grid[choice] === "X") {

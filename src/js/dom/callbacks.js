@@ -8,7 +8,6 @@ import {
 
 // Event Callbacks
 const attackCallBack = (target, gameObj, parent) => {
-  console.log(gameObj.battleShipObjs.computer.shotsRecord)
   const index = Number(target.id.substr(2));
   const {
     humanBoard,
