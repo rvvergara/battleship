@@ -44,7 +44,8 @@ resetBtn.addEventListener('click', (e) => {
   startBtn.classList.remove("invisible");
   game = mainGame(defaultPosition);
   resetGameDisplay(game, container, mainRow, styleObj);
-
+  console.log("Reset done!");
+  
 });
 
 const startAddEvent = (target) => {

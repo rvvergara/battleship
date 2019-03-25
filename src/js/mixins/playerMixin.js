@@ -80,7 +80,7 @@ const playerMixin = (() => ({
       const choice = intelligentgeneratorFn(
         opponentBoard.grid,
         player,
-        randomGeneratorFn
+        randomGeneratorFn,
       );
 
       player.turn(choice);
