@@ -15,12 +15,12 @@ const playerMixin = (() => ({
     return index;
   },
 
-  choiceSanitizer(args) {
+  choiceSanitizer(args, choice) {
     const { player,
       opponentBoard,
       intelligentgeneratorFn,
       randomGeneratorFn } = args;
-    let choice = args.choice;
+
     const choices = [];
     const grid = opponentBoard.grid;
     const shotsMade = player.shotsRecord.shotsMade;
@@ -72,7 +72,7 @@ const playerMixin = (() => ({
         randomGeneratorFn,
       });
       player.turn(choice);
-      choices = choices.concat(sanitizingFn({ player, opponentBoard, choice,intelligentgeneratorFn, randomGeneratorFn }));
+      choices = choices.concat(sanitizingFn({ player, opponentBoard, intelligentgeneratorFn, randomGeneratorFn }, choice));
     }
     return choices;
   }
