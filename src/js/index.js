@@ -31,10 +31,9 @@ generateShips(game.battleShipObjs.humanBoard, styleObj);
 resetBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   startBtn.classList.remove("invisible");
-  game = mainGame(defaultPosition);
+  game = mainGame(defaultPositions);
   resetGameDisplay(game, container, mainRow, styleObj);
   console.log("Reset done!");
-
 });
 
 const startAddEvent = (target) => {
