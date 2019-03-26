@@ -1,5 +1,6 @@
 const playerMixin = (() => ({
-  intelligentChoiceGenerator(arr, player, randomGeneratorFn) {
+  intelligentChoiceGenerator(args) {
+    const { arr, player, randomGeneratorFn } = args;
     const queue = player.shotsRecord.shotsQueue;
     const choice = queue.length === 0 ? randomGeneratorFn(arr, player) : queue.shift();
     player.shotsRecord.shotsMade.push(choice);
@@ -43,11 +44,10 @@ const playerMixin = (() => ({
         }
       });
       choices.push(choice);
-      choice = intelligentgeneratorFn(
-        opponentBoard.grid,
+      choice = intelligentgeneratorFn({
+        arr: opponentBoard.grid,
         player,
-        randomGeneratorFn,
-      );
+        randomGeneratorFn,});
       player.turn(choice);
     }
     choices.push(choice);
@@ -66,7 +66,11 @@ const playerMixin = (() => ({
     const { player, ownBoard, opponentBoard, index } = options;
 
     if (ownBoard.allShipsSunk("isSunk") === false && ownBoard.grid[index] === "*") {
-      const choice = intelligentgeneratorFn(opponentBoard.grid,player,randomGeneratorFn);
+      const choice = intelligentgeneratorFn({
+        arr: opponentBoard.grid,
+        player,
+        randomGeneratorFn,
+      });
       player.turn(choice);
       choices = choices.concat(sanitizingFn(player,opponentBoard,choice,intelligentgeneratorFn, randomGeneratorFn));
     }
