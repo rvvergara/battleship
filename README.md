@@ -2,7 +2,7 @@
 
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
->  A Strategy Game built using JavaScript. [Play Game Here](#)
+> A Strategy Game built using JavaScript. [Play Game Here](https://ryto-battleship-game.netlify.com/)
 
 TODO: Fill out this long description.
 
@@ -23,14 +23,17 @@ TODO: Fill out this long description.
 ## Install
 
 ```
+npm run prod
 ```
 
 ## Usage
 
 ```
+
 ```
 
 ## Screenshots
+
 ![Battleship project](Battleship_Project.gif)
 
 ## Maintainers
@@ -40,7 +43,6 @@ TODO: Fill out this long description.
 ## Contributing
 
 By- [Ryan](https://github.com/rvvergara) and [Dipto](https://github.com/dipto0321)
-
 
 ## License
 
