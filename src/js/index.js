@@ -10,21 +10,9 @@ import {
 
 import mainGame from './mainGame';
 
-const defaultPosition = [{
-    0: "vertical",
-  },
-  {
-    2: "horizontal",
-  },
-  {
-    4: "vertical",
-  },
-  {
-    30: "horizontal",
-  },
-];
+import defaultPositions from './utils/defaultPositions';
 
-let game = mainGame(defaultPosition);
+let game = mainGame(defaultPositions);
 const container = document.querySelector(".container");
 const mainRow = document.querySelector(".main-row");
 const resetBtn = document.querySelector(".reset");
@@ -46,7 +34,7 @@ resetBtn.addEventListener('click', (e) => {
   game = mainGame(defaultPosition);
   resetGameDisplay(game, container, mainRow, styleObj);
   console.log("Reset done!");
-  
+
 });
 
 const startAddEvent = (target) => {

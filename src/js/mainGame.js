@@ -5,7 +5,7 @@ const {
   generateRandomNumberFromArray,
   intelligentChoiceGenerator,
   choiceSanitizer,
-  computerMakeChoice
+  computerMakeChoice,
 } = require("./mixins/playerMixin");
 
 const mainGame = defPos => {
@@ -18,7 +18,7 @@ const mainGame = defPos => {
       boardObj.setShipPosition(
         fleetObj[ship],
         shipStartingIndex,
-        shipOrientation
+        shipOrientation,
       );
     });
   };
@@ -26,15 +26,27 @@ const mainGame = defPos => {
   const battleShipObjs = ((shipFactory, gameBoardFactory, playerFactory) => {
     const humanFleet = Object.assign({
       cruiser1: shipFactory(1),
+      cruiser2: shipFactory(1),
+      cruiser3: shipFactory(1),
+      cruiser4: shipFactory(1),
       frigate1: shipFactory(2),
+      frigate2: shipFactory(2),
+      frigate3: shipFactory(2),
       destroyer1: shipFactory(3),
-      carrier: shipFactory(4)
+      destroyer2: shipFactory(3),
+      carrier: shipFactory(4),
     });
     const computerFleet = Object.assign({
       cruiser1: shipFactory(1),
+      cruiser2: shipFactory(1),
+      cruiser3: shipFactory(1),
+      cruiser4: shipFactory(1),
       frigate1: shipFactory(2),
+      frigate2: shipFactory(2),
+      frigate3: shipFactory(2),
       destroyer1: shipFactory(3),
-      carrier: shipFactory(4)
+      destroyer2: shipFactory(3),
+      carrier: shipFactory(4),
     });
     const humanBoard = gameBoardFactory(humanFleet);
     const computerBoard = gameBoardFactory(computerFleet);
@@ -43,8 +55,7 @@ const mainGame = defPos => {
     );
 
     const computer = Object.assign(
-      playerFactory(humanBoard, "receiveAttack", "hit"),
-      {
+      playerFactory(humanBoard, "receiveAttack", "hit"), {
         generateRandomNumberFromArray,
         makeChoice: computerMakeChoice,
         shotsRecord: {
@@ -54,8 +65,8 @@ const mainGame = defPos => {
       }
     );
 
-    setDefaultShipsPosition(humanFleet, humanBoard, defPos);
-    setDefaultShipsPosition(computerFleet, computerBoard, defPos);
+    setDefaultShipsPosition(humanFleet, humanBoard, defPos[0]);
+    setDefaultShipsPosition(computerFleet, computerBoard, defPos[Math.floor(Math.random() * (defPos.length - 1)) + 1]);
     return {
       humanBoard,
       computerBoard,
@@ -73,8 +84,7 @@ const mainGame = defPos => {
   ) => {
     humanPlayer.turn(index);
 
-    const computerChoices = computerMakeChoice(
-      {
+    const computerChoices = computerMakeChoice({
         player: computerPlayer,
         ownBoard: computerBoard,
         opponentBoard: humanBoard,
