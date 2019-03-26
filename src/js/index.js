@@ -6,7 +6,7 @@ import {
   createGameDisplay,
   generateShips,
   resetGameDisplay,
-} from './dom/gameDisplay';
+} from './utils/gameDisplay';
 
 import mainGame from './mainGame';
 
