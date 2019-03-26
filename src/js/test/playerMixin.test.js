@@ -6,6 +6,7 @@ const {
 
 describe("playerMixin", () => {
   let options = {};
+
   beforeEach(() => {
     options = {
       player: {
@@ -34,25 +35,49 @@ describe("playerMixin", () => {
       shipMethod: function baz() {
         return false;
       },
+      randomGenMocker() {
+        return 0;
+      },
+      intelligentMocker() {
+        return 0;
+      },
+      sanitize(p, b, c, i, r) {
+        return [2]
+      },
     };
   });
 
   test('choiceSanitizer should return an array', () => {
-    const randomGenMocker = () => 2;
-    const intelligentMocker = () => 1;
-    expect(choiceSanitizer(options.player, options.opponentBoard, 0, intelligentMocker, randomGenMocker).length).toBe(1);
+    expect(choiceSanitizer({
+      player: options.player,
+      opponentBoard: options.opponentBoard,
+      intelligentGeneratorFn: options.intelligentMocker,
+      randomGeneratorFn: options.randomGenMocker,
+      sanitizingFn: options.sanitize,
+    }, 0).length).toBe(1);
   });
 
   test('computerMakeChoice returns an array of choices', () => {
-    const randomGenMocker = () => 0;
-    const intelligentMocker = () => 0;
-    const sanitize = (p, b, c, i, r) => [2];
-    expect(computerMakeChoice(options, intelligentMocker, randomGenMocker, sanitize)).toEqual([2]);
+    expect(computerMakeChoice({
+      player: options.player,
+      ownBoard: options.ownBoard,
+      opponentBoard: options.opponentBoard,
+      index: options.index,
+      intelligentGeneratorFn: options.intelligentMocker,
+      randomGeneratorFn: options.randomGenMocker,
+      sanitizingFn: options.sanitize,
+    })).toEqual([2]);
   });
 
   test("generateRandomNumberFromArray returns a valid number", () => {
     const arr = [0, 1, , '*', ];
-    expect(generateRandomNumberFromArray(arr, options.player)).toBeGreaterThanOrEqual(0);
-    expect(generateRandomNumberFromArray(arr, options.player)).toBeLessThanOrEqual(5);
+    expect(generateRandomNumberFromArray({
+      arr,
+      player: options.player,
+    })).toBeGreaterThanOrEqual(0);
+    expect(generateRandomNumberFromArray({
+      arr,
+      player: options.player,
+    })).toBeLessThanOrEqual(5);
   });
 });
