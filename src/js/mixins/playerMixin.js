@@ -2,11 +2,12 @@ const playerMixin = (() => ({
   intelligentChoiceGenerator(args) {
     const { arr, player, randomGeneratorFn } = args;
     const queue = player.shotsRecord.shotsQueue;
-    const choice = queue.length === 0 ? randomGeneratorFn(arr, player) : queue.shift();
+    const choice = queue.length === 0 ? randomGeneratorFn({ arr, player }) : queue.shift();
     player.shotsRecord.shotsMade.push(choice);
     return choice;
   },
-  generateRandomNumberFromArray(arr, player) {
+  generateRandomNumberFromArray(args) {
+    const { arr, player } = args;
     let index = Math.round(Math.random() * (arr.length - 1));
     while (player.shotsRecord.shotsMade.includes(index)) {
       index = Math.round(Math.random() * (arr.length - 1));
