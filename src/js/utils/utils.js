@@ -48,6 +48,18 @@ const clearEndGameView = (parent) => {
   }
 };
 
+const changeDisplayofSunkShip = (gameObj, target) => {
+  const indexOfShip = Object.keys(gameObj.battleShipObjs.computerBoard.ships).map(ship => gameObj.battleShipObjs.computerBoard.ships[ship].position.includes(Number(target.id.substr(2)))).indexOf(true);
+  const ships = gameObj.battleShipObjs.computerBoard.ships;
+  const hitShipName = Object.keys(ships)[indexOfShip];
+  if (hitShipName !== undefined && ships[hitShipName].isSunk()) {
+    const ship = ships[hitShipName];
+    ship.position.forEach(pos => {
+      document.getElementById(`c-${pos}`).style = 'background: red; border: 2px solid red';
+    });
+  }
+};
+
 export {
   getShipOrientation,
   shipStyle,
@@ -55,4 +67,5 @@ export {
   updateSquareDisplay,
   createEndGameDiv,
   clearEndGameView,
+  changeDisplayofSunkShip,
 };

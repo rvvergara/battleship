@@ -4,6 +4,7 @@ import {
   changeDisplayOfHitSquare,
   updateSquareDisplay,
   createEndGameDiv,
+  changeDisplayofSunkShip,
 } from './utils';
 
 // Event Callbacks
@@ -25,6 +26,8 @@ const attackCallBack = (target, gameObj, parent) => {
   changeDisplayOfHitSquare(target, computerBoard, index);
   if (turns !== []) updateSquareDisplay(humanBoard, turns);
   if (gameObj.endGame(humanBoard, computerBoard)) createEndGameDiv(gameObj.checkWin, computerBoard, humanBoard, parent);
+
+  changeDisplayofSunkShip(gameObj, target);
 };
 
 const dragStart = (ev) => {
