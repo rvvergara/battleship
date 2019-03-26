@@ -29,8 +29,8 @@ const playerMixin = (() => ({
     const {
       player,
       opponentBoard,
-      intelligentgeneratorFn,
-      randomGeneratorFn
+      intelligentGeneratorFn,
+      randomGeneratorFn,
     } = args;
 
     const choices = [];
