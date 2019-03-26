@@ -56,7 +56,7 @@ const playerMixin = (() => ({
         }
       });
       choices.push(choice);
-      choice = intelligentgeneratorFn({
+      choice = intelligentGeneratorFn({
         arr: opponentBoard.grid,
         player,
         randomGeneratorFn,

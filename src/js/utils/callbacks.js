@@ -50,7 +50,7 @@ const drop = (ev, humanBoard) => {
   const id = Number(ev.target.id.substr(2));
   const ship = humanBoard.ships[data];
   const orientation = ship.position[1] - ship.position[0] === 1 ? 'horizontal' : 'vertical';
-  if (!isNaN(id)) {
+  if (!Number.isNaN(id)) {
     clearShipPositionsFromGrid(humanBoard, data);
     const successfulShipRepositioning = humanBoard.setShipPosition(humanBoard.ships[data], id, orientation);
     if (successfulShipRepositioning) {
@@ -73,7 +73,7 @@ const rotateShipPosition = (board, shipName) => {
       clearShipPositionsFromGrid(board, shipName);
       board.setShipPosition(ship, ship.position[0], 'verticle');
     }
-  };
+  }
 };
 
 const rotateBox = (shipBox, board, shipName, styleObj) => {
