@@ -8,7 +8,7 @@ const shipStyle = (shipLength, styleObj) => {
 
 const changeDisplayOfHitSquare = (square, board, index) => {
   if (board.grid[index] === "X") {
-    square.insertAdjacentHTML("afterbegin", `<img src="./img/ship_sunk.svg" alt="ship sunk">`);
+    square.insertAdjacentHTML("afterbegin", `<img class="img-fluid" src="./img/ship_sunk.svg" alt="ship sunk">`);
   } else {
     square.insertAdjacentText("afterbegin", board.grid[index]);
   }
