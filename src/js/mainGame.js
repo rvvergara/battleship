@@ -88,11 +88,12 @@ const mainGame = defPos => {
         player: computerPlayer,
         ownBoard: computerBoard,
         opponentBoard: humanBoard,
-        index
+      index,
+      intelligentgeneratorFn: intelligentChoiceGenerator,
+      randomGeneratorFn: generateRandomNumberFromArray,
+      sanitizingFn: choiceSanitizer,
       },
-      intelligentChoiceGenerator,
-      generateRandomNumberFromArray,
-      choiceSanitizer
+      
     );
 
     return computerChoices;

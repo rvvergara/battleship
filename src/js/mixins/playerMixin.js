@@ -56,14 +56,12 @@ const playerMixin = (() => ({
   },
 
   
-  computerMakeChoice(
-    options,
+  computerMakeChoice(options) {
+    let choices = [];
+    const { player, ownBoard, opponentBoard, index,
     intelligentgeneratorFn,
     randomGeneratorFn,
-    sanitizingFn,
-  ) {
-    let choices = [];
-    const { player, ownBoard, opponentBoard, index } = options;
+    sanitizingFn } = options;
 
     if (ownBoard.allShipsSunk("isSunk") === false && ownBoard.grid[index] === "*") {
       const choice = intelligentgeneratorFn({
