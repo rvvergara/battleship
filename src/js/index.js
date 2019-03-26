@@ -6,6 +6,7 @@ import {
   createGameDisplay,
   generateShips,
   resetGameDisplay,
+  startAddEvent,
 } from './utils/gameDisplay';
 
 import mainGame from './mainGame';
@@ -36,11 +37,7 @@ resetBtn.addEventListener('click', (e) => {
   console.log("Reset done!");
 });
 
-const startAddEvent = (target) => {
-  target.classList.add("invisible");
-  document.querySelector("#humanGuardLayer").classList.toggle("invisible");
-  document.querySelector("#computerGuardLayer").classList.toggle("invisible");
-};
+
 
 startBtn.addEventListener('click', (e) => {
   e.stopPropagation();

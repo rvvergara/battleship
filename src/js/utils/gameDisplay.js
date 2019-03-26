@@ -82,8 +82,15 @@ const resetGameDisplay = (gameObj, parent, mainRow, styleObj) => {
   generateShips(gameObj.battleShipObjs.humanBoard, styleObj);
 };
 
+const startAddEvent = (target) => {
+  target.classList.add("invisible");
+  document.querySelector("#humanGuardLayer").classList.toggle("invisible");
+  document.querySelector("#computerGuardLayer").classList.toggle("invisible");
+};
+
 export {
   createGameDisplay,
   generateShips,
   resetGameDisplay,
+  startAddEvent,
 };
