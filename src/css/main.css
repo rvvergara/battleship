@@ -1,0 +1,82 @@
+.invisible {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.box {
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+  padding: 7px;
+  height: 45px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.box-c:hover {
+  transform: scale(1.04);
+  cursor: pointer;
+}
+
+.grid1 {
+  width: 45%;
+  position: absolute;
+  top: 0;
+  left: 50px;
+}
+
+.grid2 {
+  width: 45%;
+  position: absolute;
+  top: 0;
+  right: 50px;
+}
+
+.guard-box {
+  height: 100%;
+  width: 100%;
+  z-index: 88888;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+.end-game {
+  width: 100%;
+  height: 100%;
+  z-index: 6000;
+  top: 0;
+  left: 0;
+  background-color: #ecf0f1;
+  opacity: 0.5;
+}
+
+.end-game-msg {
+  width: 100%;
+  font-size: 3em;
+  text-align: center;
+  color: #16a085;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  z-index: 6500;
+  margin: 11.5rem 0;
+}
+
+.reset {
+  position: absolute;
+  z-index: 99999;
+}
+
+
+
+/* div#carrier {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 158px;
+  background: #efedef;
+} */

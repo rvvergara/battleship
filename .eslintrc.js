@@ -15,5 +15,8 @@ module.exports = {
     "rules": {
         'indent': 0,
         'eol-last': 0,
+        'quotes': 0,
+        'no-unused-expressions': 0,
+        'arrow-parens': 0,
     }
 };
